@@ -46,20 +46,20 @@
 
     <!-- Main Navigation Bar -->
     <header class="bg-[#FFFDF9]/90 backdrop-blur-md sticky top-0 z-40 border-b border-amber-100/60 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
             <!-- Brand Logo -->
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
-                <div class="w-11 h-11 bg-[#FBBF24] text-[#2D1B4E] rounded-2xl flex items-center justify-center font-whimsical font-bold text-2xl shadow-md rotate-2 group-hover:rotate-0 transition duration-300">
+            <a href="{{ route('home') }}" class="flex items-center gap-2.5 sm:gap-3 group flex-shrink-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 bg-[#FBBF24] text-[#2D1B4E] rounded-2xl flex items-center justify-center font-whimsical font-bold text-xl sm:text-2xl shadow-md rotate-2 group-hover:rotate-0 transition duration-300">
                     8
                 </div>
                 <div class="flex flex-col leading-none">
-                    <span class="font-whimsical text-2xl font-bold text-[#2D1B4E]">800by<span class="text-amber-500">pd</span></span>
-                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Children's Books & Games</span>
+                    <span class="font-whimsical text-xl sm:text-2xl font-bold text-[#2D1B4E]">800by<span class="text-amber-500">pd</span></span>
+                    <span class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">Children's Books & Games</span>
                 </div>
             </a>
 
             <!-- Desktop Navigation Links -->
-            <nav class="hidden md:flex items-center space-x-8 text-xs font-bold text-slate-700 uppercase tracking-wider">
+            <nav class="hidden lg:flex items-center gap-4 xl:gap-7 text-xs font-bold text-slate-700 uppercase tracking-wider flex-shrink-0 whitespace-nowrap">
                 <a href="{{ route('home') }}" class="hover:text-purple-700 transition">Home</a>
                 <a href="{{ route('catalog.index', ['category' => 'childrens-story-books']) }}" class="hover:text-purple-700 transition">Story Books</a>
                 <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="hover:text-purple-700 transition">Jigsaw Puzzles</a>
@@ -67,13 +67,13 @@
             </nav>
 
             <!-- Search, Cart & User Menu -->
-            <div class="flex items-center gap-3">
-                <form action="{{ route('catalog.index') }}" method="GET" class="relative hidden lg:block">
-                    <input type="text" name="search" placeholder="Search storybooks, puzzles..." class="w-44 lg:w-56 pl-8 pr-4 py-2 border border-amber-200/80 bg-amber-50/20 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <form action="{{ route('catalog.index') }}" method="GET" class="relative hidden xl:block">
+                    <input type="text" name="search" placeholder="Search storybooks, puzzles..." class="w-40 xl:w-52 pl-8 pr-4 py-2 border border-amber-200/80 bg-amber-50/20 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-purple-500">
                     <i class="bi bi-search absolute left-3 top-2.5 text-amber-500 text-xs"></i>
                 </form>
 
-                <a href="{{ route('cart.index') }}" class="relative bg-[#2D1B4E] hover:bg-purple-900 text-white px-4 py-2.5 rounded-full font-bold text-xs flex items-center gap-2 shadow-md transition">
+                <a href="{{ route('cart.index') }}" class="relative bg-[#2D1B4E] hover:bg-purple-900 text-white px-3.5 sm:px-4 py-2.5 rounded-full font-bold text-xs flex items-center gap-2 shadow-md transition flex-shrink-0">
                     <i class="bi bi-bag-fill text-sm text-amber-400"></i>
                     <span class="hidden sm:inline">Cart</span>
                     @php $cartCount = count(session('cart', [])); @endphp
@@ -81,11 +81,11 @@
                 </a>
 
                 @auth
-                    <div class="relative group hidden sm:block">
-                        <a href="{{ route('account.dashboard') }}" class="bg-amber-100 hover:bg-amber-200 text-[#2D1B4E] px-4 py-2.5 rounded-full font-bold text-xs flex items-center gap-2 transition border border-amber-300/60 shadow-sm">
-                            <i class="bi bi-person-circle text-base text-purple-800"></i>
-                            <span>{{ Str::limit(auth()->user()->name, 12) }}</span>
-                            <i class="bi bi-chevron-down text-[10px] text-slate-500"></i>
+                    <div class="relative group hidden sm:block flex-shrink-0">
+                        <a href="{{ route('account.dashboard') }}" class="bg-amber-100 hover:bg-amber-200 text-[#2D1B4E] px-3.5 sm:px-4 py-2.5 rounded-full font-bold text-xs flex items-center gap-2 transition border border-amber-300/60 shadow-sm">
+                            <i class="bi bi-person-circle text-base text-purple-800 flex-shrink-0"></i>
+                            <span class="truncate max-w-[90px] sm:max-w-[120px] inline-block">{{ auth()->user()->name }}</span>
+                            <i class="bi bi-chevron-down text-[10px] text-slate-500 flex-shrink-0"></i>
                         </a>
                         <div class="absolute right-0 mt-1 w-48 bg-white rounded-2xl shadow-xl border border-amber-200 py-2 hidden group-hover:block z-50 text-xs font-semibold">
                             <a href="{{ route('account.dashboard') }}" class="block px-4 py-2 hover:bg-amber-50 text-slate-800"><i class="bi bi-speedometer2 mr-2 text-purple-700"></i> Dashboard</a>
@@ -98,13 +98,13 @@
                         </div>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="hidden sm:flex bg-amber-100/70 hover:bg-amber-200 text-[#2D1B4E] px-4 py-2.5 rounded-full text-xs font-extrabold transition border border-amber-300/60 items-center gap-1.5">
+                    <a href="{{ route('login') }}" class="hidden sm:flex bg-amber-100/70 hover:bg-amber-200 text-[#2D1B4E] px-4 py-2.5 rounded-full text-xs font-extrabold transition border border-amber-300/60 items-center gap-1.5 flex-shrink-0">
                         <i class="bi bi-person-fill text-amber-600 text-sm"></i> Log In
                     </a>
                 @endauth
 
                 <!-- Mobile Hamburger Button -->
-                <button onclick="toggleMobileMenu()" class="md:hidden bg-amber-100 hover:bg-amber-200 text-[#2D1B4E] w-10 h-10 rounded-full flex items-center justify-center text-xl transition border border-amber-300/60 focus:outline-none">
+                <button onclick="toggleMobileMenu()" class="lg:hidden bg-amber-100 hover:bg-amber-200 text-[#2D1B4E] w-10 h-10 rounded-full flex items-center justify-center text-xl transition border border-amber-300/60 focus:outline-none">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
