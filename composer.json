@@ -1,0 +1,28 @@
+{
+    "name": "laravel/storefront-ecommerce",
+    "type": "project",
+    "description": "Storefront Pro Laravel E-Commerce Storefront.",
+    "keywords": ["laravel", "ecommerce", "storefront", "paystack", "bank-transfer"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "filament/filament": "*",
+        "guzzlehttp/guzzle": "^7.8",
+        "laravel/framework": "^11.0",
+        "laravel/tinker": "^2.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
