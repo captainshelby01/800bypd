@@ -19,7 +19,7 @@ class CartController extends Controller
         $product = Product::findOrFail($id);
         $cart = session()->get('cart', []);
 
-        $quantity = $request->input('quantity', 1);
+        $quantity = (int) $request->input('quantity', 1);
 
         if (isset($cart[$id])) {
             $cart[$id]['quantity'] += $quantity;
@@ -33,6 +33,15 @@ class CartController extends Controller
         }
 
         session()->put('cart', $cart);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "{$product->name} added to cart!",
+                'cart_count' => count($cart),
+                'product_name' => $product->name,
+            ]);
+        }
 
         return redirect()->route('cart.index')->with('success', "{$product->name} added to shopping cart!");
     }

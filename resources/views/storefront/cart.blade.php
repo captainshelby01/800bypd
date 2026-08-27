@@ -1,39 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-black text-gray-900 mb-6">Shopping Cart</h1>
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="font-whimsical text-2xl sm:text-3xl font-bold text-[#2D1B4E]">Shopping Cart</h1>
+            <p class="text-xs text-slate-500">Review your selected items before proceeding to checkout</p>
+        </div>
+        <a href="{{ route('catalog.index') }}" class="text-xs text-purple-700 font-bold hover:underline flex items-center gap-1">
+            <i class="bi bi-arrow-left"></i> Continue Shopping
+        </a>
+    </div>
 
     @if(count($cart) > 0)
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
             <!-- Cart Items List -->
             <div class="lg:col-span-2 space-y-4">
                 @foreach($cart as $id => $item)
-                    <div class="bg-white p-4 rounded-2xl border flex items-center justify-between shadow-sm">
+                    <div class="bg-white p-4 rounded-3xl border border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
                         <div class="flex items-center gap-4">
-                            <div class="w-16 h-16 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center border">
+                            <div class="w-16 h-16 bg-purple-50 rounded-2xl overflow-hidden flex items-center justify-center border border-purple-100 flex-shrink-0">
                                 @if(isset($item['image']) && $item['image'])
                                     <img src="{{ asset('storage/' . $item['image']) }}" class="w-full h-full object-cover">
                                 @else
-                                    <i class="fa-solid fa-box text-xl text-gray-300"></i>
+                                    <i class="bi bi-book-half text-2xl text-amber-400"></i>
                                 @endif
                             </div>
                             <div>
-                                <h4 class="font-bold text-gray-900 text-sm mb-1">{{ $item['name'] }}</h4>
-                                <span class="text-xs font-semibold text-indigo-600">₦{{ number_format($item['price'], 2) }}</span>
+                                <h4 class="font-whimsical font-bold text-[#2D1B4E] text-base mb-1 line-clamp-1">{{ $item['name'] }}</h4>
+                                <span class="text-xs font-extrabold text-purple-700 price-convertible" data-price-ngn="{{ $item['price'] }}">₦{{ number_format($item['price'], 2) }}</span>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-4">
+                        <div class="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 pt-3 sm:pt-0">
                             <form action="{{ route('cart.update', $id) }}" method="POST" class="flex items-center">
                                 @csrf
-                                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" onchange="this.form.submit()" class="w-16 border rounded-lg py-1 px-2 text-center text-xs font-bold">
+                                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" onchange="this.form.submit()" class="w-16 border border-slate-200 rounded-xl py-1.5 px-2 text-center text-xs font-bold focus:ring-2 focus:ring-amber-400 focus:outline-none">
                             </form>
 
                             <form action="{{ route('cart.remove', $id) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-500 hover:text-red-700 text-xs p-1"><i class="fa-solid fa-trash-can"></i></button>
+                                <button type="submit" class="text-rose-500 hover:text-rose-700 text-xs p-2 rounded-xl hover:bg-rose-50 transition"><i class="bi bi-trash-fill text-base"></i></button>
                             </form>
                         </div>
                     </div>
@@ -41,33 +49,33 @@
             </div>
 
             <!-- Order Summary -->
-            <div class="bg-white p-6 rounded-2xl border shadow-sm h-fit">
-                <h3 class="font-bold text-gray-900 text-base mb-4 border-b pb-2">Order Summary</h3>
-                <div class="space-y-3 text-xs mb-6">
-                    <div class="flex justify-between text-gray-600">
+            <div class="bg-white p-6 rounded-3xl border border-amber-200/80 shadow-sm h-fit space-y-4">
+                <h3 class="font-whimsical font-bold text-[#2D1B4E] text-lg border-b border-slate-100 pb-3">Order Summary</h3>
+                <div class="space-y-3 text-xs font-semibold text-slate-600">
+                    <div class="flex justify-between">
                         <span>Subtotal</span>
-                        <span class="font-bold text-gray-900">₦{{ number_format($subtotal, 2) }}</span>
+                        <span class="font-bold text-slate-900 price-convertible" data-price-ngn="{{ $subtotal }}">₦{{ number_format($subtotal, 2) }}</span>
                     </div>
-                    <div class="flex justify-between text-gray-600">
-                        <span>Delivery Fee</span>
-                        <span class="font-bold text-gray-900">₦{{ number_format($shippingFee, 2) }}</span>
+                    <div class="flex justify-between">
+                        <span>Estimated Shipping</span>
+                        <span class="font-bold text-slate-900 price-convertible" data-price-ngn="{{ $shippingFee }}">₦{{ number_format($shippingFee, 2) }}</span>
                     </div>
-                    <div class="flex justify-between text-sm font-black text-indigo-900 border-t pt-3">
+                    <div class="flex justify-between text-sm font-bold text-[#2D1B4E] border-t border-slate-100 pt-3">
                         <span>Total Payable</span>
-                        <span>₦{{ number_format($subtotal + $shippingFee, 2) }}</span>
+                        <span class="price-convertible" data-price-ngn="{{ $subtotal + $shippingFee }}">₦{{ number_format($subtotal + $shippingFee, 2) }}</span>
                     </div>
                 </div>
 
-                <a href="{{ route('checkout.show') }}" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg">
-                    Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+                <a href="{{ route('checkout.show') }}" class="w-full bg-[#2D1B4E] hover:bg-purple-900 text-[#FBBF24] font-extrabold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-md transition">
+                    Proceed to Checkout <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
         </div>
     @else
-        <div class="bg-white border rounded-2xl p-12 text-center text-gray-500">
-            <i class="fa-solid fa-cart-flatbed text-5xl text-gray-300 mb-3"></i>
-            <p class="text-base font-semibold mb-4">Your cart is currently empty.</p>
-            <a href="{{ route('catalog.index') }}" class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold inline-block hover:bg-indigo-700">Start Shopping</a>
+        <div class="bg-white border border-amber-200/80 rounded-3xl p-12 text-center text-slate-500">
+            <i class="bi bi-bag-fill text-5xl text-amber-400 mb-3 block"></i>
+            <p class="text-base font-bold text-slate-700 mb-4">Your cart is currently empty.</p>
+            <a href="{{ route('catalog.index') }}" class="bg-[#2D1B4E] text-[#FBBF24] px-6 py-3 rounded-full text-xs font-extrabold inline-block hover:bg-purple-900 shadow-md">Browse Books & Puzzles</a>
         </div>
     @endif
 </div>
