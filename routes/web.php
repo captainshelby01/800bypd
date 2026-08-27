@@ -47,8 +47,8 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function()
     Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('logout');
 });
 
-// Admin Panel Routes (/admin)
-Route::prefix('admin')->name('admin.')->group(function() {
+// Admin Panel Routes (/admin) - Secured with Auth & Admin Middleware
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function() {
     Route::get('/', [OrderVerificationController::class, 'index'])->name('dashboard');
     Route::get('/verifications', [OrderVerificationController::class, 'index'])->name('verifications');
     Route::post('/verifications/{id}/approve', [OrderVerificationController::class, 'approve'])->name('verifications.approve');
