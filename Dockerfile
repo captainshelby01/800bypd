@@ -8,8 +8,6 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     sqlite3 \
     libicu-dev \
-    nodejs \
-    npm \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
         pdo \
@@ -27,9 +25,6 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
-
-RUN npm install
-RUN npm run build
 
 RUN mkdir -p storage/framework/views storage/framework/sessions storage/framework/cache
 RUN chmod -R 777 storage bootstrap/cache
