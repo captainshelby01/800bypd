@@ -17,21 +17,21 @@
 <body class="bg-[#FFFDF9] text-slate-800 flex flex-col min-h-screen">
 
     <!-- Top Announcement Strip -->
-    <div class="bg-[#2D1B4E] text-[#FDE68A] text-xs font-semibold py-2.5 px-4 border-b border-amber-500/20">
+    <!-- <div class="bg-[#2D1B4E] text-[#FDE68A] text-xs font-semibold py-2.5 px-4 border-b border-amber-500/20">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2 text-center sm:text-left">
                 <span class="bg-[#FBBF24] text-[#2D1B4E] font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">800bypd Store</span>
                 <span>✨ Fast Delivery Across Lagos (1-3 Days) & All States in Nigeria!</span>
             </div>
 
-            <div class="flex items-center gap-4 text-xs font-bold">
+            <div class="flex items-center gap-4 text-xs font-bold"> -->
                 <!-- Spotify Channel Modal Trigger -->
-                <button onclick="openSpotifyModal()" class="hover:text-white transition flex items-center gap-1.5 text-emerald-400 font-bold">
+                <!-- <button onclick="openSpotifyModal()" class="hover:text-white transition flex items-center gap-1.5 text-emerald-400 font-bold">
                     <i class="bi bi-spotify text-sm"></i> Spotify Audiobooks
-                </button>
+                </button> -->
 
                 <!-- Multi-Currency Switcher -->
-                <div class="flex items-center gap-1 bg-[#1F1235] px-3 py-1 rounded-full border border-purple-800/50">
+                <!-- <div class="flex items-center gap-1 bg-[#1F1235] px-3 py-1 rounded-full border border-purple-800/50">
                     <i class="bi bi-coin text-amber-400 text-[11px]"></i>
                     <select id="currencySelector" onchange="changeCurrency(this.value)" class="bg-transparent text-amber-200 font-bold focus:outline-none cursor-pointer text-xs">
                         <option value="NGN" class="bg-[#2D1B4E] text-amber-200">🇳🇬 NGN (₦)</option>
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Main Navigation Bar -->
     <header class="bg-[#FFFDF9]/90 backdrop-blur-md sticky top-0 z-40 border-b border-amber-100/60 shadow-sm">
@@ -150,7 +150,7 @@
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2 text-center sm:text-left">
                 <i class="bi bi-spotify text-amber-300 text-base flex-shrink-0"></i>
-                <span>🎧 <strong>Spotify Storytime Companion:</strong> Listen to 800bypd children's audiobooks & podcasts narrated by WrittenbyPD!</span>
+                <span>🎧 <strong>Spotify Storytime Companion:</strong> Listen to 800bypd children's audiobooks & podcasts narrated by PD!</span>
             </div>
             <button onclick="openSpotifyModal()" class="bg-[#FBBF24] hover:bg-amber-300 text-[#2D1B4E] font-extrabold px-3.5 py-1 rounded-full text-[11px] transition shadow flex-shrink-0">
                 Listen Now <i class="bi bi-play-fill ml-0.5"></i>
@@ -183,7 +183,7 @@
     <!-- Floating WhatsApp Support Button (+2348164254442) -->
     <a href="https://wa.me/2348164254442?text=Hello%20800bypd!%20I%20have%20a%20question%20about%20your%20children%27s%20books%20and%20puzzles." target="_blank" class="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full p-3.5 md:p-4 shadow-2xl flex items-center justify-center gap-2 group transition transform hover:scale-105 border-2 border-white">
         <i class="bi bi-whatsapp text-2xl"></i>
-        <span class="hidden group-hover:inline text-xs font-extrabold pr-2">Chat with 800bypd</span>
+        <span class="hidden group-hover:inline text-xs font-extrabold pr-2">Chat with 800byPD</span>
     </a>
 
     <!-- Nourishark-Style Quick-Add Product Modal Popup -->
@@ -199,7 +199,7 @@
                 <img id="quickAddImage" src="" alt="Product Cover" class="w-full h-full object-cover">
                 <div id="quickAddPlaceholderIcon" class="hidden text-center p-6">
                     <i class="bi bi-book-half text-6xl text-amber-400 mb-2"></i>
-                    <span class="block text-xs font-bold text-slate-400">800bypd Original</span>
+                    <span class="block text-xs font-bold text-slate-400">800byPD Original</span>
                 </div>
             </div>
 
@@ -253,8 +253,8 @@
                 <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-2">
                     <i class="bi bi-spotify"></i>
                 </div>
-                <h3 class="font-whimsical font-bold text-slate-900 text-2xl">800bypd Spotify Channel</h3>
-                <p class="text-xs text-slate-500 mt-1">Listen to bedtime story audiobooks and podcasts narrated by WrittenbyPD.</p>
+                <h3 class="font-whimsical font-bold text-slate-900 text-2xl">Spotify Channel</h3>
+                <p class="text-xs text-slate-500 mt-1">Listen to bedtime story audiobooks and podcasts narrated by PD.</p>
             </div>
 
             <!-- Spotify Player Widget -->
@@ -262,8 +262,8 @@
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-12 h-12 bg-amber-400 text-purple-950 rounded-xl flex items-center justify-center font-whimsical font-bold text-xl">800</div>
                     <div class="text-left">
-                        <h4 class="font-bold text-xs text-white">Bedtime Stories for Curious Minds</h4>
-                        <span class="text-[10px] text-emerald-400 font-semibold">Narrated by WrittenbyPD</span>
+                        <!-- <h4 class="font-bold text-xs text-white">Bedtime Stories for Curious Minds</h4>
+                        <span class="text-[10px] text-emerald-400 font-semibold">Narrated by WrittenbyPD</span> -->
                     </div>
                 </div>
                 <div class="bg-slate-700 rounded-full h-1.5 w-full mb-2">

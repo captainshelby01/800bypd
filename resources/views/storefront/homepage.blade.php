@@ -33,7 +33,7 @@
                 <div class="h-64 bg-purple-50 rounded-2xl flex flex-col items-center justify-center text-center p-6 border border-purple-100 mb-4">
                     <i class="bi bi-journal-bookmark-fill text-6xl text-purple-600 mb-3 animate-bounce"></i>
                     <h3 class="font-whimsical font-bold text-slate-900 text-xl">800bypd Originals</h3>
-                    <p class="text-xs text-slate-500 mt-1">Bedtime Stories, Puzzles & Activity Books</p>
+                    <p class="text-xs text-slate-500 mt-1">Stories, Puzzles & Activity Books</p>
                 </div>
                 <div class="flex justify-between items-center bg-amber-50 p-3.5 rounded-xl border border-amber-200 text-xs">
                     <span class="font-extrabold text-[#2D1B4E]"><i class="bi bi-truck text-amber-500 mr-1"></i> Fast Delivery</span>
@@ -53,7 +53,7 @@
             </div>
             <span class="text-[10px] font-extrabold uppercase tracking-wider text-purple-700 bg-white px-2.5 py-1 rounded-md mb-3 inline-block shadow-sm">Category</span>
             <h3 class="font-whimsical font-bold text-slate-900 text-2xl mb-2">Children's Story Books</h3>
-            <p class="text-xs text-slate-600 leading-relaxed mb-4">Bedtime tales and Spotify audiobooks written by WrittenbyPD that inspire kindness and courage.</p>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">Tales and Spotify audiobooks written by WrittenbyPD that inspire kindness and courage.</p>
         </div>
         <span class="text-xs font-extrabold text-purple-700 flex items-center gap-1 group-hover:translate-x-1 transition">Browse Story Books <i class="bi bi-chevron-right text-[10px]"></i></span>
     </a>
@@ -90,9 +90,9 @@
     </div>
     <div>
         <span class="bg-[#FBBF24] text-[#2D1B4E] font-extrabold text-[11px] px-3.5 py-1 rounded-full uppercase tracking-wider mb-3 inline-block">Meet The Author</span>
-        <h2 class="font-whimsical font-bold text-2xl sm:text-4xl text-white mb-3">WrittenbyPD (800bypd)</h2>
+        <h2 class="font-whimsical font-bold text-2xl sm:text-4xl text-white mb-3">PD</h2>
         <p class="text-xs md:text-sm text-purple-100 leading-relaxed mb-5 font-medium">
-            "Every story we share and every puzzle we build is a step toward helping children discover their inner creativity. 800bypd was born out of a deep passion for early childhood storytelling and interactive learning."
+            "Every story we share and every puzzle we build is a step toward helping children discover their inner creativity. 800byPD was born out of a deep passion for early childhood storytelling and interactive learning."
         </p>
         <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-5 text-xs font-bold text-amber-300">
             <span><i class="bi bi-geo-alt-fill text-amber-400 mr-1"></i> Based in Lagos, Nigeria</span>
