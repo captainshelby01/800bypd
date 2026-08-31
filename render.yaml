@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: 800bypd-storefront
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_NAME
+        value: StoreFront Pro
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        sync: false
+      - key: APP_KEY
+        sync: false
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: PAYSTACK_PUBLIC_KEY
+        value: pk_test_sample_key
+      - key: PAYSTACK_SECRET_KEY
+        value: sk_test_sample_key
+      - key: BANK_NAME
+        value: "Guaranty Trust Bank (GTBank)"
+      - key: BANK_ACCOUNT_NUMBER
+        value: "0123456789"
+      - key: BANK_ACCOUNT_NAME
+        value: "StoreFront Pro Nigeria Ltd"

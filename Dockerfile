@@ -5,11 +5,14 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     libzip-dev \
+    libsqlite3-dev \
+    sqlite3 \
     nodejs \
     npm \
     && docker-php-ext-install \
         pdo \
         pdo_mysql \
+        pdo_sqlite \
         bcmath \
         zip \
     && rm -rf /var/lib/apt/lists/*
@@ -25,6 +28,12 @@ RUN composer install --no-dev --optimize-autoloader
 RUN npm install
 RUN npm run build
 
-RUN chmod -R 775 storage bootstrap/cache
+RUN mkdir -p storage/framework/views storage/framework/sessions storage/framework/cache
+RUN chmod -R 777 storage bootstrap/cache
 
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
+CMD php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear && \
+    php artisan migrate --force && \
+    php artisan db:seed --force && \
+    php artisan serve --host=0.0.0.0 --port=${PORT:-10000}
