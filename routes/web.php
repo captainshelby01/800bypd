@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\AudioController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Auth\CustomerAuthController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\Admin\AdminProductController;
 // Public Storefront Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
+Route::get('/audios', [AudioController::class, 'index'])->name('audios.index');
 Route::get('/product/{slug}', [CatalogController::class, 'show'])->name('catalog.show');
 
 // Shopping Cart Routes
