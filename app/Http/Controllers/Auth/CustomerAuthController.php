@@ -44,6 +44,9 @@ class CustomerAuthController extends Controller
     public function showLoginForm()
     {
         if (Auth::check()) {
+            if (in_array(Auth::user()->role, ['admin', 'staff'])) {
+                return redirect()->route('admin.dashboard');
+            }
             return redirect()->route('account.dashboard');
         }
         return view('auth.login');
@@ -60,6 +63,12 @@ class CustomerAuthController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
+
+            if (in_array(Auth::user()->role, ['admin', 'staff'])) {
+                return redirect()->intended(route('admin.dashboard'))
+                    ->with('success', 'Welcome to the Admin Management Panel, ' . Auth::user()->name . '!');
+            }
+
             return redirect()->intended(route('account.dashboard'))
                 ->with('success', 'Welcome back, ' . Auth::user()->name . '!');
         }

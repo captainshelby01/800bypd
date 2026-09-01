@@ -90,6 +90,9 @@
                             <i class="bi bi-chevron-down text-[10px] text-slate-500 flex-shrink-0"></i>
                         </a>
                         <div class="absolute right-0 mt-1 w-48 bg-white rounded-2xl shadow-xl border border-purple-200 py-2 hidden group-hover:block z-50 text-xs font-semibold">
+                            @if(in_array(auth()->user()->role, ['admin', 'staff']))
+                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-purple-50 text-[#7C3AED] font-bold border-b border-slate-100"><i class="bi bi-shield-lock-fill mr-2 text-[#7C3AED]"></i> Admin Panel</a>
+                            @endif
                             <a href="{{ route('account.dashboard') }}" class="block px-4 py-2 hover:bg-purple-50 text-slate-800"><i class="bi bi-speedometer2 mr-2 text-[#7C3AED]"></i> Dashboard</a>
                             <a href="{{ route('account.orders') }}" class="block px-4 py-2 hover:bg-purple-50 text-slate-800"><i class="bi bi-archive-fill mr-2 text-amber-600"></i> Order History</a>
                             <div class="border-t border-slate-100 my-1"></div>
