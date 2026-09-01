@@ -27,13 +27,15 @@ class AdminUserController extends Controller
             'role' => ['required', Rule::in(['admin', 'staff', 'customer'])],
         ]);
 
+        $dbRole = in_array($validated['role'], ['admin', 'staff']) ? 'admin' : 'customer';
+
         try {
             User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'phone' => $validated['phone'] ?? null,
                 'password' => Hash::make($validated['password']),
-                'role' => $validated['role'],
+                'role' => $dbRole,
             ]);
         } catch (\Exception $e) {
             return back()->withInput()->with('error', 'Unable to create account: ' . $e->getMessage());
@@ -53,10 +55,12 @@ class AdminUserController extends Controller
             'password' => 'nullable|string|min:6',
         ]);
 
+        $dbRole = in_array($validated['role'], ['admin', 'staff']) ? 'admin' : 'customer';
+
         $user->name = $validated['name'];
         $user->email = $validated['email'];
         $user->phone = $validated['phone'] ?? null;
-        $user->role = $validated['role'];
+        $user->role = $dbRole;
 
         if (!empty($validated['password'])) {
             $user->password = Hash::make($validated['password']);
