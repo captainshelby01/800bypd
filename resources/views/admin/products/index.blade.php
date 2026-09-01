@@ -28,8 +28,11 @@
         <a href="{{ route('admin.verifications') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
             <i class="bi bi-receipt"></i> Orders & Payment Receipts
         </a>
-        <a href="{{ route('admin.products.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-purple-700 text-purple-950 font-black flex items-center gap-2 bg-purple-50/50 rounded-t-2xl flex-shrink-0">
-            <i class="bi bi-journal-bookmark-fill text-purple-700"></i> Product Catalog Management
+        <a href="{{ route('admin.products.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-[#7C3AED] text-[#312E81] font-black flex items-center gap-2 bg-purple-50/50 rounded-t-2xl flex-shrink-0">
+            <i class="bi bi-journal-bookmark-fill text-[#7C3AED]"></i> Product Catalog Management
+        </a>
+        <a href="{{ route('admin.users.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+            <i class="bi bi-shield-lock-fill"></i> Admin & Staff Logins
         </a>
     </div>
 

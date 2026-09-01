@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\OrderVerificationController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminUserController;
 
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     URL::forceScheme('https');
@@ -64,4 +65,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Product Management Resource Routes
     Route::resource('products', AdminProductController::class);
+
+    // Admin & Staff Logins Management Routes
+    Route::resource('users', AdminUserController::class)->except(['create', 'edit', 'show']);
 });

@@ -25,11 +25,14 @@
 
     <!-- Navigation Tabs (Mobile Scrollable Bar) -->
     <div class="flex overflow-x-auto border-b border-slate-200 gap-2 text-xs font-bold whitespace-nowrap pb-0.5 scrollbar-none">
-        <a href="{{ route('admin.verifications') }}" class="px-4 sm:px-5 py-3 border-b-2 border-purple-700 text-purple-950 font-black flex items-center gap-2 bg-purple-50/50 rounded-t-2xl flex-shrink-0">
-            <i class="bi bi-receipt text-purple-700"></i> Orders & Payment Receipts
+        <a href="{{ route('admin.verifications') }}" class="px-4 sm:px-5 py-3 border-b-2 border-[#7C3AED] text-[#312E81] font-black flex items-center gap-2 bg-purple-50/50 rounded-t-2xl flex-shrink-0">
+            <i class="bi bi-receipt text-[#7C3AED]"></i> Orders & Payment Receipts
         </a>
         <a href="{{ route('admin.products.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
             <i class="bi bi-journal-bookmark-fill"></i> Product Catalog Management
+        </a>
+        <a href="{{ route('admin.users.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+            <i class="bi bi-shield-lock-fill"></i> Admin & Staff Logins
         </a>
     </div>
 
