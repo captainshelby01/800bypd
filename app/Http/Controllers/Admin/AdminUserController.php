@@ -13,7 +13,7 @@ class AdminUserController extends Controller
 {
     public function index()
     {
-        $users = User::orderByRaw("CASE WHEN role = 'admin' THEN 1 WHEN role = 'staff' THEN 2 ELSE 3 END")->orderBy('name', 'asc')->paginate(20);
+        $users = User::orderBy('role', 'asc')->orderBy('name', 'asc')->paginate(20);
         return view('admin.users.index', compact('users'));
     }
 
@@ -27,13 +27,17 @@ class AdminUserController extends Controller
             'role' => ['required', Rule::in(['admin', 'staff', 'customer'])],
         ]);
 
-        User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'] ?? null,
-            'password' => Hash::make($validated['password']),
-            'role' => $validated['role'],
-        ]);
+        try {
+            User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'] ?? null,
+                'password' => Hash::make($validated['password']),
+                'role' => $validated['role'],
+            ]);
+        } catch (\Exception $e) {
+            return back()->withInput()->with('error', 'Unable to create account: ' . $e->getMessage());
+        }
 
         return redirect()->route('admin.users.index')
             ->with('success', 'New ' . ucfirst($validated['role']) . ' account created successfully!');

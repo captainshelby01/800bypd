@@ -45,6 +45,14 @@
         </div>
     @endif
 
+    @if ($errors->any())
+        <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-2xl text-xs font-bold space-y-1">
+            @foreach ($errors->all() as $error)
+                <p class="flex items-center gap-1.5"><i class="bi bi-exclamation-triangle-fill text-rose-500"></i> {{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+
     <!-- Form: Create New Admin / Staff Login -->
     <div class="bg-white border border-purple-200/80 rounded-3xl p-6 shadow-sm space-y-4">
         <h3 class="font-whimsical font-bold text-[#312E81] text-lg sm:text-xl flex items-center gap-2">
@@ -56,17 +64,17 @@
 
             <div>
                 <label class="block text-slate-700 font-bold mb-1">Full Name</label>
-                <input type="text" name="name" required placeholder="Staff / Admin Name" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
+                <input type="text" name="name" value="{{ old('name') }}" required placeholder="Staff / Admin Name" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
             </div>
 
             <div>
                 <label class="block text-slate-700 font-bold mb-1">Email Address</label>
-                <input type="email" name="email" required placeholder="admin@800bypd.com" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
+                <input type="email" name="email" value="{{ old('email') }}" required placeholder="admin@800bypd.com" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
             </div>
 
             <div>
                 <label class="block text-slate-700 font-bold mb-1">Phone Number</label>
-                <input type="text" name="phone" placeholder="0816 425 4442" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
+                <input type="text" name="phone" value="{{ old('phone') }}" placeholder="0816 425 4442" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
             </div>
 
             <div>
