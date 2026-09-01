@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\AudioController;
@@ -10,6 +11,10 @@ use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\OrderVerificationController;
 use App\Http\Controllers\Admin\AdminProductController;
+
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    URL::forceScheme('https');
+}
 
 // Public Storefront Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
