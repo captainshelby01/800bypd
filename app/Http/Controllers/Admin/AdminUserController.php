@@ -13,7 +13,7 @@ class AdminUserController extends Controller
 {
     public function index()
     {
-        $users = User::orderByRaw("role = 'admin' DESC")->orderBy('name', 'asc')->paginate(20);
+        $users = User::orderByRaw("CASE WHEN role = 'admin' THEN 1 WHEN role = 'staff' THEN 2 ELSE 3 END")->orderBy('name', 'asc')->paginate(20);
         return view('admin.users.index', compact('users'));
     }
 
@@ -24,7 +24,7 @@ class AdminUserController extends Controller
             'email' => 'required|email|unique:users,email|max:255',
             'phone' => 'nullable|string|max:20',
             'password' => 'required|string|min:6',
-            'role' => ['required', Rule::in(['admin', 'customer'])],
+            'role' => ['required', Rule::in(['admin', 'staff', 'customer'])],
         ]);
 
         User::create([
@@ -45,7 +45,7 @@ class AdminUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'phone' => 'nullable|string|max:20',
-            'role' => ['required', Rule::in(['admin', 'customer'])],
+            'role' => ['required', Rule::in(['admin', 'staff', 'customer'])],
             'password' => 'nullable|string|min:6',
         ]);
 

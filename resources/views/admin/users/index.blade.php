@@ -77,8 +77,8 @@
             <div>
                 <label class="block text-slate-700 font-bold mb-1">Account Role</label>
                 <select name="role" required class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#7C3AED] focus:outline-none font-bold text-[#312E81] bg-purple-50">
+                    <option value="staff">Staff (Store Manager)</option>
                     <option value="admin">Admin (Full Access)</option>
-                    <option value="customer">Customer</option>
                 </select>
             </div>
 
@@ -129,6 +129,10 @@
                                 @if($user->role === 'admin')
                                     <span class="bg-[#312E81] text-[#FACC15] font-black px-3 py-1 rounded-full text-[10px] uppercase shadow-sm inline-flex items-center gap-1">
                                         <i class="bi bi-shield-lock-fill"></i> Admin
+                                    </span>
+                                @elseif($user->role === 'staff')
+                                    <span class="bg-purple-100 text-[#7C3AED] font-black px-3 py-1 rounded-full text-[10px] uppercase inline-flex items-center gap-1">
+                                        <i class="bi bi-person-badge-fill"></i> Staff
                                     </span>
                                 @else
                                     <span class="bg-slate-100 text-slate-700 font-bold px-3 py-1 rounded-full text-[10px] uppercase inline-flex items-center gap-1">
