@@ -59,7 +59,7 @@
             </a>
 
             <!-- Desktop Navigation Links -->
-            <nav class="hidden lg:flex items-center gap-4 xl:gap-6 text-xs font-bold text-slate-700 uppercase tracking-wider flex-shrink-0 whitespace-nowrap">
+            <nav class="hidden lg:flex items-center gap-2.5 xl:gap-5 text-[11px] xl:text-xs font-bold text-slate-700 uppercase tracking-wider flex-shrink-0 whitespace-nowrap">
                 <a href="{{ route('home') }}" class="hover:text-[#7C3AED] transition">Home</a>
                 <a href="{{ route('catalog.index', ['category' => 'childrens-story-books']) }}" class="hover:text-[#7C3AED] transition">Books</a>
                 <a href="{{ route('audios.index') }}" class="hover:text-[#7C3AED] transition flex items-center gap-1"><i class="bi bi-spotify text-[#7C3AED]"></i> Audios</a>
@@ -69,13 +69,13 @@
             </nav>
 
             <!-- Search, Cart & User Menu -->
-            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                <form action="{{ route('catalog.index') }}" method="GET" class="relative hidden xl:block">
-                    <input type="text" name="search" placeholder="Search books, audios..." class="w-40 xl:w-48 pl-8 pr-4 py-2 border border-purple-200/80 bg-purple-50/30 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-[#7C3AED]">
+            <div class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+                <form action="{{ route('catalog.index') }}" method="GET" class="relative hidden 2xl:block">
+                    <input type="text" name="search" placeholder="Search books, audios..." class="w-36 xl:w-44 pl-8 pr-3 py-2 border border-purple-200/80 bg-purple-50/30 rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-[#7C3AED]">
                     <i class="bi bi-search absolute left-3 top-2.5 text-[#7C3AED] text-xs"></i>
                 </form>
 
-                <a href="{{ route('cart.index') }}" class="relative bg-[#312E81] hover:bg-indigo-950 text-white px-3.5 sm:px-4 py-2.5 rounded-full font-bold text-xs flex items-center gap-2 shadow-md transition flex-shrink-0">
+                <a href="{{ route('cart.index') }}" class="relative bg-[#312E81] hover:bg-indigo-950 text-white px-3 sm:px-3.5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 shadow-md transition flex-shrink-0">
                     <i class="bi bi-bag-fill text-sm text-[#FACC15]"></i>
                     <span class="hidden sm:inline">Cart</span>
                     @php $cartCount = count(session('cart', [])); @endphp
@@ -84,9 +84,9 @@
 
                 @auth
                     <div class="relative group hidden sm:block flex-shrink-0">
-                        <a href="{{ route('account.dashboard') }}" class="bg-purple-100 hover:bg-purple-200 text-[#312E81] px-3.5 sm:px-4 py-2.5 rounded-full font-bold text-xs flex items-center gap-2 transition border border-purple-300/60 shadow-sm">
-                            <i class="bi bi-person-circle text-base text-[#7C3AED] flex-shrink-0"></i>
-                            <span class="truncate max-w-[90px] sm:max-w-[120px] inline-block">{{ auth()->user()->name }}</span>
+                        <a href="{{ route('account.dashboard') }}" class="bg-purple-100 hover:bg-purple-200 text-[#312E81] px-3 sm:px-3.5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition border border-purple-300/60 shadow-sm">
+                            <i class="bi bi-person-circle text-sm text-[#7C3AED] flex-shrink-0"></i>
+                            <span class="truncate max-w-[80px] md:max-w-[100px] inline-block font-bold">{{ explode(' (', auth()->user()->name)[0] }}</span>
                             <i class="bi bi-chevron-down text-[10px] text-slate-500 flex-shrink-0"></i>
                         </a>
                         <div class="absolute right-0 mt-1 w-48 bg-white rounded-2xl shadow-xl border border-purple-200 py-2 hidden group-hover:block z-50 text-xs font-semibold">

@@ -18,7 +18,7 @@ class StorefrontSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@800bypd.com'],
             [
-                'name' => 'Main Admin (800bypd)',
+                'name' => 'Main Admin',
                 'password' => Hash::make('AdminPassword2026!'),
                 'role' => 'admin',
                 'phone' => '08164254442',
