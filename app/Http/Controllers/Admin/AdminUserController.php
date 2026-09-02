@@ -13,12 +13,21 @@ class AdminUserController extends Controller
 {
     public function index()
     {
+        if (!Auth::user()->isSuperAdmin()) {
+            return redirect()->route('admin.verifications')
+                ->with('error', 'Access Denied: Only the Main Admin (admin@800bypd.com) has authority to create or manage staff logins.');
+        }
+
         $users = User::orderBy('role', 'asc')->orderBy('name', 'asc')->paginate(20);
         return view('admin.users.index', compact('users'));
     }
 
     public function store(Request $request)
     {
+        if (!Auth::user()->isSuperAdmin()) {
+            return back()->with('error', 'Access Denied: Only the Main Admin has authority to create staff logins.');
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email|max:255',
@@ -47,6 +56,10 @@ class AdminUserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        if (!Auth::user()->isSuperAdmin()) {
+            return back()->with('error', 'Access Denied: Only the Main Admin has authority to manage staff logins.');
+        }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
@@ -74,8 +87,12 @@ class AdminUserController extends Controller
 
     public function destroy(User $user)
     {
+        if (!Auth::user()->isSuperAdmin()) {
+            return back()->with('error', 'Access Denied: Only the Main Admin has authority to delete staff logins.');
+        }
+
         if ($user->id === Auth::id()) {
-            return back()->with('error', 'You cannot delete your own active admin account.');
+            return back()->with('error', 'You cannot delete your own active main admin account.');
         }
 
         $user->delete();

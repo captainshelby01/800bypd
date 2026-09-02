@@ -27,4 +27,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public function isSuperAdmin()
+    {
+        return $this->email === 'admin@800bypd.com' || $this->role === 'super_admin';
+    }
 }

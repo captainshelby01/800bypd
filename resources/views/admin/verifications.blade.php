@@ -31,9 +31,11 @@
         <a href="{{ route('admin.products.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
             <i class="bi bi-journal-bookmark-fill"></i> Product Catalog Management
         </a>
-        <a href="{{ route('admin.users.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
-            <i class="bi bi-shield-lock-fill"></i> Admin & Staff Logins
-        </a>
+        @if(Auth::user()->isSuperAdmin())
+            <a href="{{ route('admin.users.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+                <i class="bi bi-shield-lock-fill"></i> Admin & Staff Logins
+            </a>
+        @endif
     </div>
 
     <!-- Quick Stats Cards -->
