@@ -28,3 +28,7 @@ services:
         value: "0123456789"
       - key: BANK_ACCOUNT_NAME
         value: "StoreFront Pro Nigeria Ltd"
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: SESSION_SAMESITE
+        value: "lax"
