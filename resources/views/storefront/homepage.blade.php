@@ -9,7 +9,7 @@
         <!-- Left Hero Copy -->
         <div class="lg:col-span-7 z-10 text-center sm:text-left">
             <span class="bg-[#FACC15] text-[#312E81] font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider mb-5 inline-flex items-center gap-1.5 shadow-sm">
-                <i class="bi bi-stars text-[#7C3AED]"></i> Children's Books & Audios by WrittenbyPD
+                <i class="bi bi-stars text-[#7C3AED]"></i> Children's Books & Audios by PD
             </span>
             <h1 class="font-whimsical text-3xl sm:text-5xl md:text-6xl font-bold text-[#312E81] leading-[1.1] mb-5 tracking-tight">
                 Ignite Young Minds With Every Story & Song.
@@ -32,7 +32,7 @@
             <div class="relative w-full max-w-sm bg-white p-6 rounded-[2.5rem] shadow-xl border-4 border-[#FACC15] transform rotate-1 hover:rotate-0 transition duration-300">
                 <div class="h-64 bg-purple-50 rounded-2xl flex flex-col items-center justify-center text-center p-6 border border-purple-100 mb-4">
                     <i class="bi bi-[#spotify] bi-journal-bookmark-fill text-6xl text-[#7C3AED] mb-3 animate-bounce"></i>
-                    <h3 class="font-whimsical font-bold text-[#312E81] text-xl">800byPD Originals</h3>
+                    <h3 class="font-whimsical font-bold text-[#312E81] text-xl">800BYPD Originals</h3>
                     <p class="text-xs text-slate-500 mt-1">Storybooks • Audios • Puzzles • Apparel</p>
                 </div>
                 <div class="flex justify-between items-center bg-purple-50 p-3.5 rounded-xl border border-purple-200 text-xs">
@@ -48,7 +48,7 @@
 <div class="mb-14 sm:mb-16">
     <div class="text-center max-w-2xl mx-auto mb-8">
         <span class="text-[#7C3AED] font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3.5 py-1 rounded-full border border-purple-200">Explore Content</span>
-        <h2 class="font-whimsical font-bold text-2xl sm:text-4xl text-[#312E81] mt-2">Discover The 800byPD World</h2>
+        <h2 class="font-whimsical font-bold text-2xl sm:text-4xl text-[#312E81] mt-2">Discover The 800BYPD World</h2>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -60,7 +60,7 @@
                 </div>
                 <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#7C3AED] bg-purple-50 px-2.5 py-1 rounded-md mb-2 inline-block">Physical Books</span>
                 <h3 class="font-whimsical font-bold text-slate-900 text-xl mb-1">Storybooks</h3>
-                <p class="text-xs text-slate-500 leading-relaxed mb-4">Hardcover and paperback illustrated books written by WrittenbyPD.</p>
+                <p class="text-xs text-slate-500 leading-relaxed mb-4">Hardcover and paperback illustrated books written by PD.</p>
             </div>
             <span class="text-xs font-extrabold text-[#7C3AED] flex items-center gap-1 group-hover:translate-x-1 transition">Browse Books <i class="bi bi-chevron-right text-[10px]"></i></span>
         </a>
@@ -137,14 +137,14 @@
                         @else
                             <div class="text-center p-6">
                                 <i class="bi bi-book-half text-5xl text-[#FACC15] mb-2"></i>
-                                <span class="block text-[11px] font-black text-slate-400">800byPD Publication</span>
+                                <span class="block text-[11px] font-black text-slate-400">800BYPD Publication</span>
                             </div>
                         @endif
                         <span class="absolute top-4 left-4 bg-[#FACC15] text-[#312E81] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase shadow-sm">Storybook</span>
                     </div>
 
                     <div class="p-6">
-                        <span class="text-[10px] font-extrabold text-[#7C3AED] uppercase tracking-wide bg-purple-50 px-2.5 py-1 rounded-md inline-block mb-3">WrittenbyPD</span>
+                        <span class="text-[10px] font-extrabold text-[#7C3AED] uppercase tracking-wide bg-purple-50 px-2.5 py-1 rounded-md inline-block mb-3">PD</span>
                         <h3 class="font-whimsical font-bold text-slate-900 text-xl mb-2 line-clamp-1">
                             <a href="{{ route('catalog.show', $product->slug) }}" class="hover:text-[#7C3AED] transition">{{ $product->name }}</a>
                         </h3>
@@ -201,7 +201,7 @@
                     <i class="bi bi-spotify"></i>
                 </div>
                 <div class="flex-1 text-center sm:text-left">
-                    <span class="text-[10px] font-bold text-[#FACC15] uppercase tracking-wide">Narrated by WrittenbyPD</span>
+                    <span class="text-[10px] font-bold text-[#FACC15] uppercase tracking-wide">Narrated by PD</span>
                     <h3 class="font-whimsical font-bold text-white text-lg mb-1">{{ $audio->name }}</h3>
                     <p class="text-xs text-purple-200 line-clamp-2 mb-3">{{ $audio->description }}</p>
                     <button onclick="openSpotifyModal()" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold text-xs px-4 py-2 rounded-full inline-flex items-center gap-1.5 transition">
@@ -223,7 +223,7 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-8 border-b border-purple-100 pb-4">
         <div>
             <span class="text-[#7C3AED] font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3 py-1 rounded-full border border-purple-200">Apparel & Merch</span>
-            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">800byPD Other Products</h2>
+            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">800BYPD Other Products</h2>
         </div>
         <a href="{{ route('catalog.index', ['category' => 'other-products']) }}" class="text-xs font-extrabold text-[#7C3AED] hover:underline flex items-center gap-1">
             View All Apparel <i class="bi bi-arrow-right text-[10px]"></i>
@@ -249,7 +249,7 @@
                         @else
                             <div class="text-center p-6">
                                 <i class="bi bi-bag-check-fill text-5xl text-[#7C3AED] mb-2"></i>
-                                <span class="block text-[11px] font-black text-slate-400">800byPD Apparel</span>
+                                <span class="block text-[11px] font-black text-slate-400">800BYPD Apparel</span>
                             </div>
                         @endif
                         <span class="absolute top-4 left-4 bg-[#7C3AED] text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase shadow-sm">Cozy Wear</span>
@@ -296,9 +296,9 @@
     </div>
     <div>
         <span class="bg-[#FACC15] text-[#312E81] font-black text-[11px] px-3.5 py-1 rounded-full uppercase tracking-wider mb-3 inline-block">Meet The Author</span>
-        <h2 class="font-whimsical font-bold text-2xl sm:text-4xl text-white mb-3">WrittenbyPD</h2>
+        <h2 class="font-whimsical font-bold text-2xl sm:text-4xl text-white mb-3">PD</h2>
         <p class="text-xs md:text-sm text-purple-100 leading-relaxed mb-5 font-medium">
-            "Every story we publish and every audio tale we record is crafted to inspire courage, empathy, and creative curiosity in children. 800byPD brings physical books and digital audio together for young growing minds."
+            "Every story we publish and every audio tale we record is crafted to inspire courage, empathy, and creative curiosity in children. 800BYPD brings physical books and digital audio together for young growing minds."
         </p>
         <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 sm:gap-5 text-xs font-bold text-[#FACC15]">
             <span><i class="bi bi-geo-alt-fill text-[#FACC15] mr-1"></i> Based in Lagos, Nigeria</span>

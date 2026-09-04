@@ -12,7 +12,7 @@
                 @else
                     <div class="text-center p-6">
                         <i class="bi bi-journal-bookmark-fill text-6xl text-amber-400 mb-3"></i>
-                        <span class="block text-xs font-bold text-slate-400">800bypd Original Publication</span>
+                        <span class="block text-xs font-bold text-slate-400">800BYPD Original Publication</span>
                     </div>
                 @endif
                 <span class="absolute top-4 left-4 bg-[#7C3AED] text-white text-xs font-bold px-3 py-1 rounded-full shadow flex items-center gap-1">

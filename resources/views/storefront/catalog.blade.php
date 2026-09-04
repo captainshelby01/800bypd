@@ -4,7 +4,7 @@
 <div class="mb-6 sm:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
     <div>
         <h1 class="font-whimsical text-2xl sm:text-3xl font-bold text-[#312E81]">Product Catalog</h1>
-        <p class="text-xs text-slate-500">Explore all 800byPD products in <span class="currency-name font-bold text-[#312E81]">Naira (₦)</span></p>
+        <p class="text-xs text-slate-500">Explore all 800BYPD products in <span class="currency-name font-bold text-[#312E81]">Naira (₦)</span></p>
     </div>
 
     <!-- Mobile Filters Collapsible Toggle Button -->
@@ -80,7 +80,7 @@
                             @else
                                 <div class="text-center p-4">
                                     <i class="bi bi-book-half text-4xl text-[#FACC15] mb-1"></i>
-                                    <span class="block text-[10px] font-bold text-slate-400">800byPD Original</span>
+                                    <span class="block text-[10px] font-bold text-slate-400">800BYPD Original</span>
                                 </div>
                             @endif
                         </div>

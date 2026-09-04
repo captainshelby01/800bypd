@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>800bypd - Children's Story Books, Puzzles & Activity Books by WrittenbyPD</title>
+    <title>800BYPD - Children's Story Books, Puzzles & Activity Books by PD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -157,7 +157,7 @@
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2 text-center sm:text-left">
                 <i class="bi bi-spotify text-[#FACC15] text-base flex-shrink-0"></i>
-                <span>🎧 <strong>Spotify Storytime Companion:</strong> Listen to 800bypd children's audiobooks & podcasts narrated by WrittenbyPD!</span>
+                <span>🎧 <strong>Spotify Storytime Companion:</strong> Listen to 800BYPD children's audiobooks & podcasts narrated by PD!</span>
             </div>
             <a href="{{ route('audios.index') }}" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold px-3.5 py-1 rounded-full text-[11px] transition shadow flex-shrink-0">
                 Explore Audios <i class="bi bi-play-fill ml-0.5"></i>
@@ -190,7 +190,7 @@
     <!-- Floating WhatsApp Support Button (+2348164254442) -->
     <a href="https://wa.me/2348164254442?text=Hello%20800bypd!%20I%20have%20a%20question%20about%20your%20children%27s%20books%20and%20puzzles." target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#7C3AED] hover:bg-purple-800 text-white rounded-full p-3.5 md:p-4 shadow-2xl flex items-center justify-center gap-2 group transition transform hover:scale-105 border-2 border-[#FACC15]">
         <i class="bi bi-whatsapp text-2xl text-[#FACC15]"></i>
-        <span class="hidden group-hover:inline text-xs font-extrabold pr-2">Chat with 800byPD</span>
+        <span class="hidden group-hover:inline text-xs font-extrabold pr-2">Chat with 800BYPD</span>
     </a>
 
     <!-- Nourishark-Style Quick-Add Product Modal Popup -->
@@ -206,7 +206,7 @@
                 <img id="quickAddImage" src="" alt="Product Cover" class="w-full h-full object-cover">
                 <div id="quickAddPlaceholderIcon" class="hidden text-center p-6">
                     <i class="bi bi-book-half text-6xl text-[#FACC15] mb-2"></i>
-                    <span class="block text-xs font-bold text-slate-400">800byPD Original</span>
+                    <span class="block text-xs font-bold text-slate-400">800BYPD Original</span>
                 </div>
             </div>
 
@@ -261,7 +261,7 @@
                     <i class="bi bi-spotify"></i>
                 </div>
                 <h3 class="font-whimsical font-bold text-slate-900 text-2xl">Spotify Audio Channel</h3>
-                <p class="text-xs text-slate-500 mt-1">Listen to bedtime story audiobooks and podcasts narrated by WrittenbyPD.</p>
+                <p class="text-xs text-slate-500 mt-1">Listen to bedtime story audiobooks and podcasts narrated by PD.</p>
             </div>
 
             <!-- Spotify Player Widget -->
@@ -269,7 +269,7 @@
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-12 h-12 bg-[#FACC15] text-[#312E81] rounded-xl flex items-center justify-center font-whimsical font-bold text-xl">800</div>
                     <div class="text-left">
-                        <h4 class="font-bold text-xs text-white">Bedtime Stories by WrittenbyPD</h4>
+                        <h4 class="font-bold text-xs text-white">Bedtime Stories</h4>
                         <span class="text-[10px] text-[#A78BFA] font-semibold">Narrated by PD</span>
                     </div>
                 </div>
@@ -300,7 +300,7 @@
                     <div class="w-9 h-9 bg-[#FACC15] text-[#312E81] rounded-xl flex items-center justify-center font-whimsical font-bold text-xl">8</div>
                     <span class="font-whimsical text-2xl font-bold text-white">800by<span class="text-[#FACC15]">pd</span></span>
                 </div>
-                <p class="text-purple-200 leading-relaxed mb-3">A children's bookstore and audio workshop created by <strong>WrittenbyPD</strong>. Inspiring early literacy through storybooks, audio episodes, jigsaw puzzles, and colouring books.</p>
+                <p class="text-purple-200 leading-relaxed mb-3">A children's bookstore and audio workshop created by <strong>PD</strong>. Inspiring early literacy through storybooks, audio episodes, jigsaw puzzles, and colouring books.</p>
                 <p class="text-[#FACC15] font-bold"><i class="bi bi-geo-alt-fill mr-1"></i> Based in Lagos, Nigeria</p>
             </div>
 
@@ -332,7 +332,7 @@
         </div>
 
         <div class="text-center text-purple-300 border-t border-purple-900/60 mt-12 pt-6 text-xs">
-            &copy; {{ date('Y') }} <strong>800bypd</strong> (WrittenbyPD). All rights reserved. Designed to International E-Commerce Standards.
+            &copy; {{ date('Y') }} <strong>800BYPD</strong> (WrittenbyPD). All rights reserved. Designed to International E-Commerce Standards.
         </div>
     </footer>
 

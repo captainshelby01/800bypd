@@ -149,7 +149,7 @@
                             <p class="font-bold text-[#312E81] mb-1"><i class="bi bi-bank mr-1"></i> Bank Account for Transfer:</p>
                             <p class="text-slate-700">Bank Name: <strong>{{ env('BANK_NAME', 'Guaranty Trust Bank (GTBank)') }}</strong></p>
                             <p class="text-slate-700">Account Number: <strong class="font-mono text-sm text-[#312E81]">{{ env('BANK_ACCOUNT_NUMBER', '0123456789') }}</strong></p>
-                            <p class="text-slate-700">Account Name: <strong>{{ env('BANK_ACCOUNT_NAME', '800bypd Nigeria Ltd') }}</strong></p>
+                            <p class="text-slate-700">Account Name: <strong>{{ env('BANK_ACCOUNT_NAME', '800BYPD Ltd') }}</strong></p>
                         </div>
 
                         <div>
