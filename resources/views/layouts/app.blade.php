@@ -53,7 +53,7 @@
                     8
                 </div>
                 <div class="flex flex-col leading-none">
-                    <span class="font-whimsical text-xl sm:text-2xl font-bold text-[#2D1B4E]">800by<span class="text-amber-500">pd</span></span>
+                    <span class="font-whimsical text-xl sm:text-2xl font-bold text-[#2D1B4E]">800BY<span class="text-amber-500">PD</span></span>
                     <span class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">Children's Books & Games</span>
                 </div>
             </a>
