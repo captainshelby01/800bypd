@@ -9,6 +9,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Auth\CustomerAuthController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\OrderVerificationController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminUserController;
@@ -62,7 +63,7 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function()
 
 // Admin Panel Routes (/admin) - Secured with Auth & Admin Middleware
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function() {
-    Route::get('/', [OrderVerificationController::class, 'index'])->name('dashboard');
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/verifications', [OrderVerificationController::class, 'index'])->name('verifications');
     Route::post('/verifications/{id}/approve', [OrderVerificationController::class, 'approve'])->name('verifications.approve');
     Route::post('/verifications/{id}/reject', [OrderVerificationController::class, 'reject'])->name('verifications.reject');

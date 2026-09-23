@@ -17,6 +17,11 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            @if(in_array(auth()->user()->role, ['admin', 'staff']))
+                <a href="{{ route('admin.dashboard') }}" class="bg-purple-600 hover:bg-purple-500 text-white font-extrabold px-5 py-2.5 rounded-2xl text-xs flex items-center gap-2 shadow-md transition w-full sm:w-auto justify-center border border-purple-400">
+                    <i class="bi bi-speedometer2 text-[#FACC15]"></i> Admin Overview Dashboard
+                </a>
+            @endif
             <a href="{{ route('account.orders') }}" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold px-5 py-2.5 rounded-2xl text-xs flex items-center gap-2 shadow-md transition w-full sm:w-auto justify-center">
                 <i class="bi bi-archive-fill"></i> View Order History ({{ $ordersCount }})
             </a>

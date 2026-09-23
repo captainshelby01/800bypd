@@ -25,6 +25,9 @@
 
     <!-- Navigation Tabs (Mobile Scrollable Bar) -->
     <div class="flex overflow-x-auto border-b border-slate-200 gap-2 text-xs font-bold whitespace-nowrap pb-0.5 scrollbar-none">
+        <a href="{{ route('admin.dashboard') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+            <i class="bi bi-speedometer2"></i> Dashboard Overview
+        </a>
         <a href="{{ route('admin.verifications') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
             <i class="bi bi-receipt"></i> Orders & Payment Receipts
         </a>

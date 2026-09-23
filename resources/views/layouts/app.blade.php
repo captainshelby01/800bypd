@@ -84,17 +84,24 @@
 
                 @auth
                     <div class="relative group hidden sm:block flex-shrink-0">
-                        <a href="{{ route('account.dashboard') }}" class="bg-purple-100 hover:bg-purple-200 text-[#312E81] px-3 sm:px-3.5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition border border-purple-300/60 shadow-sm">
+                        <a href="{{ in_array(auth()->user()->role, ['admin', 'staff']) ? route('admin.dashboard') : route('account.dashboard') }}" class="bg-purple-100 hover:bg-purple-200 text-[#312E81] px-3 sm:px-3.5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition border border-purple-300/60 shadow-sm">
                             <i class="bi bi-person-circle text-sm text-[#7C3AED] flex-shrink-0"></i>
                             <span class="truncate max-w-[80px] md:max-w-[100px] inline-block font-bold">{{ explode(' (', auth()->user()->name)[0] }}</span>
                             <i class="bi bi-chevron-down text-[10px] text-slate-500 flex-shrink-0"></i>
                         </a>
-                        <div class="absolute right-0 mt-1 w-48 bg-white rounded-2xl shadow-xl border border-purple-200 py-2 hidden group-hover:block z-50 text-xs font-semibold">
+                        <div class="absolute right-0 mt-1 w-52 bg-white rounded-2xl shadow-xl border border-purple-200 py-2 hidden group-hover:block z-50 text-xs font-semibold">
                             @if(in_array(auth()->user()->role, ['admin', 'staff']))
-                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-purple-50 text-[#7C3AED] font-bold border-b border-slate-100"><i class="bi bi-shield-lock-fill mr-2 text-[#7C3AED]"></i> Admin Panel</a>
+                                <div class="px-4 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">Admin Controls</div>
+                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-purple-50 text-[#7C3AED] font-bold"><i class="bi bi-speedometer2 mr-2 text-[#7C3AED]"></i> Overview Dashboard</a>
+                                <a href="{{ route('admin.verifications') }}" class="block px-4 py-2 hover:bg-purple-50 text-slate-700 font-medium"><i class="bi bi-receipt mr-2 text-amber-600"></i> Orders & Receipts</a>
+                                <a href="{{ route('admin.products.index') }}" class="block px-4 py-2 hover:bg-purple-50 text-slate-700 font-medium"><i class="bi bi-journal-bookmark-fill mr-2 text-indigo-600"></i> Products</a>
+                                <div class="border-t border-slate-100 my-1"></div>
+                                <div class="px-4 py-1 text-[10px] font-black uppercase tracking-wider text-slate-400">Personal</div>
+                                <a href="{{ route('account.dashboard') }}" class="block px-4 py-2 hover:bg-purple-50 text-slate-700 font-medium"><i class="bi bi-person-badge mr-2 text-slate-500"></i> Customer Portal</a>
+                            @else
+                                <a href="{{ route('account.dashboard') }}" class="block px-4 py-2 hover:bg-purple-50 text-slate-800 font-bold"><i class="bi bi-speedometer2 mr-2 text-[#7C3AED]"></i> Dashboard</a>
+                                <a href="{{ route('account.orders') }}" class="block px-4 py-2 hover:bg-purple-50 text-slate-800"><i class="bi bi-archive-fill mr-2 text-amber-600"></i> Order History</a>
                             @endif
-                            <a href="{{ route('account.dashboard') }}" class="block px-4 py-2 hover:bg-purple-50 text-slate-800"><i class="bi bi-speedometer2 mr-2 text-[#7C3AED]"></i> Dashboard</a>
-                            <a href="{{ route('account.orders') }}" class="block px-4 py-2 hover:bg-purple-50 text-slate-800"><i class="bi bi-archive-fill mr-2 text-amber-600"></i> Order History</a>
                             <div class="border-t border-slate-100 my-1"></div>
                             <form action="{{ route('account.logout') }}" method="POST">
                                 @csrf
@@ -135,7 +142,11 @@
                 @auth
                     <div class="space-y-2 text-xs font-bold">
                         <div class="text-slate-500 text-[11px]">Logged in as: <strong class="text-slate-800">{{ auth()->user()->name }}</strong></div>
-                        <a href="{{ route('account.dashboard') }}" class="block bg-white p-3 rounded-2xl border border-purple-200 text-[#312E81]"><i class="bi bi-speedometer2 text-[#7C3AED] mr-2"></i> Account Dashboard</a>
+                        @if(in_array(auth()->user()->role, ['admin', 'staff']))
+                            <a href="{{ route('admin.dashboard') }}" class="block bg-purple-600 text-white p-3 rounded-2xl shadow font-extrabold"><i class="bi bi-speedometer2 mr-2 text-[#FACC15]"></i> Admin Overview Dashboard</a>
+                            <a href="{{ route('admin.verifications') }}" class="block bg-amber-100 text-amber-900 p-3 rounded-2xl border border-amber-200 font-extrabold"><i class="bi bi-receipt text-amber-600 mr-2"></i> Orders & Payment Receipts</a>
+                        @endif
+                        <a href="{{ route('account.dashboard') }}" class="block bg-white p-3 rounded-2xl border border-purple-200 text-[#312E81]"><i class="bi bi-person-badge text-[#7C3AED] mr-2"></i> Customer Portal</a>
                         <a href="{{ route('account.orders') }}" class="block bg-white p-3 rounded-2xl border border-purple-200 text-[#312E81]"><i class="bi bi-archive-fill text-amber-600 mr-2"></i> My Order History</a>
                         <form action="{{ route('account.logout') }}" method="POST">
                             @csrf
