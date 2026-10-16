@@ -38,6 +38,10 @@ class Product extends Model
         return $this->hasMany(Review::class)->where('is_approved', true);
     }
 
+    public function bundles() {
+        return $this->belongsToMany(Bundle::class, 'bundle_items');
+    }
+
     public function getFormattedPriceAttribute() {
         return '₦' . number_format($this->sale_price ?? $this->price, 2);
     }

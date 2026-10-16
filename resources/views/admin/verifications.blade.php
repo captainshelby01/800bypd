@@ -34,6 +34,12 @@
         <a href="{{ route('admin.products.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
             <i class="bi bi-journal-bookmark-fill"></i> Product Catalog Management
         </a>
+        <a href="{{ route('admin.bundles.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+            <i class="bi bi-box2-heart-fill"></i> Product Bundles
+        </a>
+        <a href="{{ route('admin.settings.checkout') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+            <i class="bi bi-sliders"></i> Checkout Settings
+        </a>
         @if(Auth::user()->isSuperAdmin())
             <a href="{{ route('admin.users.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
                 <i class="bi bi-shield-lock-fill"></i> Admin & Staff Logins
@@ -95,7 +101,23 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse($pendingTransfers as $order)
                         <tr class="hover:bg-slate-50/50 transition">
-                            <td class="p-3.5 font-bold font-mono text-purple-900 whitespace-nowrap">{{ $order->order_number }}</td>
+                            <td class="p-3.5">
+                                <div class="font-bold font-mono text-purple-900 whitespace-nowrap">{{ $order->order_number }}</div>
+                                <div class="text-[10px] text-slate-400 font-sans mt-0.5">{{ $order->created_at->format('M d, Y · g:i A') }}</div>
+                                <div class="mt-1.5 space-y-1">
+                                    @foreach($order->items as $itm)
+                                        <div class="text-[11px] text-slate-700">
+                                            <span class="font-bold text-[#312E81]">{{ $itm->quantity }}x</span> {{ $itm->product_name }}
+                                            @if($itm->variation_name)
+                                                <span class="bg-purple-100 text-[#7C3AED] px-1.5 py-0.2 rounded font-bold text-[9px]">{{ $itm->variation_name }}</span>
+                                            @endif
+                                            @if($itm->bundle_id)
+                                                <span class="bg-amber-100 text-amber-900 px-1.5 py-0.2 rounded font-black text-[9px]">BUNDLE</span>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </td>
                             <td class="p-3.5 whitespace-nowrap">
                                 <span class="font-bold block text-slate-900">{{ $order->customer_name }}</span>
                                 <span class="text-[10px] text-slate-500 block"><i class="bi bi-telephone-fill mr-1"></i>{{ $order->customer_phone }}</span>
@@ -167,7 +189,23 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse($allOrders as $order)
                         <tr class="hover:bg-slate-50/50 transition">
-                            <td class="p-3.5 font-bold font-mono text-purple-900 whitespace-nowrap">{{ $order->order_number }}</td>
+                            <td class="p-3.5">
+                                <div class="font-bold font-mono text-purple-900 whitespace-nowrap">{{ $order->order_number }}</div>
+                                <div class="text-[10px] text-slate-400 font-sans mt-0.5">{{ $order->created_at->format('M d, Y · g:i A') }}</div>
+                                <div class="mt-1 space-y-0.5">
+                                    @foreach($order->items as $itm)
+                                        <div class="text-[10px] text-slate-600">
+                                            <span class="font-bold text-[#312E81]">{{ $itm->quantity }}x</span> {{ $itm->product_name }}
+                                            @if($itm->variation_name)
+                                                <span class="text-[#7C3AED] font-bold">({{ $itm->variation_name }})</span>
+                                            @endif
+                                            @if($itm->bundle_id)
+                                                <span class="text-amber-800 font-black">[Bundle]</span>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </td>
                             <td class="p-3.5 font-bold text-slate-800 whitespace-nowrap">{{ $order->customer_name }}</td>
                             <td class="p-3.5 font-bold uppercase text-[10px] text-slate-600 whitespace-nowrap">{{ str_replace('_', ' ', $order->payment_method) }}</td>
                             <td class="p-3.5 whitespace-nowrap">

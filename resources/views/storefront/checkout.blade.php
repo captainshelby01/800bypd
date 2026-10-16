@@ -162,10 +162,31 @@
             </div>
 
             <!-- Order Total & Submit Sidebar -->
-            <div class="bg-white p-6 rounded-3xl border border-purple-200/80 shadow-sm h-fit">
-                <h3 class="font-bold text-slate-900 text-base mb-4 border-b pb-2">Order Breakdown</h3>
+            <div class="bg-white p-6 rounded-3xl border border-purple-200/80 shadow-sm h-fit space-y-4">
+                <div class="flex items-center justify-between border-b pb-2">
+                    <h3 class="font-bold text-slate-900 text-base">Your Box</h3>
+                    <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                        <i class="bi bi-check-circle-fill text-emerald-600"></i> {{ $box['total_items'] ?? count($cart) }} Items (Full)
+                    </span>
+                </div>
+
+                <!-- Box Items List -->
+                <div class="space-y-2.5 max-h-52 overflow-y-auto pr-1 text-[11px] border-b pb-3">
+                    @foreach($cart as $item)
+                        <div class="flex justify-between items-start text-slate-700">
+                            <div>
+                                <span class="font-bold text-[#312E81] block leading-tight">{{ $item['name'] }}</span>
+                                @if(!empty($item['variation_name']))
+                                    <span class="text-[10px] text-purple-700">{{ $item['variation_name'] }} • </span>
+                                @endif
+                                <span class="text-slate-400 text-[10px]">Qty: {{ $item['quantity'] }}</span>
+                            </div>
+                            <span class="font-extrabold text-[#7C3AED] flex-shrink-0">₦{{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                        </div>
+                    @endforeach
+                </div>
                 
-                <div class="space-y-2 text-xs mb-6 font-semibold">
+                <div class="space-y-2 text-xs mb-4 font-semibold">
                     <div class="flex justify-between text-slate-600">
                         <span>Items Subtotal</span>
                         <span class="font-bold text-slate-900 price-convertible" data-price-ngn="{{ $subtotal }}">₦{{ number_format($subtotal, 2) }}</span>

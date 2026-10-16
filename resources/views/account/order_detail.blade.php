@@ -61,12 +61,25 @@
             @foreach($order->items as $item)
                 <div class="py-4 flex justify-between items-center text-xs">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-purple-100 text-[#312E81] rounded-xl flex items-center justify-center font-whimsical font-bold text-base flex-shrink-0">
-                            📖
+                        <div class="w-10 h-10 bg-purple-100 text-[#7C3AED] rounded-xl flex items-center justify-center font-bold text-base flex-shrink-0">
+                            <i class="bi bi-box-seam"></i>
                         </div>
                         <div>
-                            <p class="font-bold text-slate-900 text-sm">{{ $item->product_name }}</p>
-                            <p class="text-slate-500">Unit Price: <span class="price-convertible" data-price-ngn="{{ $item->price }}">₦{{ number_format($item->price, 2) }}</span> &times; {{ $item->quantity }}</p>
+                            <p class="font-bold text-slate-900 text-sm flex items-center flex-wrap gap-1.5">
+                                <span>{{ $item->product_name }}</span>
+                                @if($item->variation_name)
+                                    <span class="text-[10px] bg-purple-100 text-[#7C3AED] px-2 py-0.5 rounded font-bold">{{ $item->variation_name }}</span>
+                                @endif
+                                @if($item->bundle_id)
+                                    <span class="text-[10px] bg-amber-100 text-amber-900 px-2 py-0.5 rounded font-black inline-flex items-center gap-1">
+                                        <i class="bi bi-box2-heart-fill text-[#FACC15]"></i> Bundle
+                                    </span>
+                                @endif
+                            </p>
+                            @if($item->bundle_details)
+                                <p class="text-[11px] text-slate-500 italic mt-0.5 leading-snug">Includes: {{ $item->bundle_details }}</p>
+                            @endif
+                            <p class="text-slate-500 mt-0.5">Unit Price: <span class="price-convertible" data-price-ngn="{{ $item->price }}">₦{{ number_format($item->price, 2) }}</span> &times; {{ $item->quantity }}</p>
                         </div>
                     </div>
                     <p class="font-bold text-slate-900 text-sm price-convertible" data-price-ngn="{{ $item->price * $item->quantity }}">₦{{ number_format($item->price * $item->quantity, 2) }}</p>

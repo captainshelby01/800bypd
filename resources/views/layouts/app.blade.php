@@ -58,14 +58,96 @@
                 </div>
             </a>
 
-            <!-- Desktop Navigation Links -->
-            <nav class="hidden lg:flex items-center gap-2.5 xl:gap-5 text-[11px] xl:text-xs font-bold text-slate-700 uppercase tracking-wider flex-shrink-0 whitespace-nowrap">
-                <a href="{{ route('home') }}" class="hover:text-[#7C3AED] transition">Home</a>
-                <a href="{{ route('catalog.index', ['category' => 'childrens-story-books']) }}" class="hover:text-[#7C3AED] transition">Books</a>
-                <a href="{{ route('audios.index') }}" class="hover:text-[#7C3AED] transition flex items-center gap-1"><i class="bi bi-spotify text-[#7C3AED]"></i> Audios</a>
-                <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="hover:text-[#7C3AED] transition">Puzzles</a>
-                <a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="hover:text-[#7C3AED] transition">Colouring Books</a>
-                <a href="{{ route('catalog.index', ['category' => 'other-products']) }}" class="hover:text-[#7C3AED] transition text-[#7C3AED] font-extrabold">Other Products</a>
+            <!-- Desktop Navigation Links (Option 1: Clean Categories Dropdown + Highlighted Bundles) -->
+            <nav class="hidden lg:flex items-center gap-3 xl:gap-6 text-xs font-bold text-slate-700 tracking-wide flex-shrink-0">
+                <!-- 1. Home -->
+                <a href="{{ route('home') }}" class="hover:text-[#7C3AED] transition flex items-center gap-1.5 py-2">
+                    <i class="bi bi-house-door-fill text-slate-400 hover:text-[#7C3AED]"></i>
+                    <span>Home</span>
+                </a>
+
+                <!-- 2. Shop Categories Dropdown -->
+                <div class="relative group">
+                    <button type="button" class="flex items-center gap-1.5 py-2 hover:text-[#7C3AED] transition text-slate-800 font-bold focus:outline-none">
+                        <span>Shop Categories</span>
+                        <i class="bi bi-chevron-down text-[10px] text-slate-400 group-hover:rotate-180 group-hover:text-[#7C3AED] transition-transform duration-200"></i>
+                    </button>
+
+                    <!-- Dropdown Menu Card -->
+                    <div class="absolute left-0 top-full pt-2 w-72 hidden group-hover:block z-50 transition-all duration-200">
+                        <div class="bg-white rounded-3xl shadow-2xl border border-purple-200/90 p-3 space-y-1 text-xs font-medium">
+                            <div class="px-3 pt-2 pb-1 text-[10px] font-black uppercase tracking-wider text-slate-400">
+                                Product Collections
+                            </div>
+
+                            <!-- Jigsaw Puzzles -->
+                            <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-purple-50 transition group/item">
+                                <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg flex-shrink-0 group-hover/item:scale-105 transition">
+                                    <i class="bi bi-puzzle-fill"></i>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-900 block group-hover/item:text-[#7C3AED]">Jigsaw Puzzles</span>
+                                    <span class="text-[10px] text-slate-400 block font-normal">Easy (6 pcs) & 12 pieces</span>
+                                </div>
+                            </a>
+
+                            <!-- Coloring Books -->
+                            <a href="{{ route('catalog.index', ['category' => 'coloring-books']) }}" class="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-purple-50 transition group/item">
+                                <div class="w-9 h-9 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center text-lg flex-shrink-0 group-hover/item:scale-105 transition">
+                                    <i class="bi bi-palette-fill"></i>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-900 block group-hover/item:text-[#7C3AED]">Coloring Books</span>
+                                    <span class="text-[10px] text-slate-400 block font-normal">Creative doodle & bleed-free pages</span>
+                                </div>
+                            </a>
+
+                            <!-- Flashcards -->
+                            <a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-purple-50 transition group/item">
+                                <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg flex-shrink-0 group-hover/item:scale-105 transition">
+                                    <i class="bi bi-card-text"></i>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-900 block group-hover/item:text-[#7C3AED]">Flashcards</span>
+                                    <span class="text-[10px] text-slate-400 block font-normal">Pocket & Big learning sizes</span>
+                                </div>
+                            </a>
+
+                            <!-- Storybooks -->
+                            <a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-purple-50 transition group/item">
+                                <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg flex-shrink-0 group-hover/item:scale-105 transition">
+                                    <i class="bi bi-book-half"></i>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-900 block group-hover/item:text-[#7C3AED]">Storybooks</span>
+                                    <span class="text-[10px] text-slate-400 block font-normal">Illustrated bedtime adventures</span>
+                                </div>
+                            </a>
+
+                            <!-- Divider & All Products -->
+                            <div class="border-t border-slate-100 my-1"></div>
+                            <a href="{{ route('catalog.index') }}" class="flex items-center justify-between p-2.5 rounded-2xl hover:bg-purple-50 text-[#7C3AED] font-bold transition">
+                                <span class="flex items-center gap-2">
+                                    <i class="bi bi-grid-fill"></i> View All Products
+                                </span>
+                                <i class="bi bi-arrow-right text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Buy Bundles (Prominently Highlighted) -->
+                <a href="{{ route('home') }}#bundles-section" class="bg-purple-100/70 hover:bg-purple-200/80 text-[#312E81] px-3.5 py-1.5 rounded-full font-black flex items-center gap-1.5 transition border border-purple-200 shadow-2xs">
+                    <i class="bi bi-box2-heart-fill text-[#FACC15]"></i>
+                    <span>Buy Bundles</span>
+                    <span class="bg-[#FACC15] text-[#312E81] text-[9px] font-black px-1.5 py-0.2 rounded-full uppercase">Save</span>
+                </a>
+
+                <!-- 4. Spotify Audios -->
+                <a href="{{ route('audios.index') }}" class="hover:text-[#7C3AED] transition flex items-center gap-1.5 py-2">
+                    <i class="bi bi-spotify text-emerald-500"></i>
+                    <span>Audios</span>
+                </a>
             </nav>
 
             <!-- Search, Cart & User Menu -->
@@ -75,11 +157,29 @@
                     <i class="bi bi-search absolute left-3 top-2.5 text-[#7C3AED] text-xs"></i>
                 </form>
 
-                <a href="{{ route('cart.index') }}" class="relative bg-[#312E81] hover:bg-indigo-950 text-white px-3 sm:px-3.5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 shadow-md transition flex-shrink-0">
-                    <i class="bi bi-bag-fill text-sm text-[#FACC15]"></i>
-                    <span class="hidden sm:inline">Cart</span>
-                    @php $cartCount = count(session('cart', [])); @endphp
-                    <span id="cartCountBadge" class="bg-[#FACC15] text-[#312E81] font-black px-2 py-0.5 rounded-full text-[10px]">{{ $cartCount }}</span>
+                @php
+                    $sessionCart = session('cart', []);
+                    $boxItemsTotal = 0;
+                    foreach ($sessionCart as $cartItm) {
+                        $units = isset($cartItm['box_units_per_item']) ? (int)$cartItm['box_units_per_item'] : 1;
+                        $q = isset($cartItm['quantity']) ? (int)$cartItm['quantity'] : 1;
+                        $boxItemsTotal += ($units * $q);
+                    }
+                    $minBoxReq = \App\Models\Setting::get('checkout_min_order_quantity', 3);
+                @endphp
+                <a href="{{ route('cart.index') }}" class="relative bg-[#312E81] hover:bg-indigo-950 text-white px-3 sm:px-3.5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 shadow-md transition flex-shrink-0" title="Fill Your Box ({{ $boxItemsTotal }}/{{ $minBoxReq }} items)">
+                    <i class="bi bi-box-seam-fill text-sm text-[#FACC15]"></i>
+                    <span class="hidden sm:inline">My Box</span>
+                    <span id="cartCountBadge" class="bg-[#FACC15] text-[#312E81] font-black px-2 py-0.5 rounded-full text-[10px]">{{ $boxItemsTotal }}</span>
+                    @if($boxItemsTotal > 0 && $boxItemsTotal < $minBoxReq)
+                        <span class="hidden md:inline text-[9px] bg-amber-400/20 text-amber-200 border border-amber-300/30 px-1.5 py-0.5 rounded-md font-extrabold">
+                            {{ $minBoxReq - $boxItemsTotal }} more
+                        </span>
+                    @elseif($boxItemsTotal >= $minBoxReq)
+                        <span class="hidden md:inline text-[9px] bg-emerald-400/20 text-emerald-300 border border-emerald-300/30 px-1.5 py-0.5 rounded-md font-extrabold">
+                            Full 🎉
+                        </span>
+                    @endif
                 </a>
 
                 @auth
@@ -122,20 +222,80 @@
             </div>
         </div>
 
-        <!-- Mobile Navigation Menu Drawer Overlay -->
-        <div id="mobileMenuDrawer" class="hidden md:hidden bg-[#F5F3FF] border-t border-purple-200/80 px-4 pt-4 pb-6 space-y-4 shadow-xl">
+        <!-- Mobile Navigation Menu Drawer Overlay (Option 1: Arranged in Clear Order) -->
+        <div id="mobileMenuDrawer" class="hidden lg:hidden bg-[#F5F3FF] border-t border-purple-200/80 px-4 pt-4 pb-6 space-y-4 shadow-xl">
             <form action="{{ route('catalog.index') }}" method="GET" class="relative">
                 <input type="text" name="search" placeholder="Search books, audios..." class="w-full pl-9 pr-4 py-2.5 border border-purple-200 bg-white rounded-full text-xs focus:outline-none focus:ring-2 focus:ring-[#7C3AED]">
                 <i class="bi bi-search absolute left-3 top-3 text-[#7C3AED] text-xs"></i>
             </form>
 
-            <nav class="flex flex-col space-y-3 text-xs font-extrabold text-slate-800 uppercase tracking-wider border-b border-purple-200 pb-4">
-                <a href="{{ route('home') }}" class="hover:text-[#7C3AED] transition flex items-center gap-2"><i class="bi bi-house-fill text-[#7C3AED]"></i> Home</a>
-                <a href="{{ route('catalog.index', ['category' => 'childrens-story-books']) }}" class="hover:text-[#7C3AED] transition flex items-center gap-2"><i class="bi bi-book-half text-[#7C3AED]"></i> Books</a>
-                <a href="{{ route('audios.index') }}" class="hover:text-[#7C3AED] transition flex items-center gap-2"><i class="bi bi-spotify text-[#7C3AED]"></i> Audios</a>
-                <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="hover:text-[#7C3AED] transition flex items-center gap-2"><i class="bi bi-puzzle-fill text-amber-500"></i> Jigsaw Puzzles</a>
-                <a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="hover:text-[#7C3AED] transition flex items-center gap-2"><i class="bi bi-palette-fill text-pink-500"></i> Colouring Books</a>
-                <a href="{{ route('catalog.index', ['category' => 'other-products']) }}" class="hover:text-[#7C3AED] transition flex items-center gap-2"><i class="bi bi-bag-check-fill text-[#7C3AED]"></i> Other Products</a>
+            <nav class="flex flex-col space-y-2 text-xs font-extrabold text-slate-800 border-b border-purple-200 pb-4">
+                <!-- 1. Home -->
+                <a href="{{ route('home') }}" class="p-2.5 rounded-xl hover:bg-white transition flex items-center gap-2.5 text-slate-700">
+                    <i class="bi bi-house-door-fill text-[#7C3AED] text-sm"></i>
+                    <span>Home</span>
+                </a>
+
+                <!-- 2. Buy Bundles (Highlighted Banner) -->
+                <a href="{{ route('home') }}#bundles-section" class="p-3 rounded-2xl bg-gradient-to-r from-purple-100 via-amber-50 to-amber-100 border border-purple-200/80 text-[#312E81] font-black transition flex items-center justify-between shadow-2xs">
+                    <span class="flex items-center gap-2">
+                        <i class="bi bi-box2-heart-fill text-[#FACC15] text-base"></i>
+                        <span>Buy Our Bundles</span>
+                    </span>
+                    <span class="bg-[#FACC15] text-[#312E81] text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Instant Fill</span>
+                </a>
+
+                <!-- 3. All Products Catalog -->
+                <a href="{{ route('catalog.index') }}" class="p-2.5 rounded-xl hover:bg-white transition flex items-center justify-between text-slate-700">
+                    <span class="flex items-center gap-2.5">
+                        <i class="bi bi-grid-fill text-[#7C3AED] text-sm"></i>
+                        <span>All Products Catalog</span>
+                    </span>
+                    <i class="bi bi-chevron-right text-[10px] text-slate-400"></i>
+                </a>
+
+                <!-- 4. Collections 2x2 Grid -->
+                <div class="pt-2">
+                    <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 px-2.5 block mb-1.5">
+                        Collections & Categories
+                    </span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="p-2.5 rounded-xl bg-white border border-purple-100 hover:border-purple-300 transition flex items-center gap-2">
+                            <i class="bi bi-puzzle-fill text-amber-500 text-base"></i>
+                            <div class="leading-tight">
+                                <span class="block text-slate-800 font-bold text-[11px]">Puzzles</span>
+                                <span class="text-[9px] text-slate-400">6 & 12 pcs</span>
+                            </div>
+                        </a>
+                        <a href="{{ route('catalog.index', ['category' => 'coloring-books']) }}" class="p-2.5 rounded-xl bg-white border border-purple-100 hover:border-purple-300 transition flex items-center gap-2">
+                            <i class="bi bi-palette-fill text-pink-500 text-base"></i>
+                            <div class="leading-tight">
+                                <span class="block text-slate-800 font-bold text-[11px]">Coloring</span>
+                                <span class="text-[9px] text-slate-400">Doodle Books</span>
+                            </div>
+                        </a>
+                        <a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="p-2.5 rounded-xl bg-white border border-purple-100 hover:border-purple-300 transition flex items-center gap-2">
+                            <i class="bi bi-card-text text-indigo-500 text-base"></i>
+                            <div class="leading-tight">
+                                <span class="block text-slate-800 font-bold text-[11px]">Flashcards</span>
+                                <span class="text-[9px] text-slate-400">Pocket & Big</span>
+                            </div>
+                        </a>
+                        <a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="p-2.5 rounded-xl bg-white border border-purple-100 hover:border-purple-300 transition flex items-center gap-2">
+                            <i class="bi bi-book-half text-emerald-500 text-base"></i>
+                            <div class="leading-tight">
+                                <span class="block text-slate-800 font-bold text-[11px]">Storybooks</span>
+                                <span class="text-[9px] text-slate-400">Bedtime Tales</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 5. Spotify Audios -->
+                <a href="{{ route('audios.index') }}" class="p-2.5 rounded-xl hover:bg-white transition flex items-center gap-2.5 text-slate-700">
+                    <i class="bi bi-spotify text-emerald-500 text-base"></i>
+                    <span>Spotify Storytime Audios</span>
+                </a>
             </nav>
 
             <div class="pt-1">
@@ -245,8 +405,8 @@
 
                     <!-- Add Button with dynamic price -->
                     <button type="button" onclick="submitQuickAddModal()" id="quickAddSubmitBtn" class="flex-1 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-3.5 px-5 rounded-full shadow-lg transition flex items-center justify-center gap-2 text-xs">
-                        <i class="bi bi-bag-fill text-[#FACC15] text-sm"></i>
-                        <span>Add</span>
+                        <i class="bi bi-box-seam text-[#FACC15] text-sm"></i>
+                        <span>Add to Box</span>
                         <span id="quickAddBtnPriceDisplay" class="price-convertible font-black" data-price-ngn="0">₦0.00</span>
                     </button>
                 </div>
@@ -470,9 +630,12 @@
             .then(data => {
                 submitBtn.disabled = false;
                 if (data.success) {
-                    document.getElementById('cartCountBadge').textContent = data.cart_count;
+                    const badge = document.getElementById('cartCountBadge');
+                    if (badge) {
+                        badge.textContent = (data.box && typeof data.box.box_items_count !== 'undefined') ? data.box.box_items_count : data.cart_count;
+                    }
                     closeQuickAddModal();
-                    showToastNotification(data.message);
+                    showToastNotification(data.message || 'Item added to your box!');
                 }
             })
             .catch(err => {

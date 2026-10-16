@@ -2,67 +2,100 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function index() {
-        $cart = session()->get('cart', []);
-        $subtotal = array_reduce($cart, fn($carry, $item) => $carry + ($item['price'] * $item['quantity']), 0);
-        $shippingFee = 2500.00; // Flat Delivery Fee in NGN Naira
+    protected CartService $cartService;
 
-        return view('storefront.cart', compact('cart', 'subtotal', 'shippingFee'));
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
     }
 
-    public function add(Request $request, $id) {
-        $product = Product::findOrFail($id);
-        $cart = session()->get('cart', []);
+    public function index()
+    {
+        $cart = $this->cartService->getCart();
+        $subtotal = $this->cartService->getSubtotal();
+        $box = $this->cartService->getBoxMetrics();
+        $shippingFee = 2500.00; // Flat Delivery Fee in NGN Naira
 
-        $quantity = (int) $request->input('quantity', 1);
+        return view('storefront.cart', compact('cart', 'subtotal', 'box', 'shippingFee'));
+    }
 
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] += $quantity;
-        } else {
-            $cart[$id] = [
-                'name' => $product->name,
-                'price' => $product->sale_price ?? $product->price,
-                'quantity' => $quantity,
-                'image' => $product->primaryImage ? $product->primaryImage->image_path : null,
-            ];
-        }
+    public function add(Request $request, $id)
+    {
+        $quantity = max(1, (int) $request->input('quantity', 1));
+        $variantId = $request->filled('variant_id') ? (int) $request->input('variant_id') : null;
 
-        session()->put('cart', $cart);
+        $result = $this->cartService->addProduct((int) $id, $quantity, $variantId);
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => "{$product->name} added to cart!",
-                'cart_count' => count($cart),
-                'product_name' => $product->name,
+                'message' => "{$result['item']['name']} added to your box!",
+                'cart_count' => count($this->cartService->getCart()),
+                'box' => $result['box'],
+                'subtotal' => $result['subtotal'],
             ]);
         }
 
-        return redirect()->route('cart.index')->with('success', "{$product->name} added to shopping cart!");
+        return redirect()->route('cart.index')
+            ->with('success', "{$result['item']['name']} added to your box!");
     }
 
-    public function update(Request $request, $id) {
-        $cart = session()->get('cart', []);
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] = max(1, (int)$request->quantity);
-            session()->put('cart', $cart);
+    public function addBundle(Request $request, $id)
+    {
+        $quantity = max(1, (int) $request->input('quantity', 1));
+
+        $result = $this->cartService->addBundle((int) $id, $quantity);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Bundle '{$result['item']['name']}' added! Added {$result['item']['box_units_per_item']} items to your box.",
+                'cart_count' => count($this->cartService->getCart()),
+                'box' => $result['box'],
+                'subtotal' => $result['subtotal'],
+            ]);
+        }
+
+        return redirect()->route('cart.index')
+            ->with('success', "Bundle '{$result['item']['name']}' added to your box!");
+    }
+
+    public function update(Request $request, $key)
+    {
+        $quantity = max(1, (int) $request->input('quantity', 1));
+        $result = $this->cartService->updateQuantity($key, $quantity);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cart updated successfully.',
+                'box' => $result['box'],
+                'subtotal' => $result['subtotal'],
+            ]);
         }
 
         return back()->with('success', 'Cart updated successfully.');
     }
 
-    public function remove($id) {
-        $cart = session()->get('cart', []);
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session()->put('cart', $cart);
+    public function remove(Request $request, $key)
+    {
+        $result = $this->cartService->removeItem($key);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Item removed from your box.',
+                'cart_count' => count($this->cartService->getCart()),
+                'box' => $result['box'],
+                'subtotal' => $result['subtotal'],
+            ]);
         }
 
-        return back()->with('success', 'Item removed from cart.');
+        return back()->with('success', 'Item removed from your box.');
     }
 }

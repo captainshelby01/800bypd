@@ -12,6 +12,8 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\OrderVerificationController;
 use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminBundleController;
+use App\Http\Controllers\Admin\AdminSettingsController;
 use App\Http\Controllers\Admin\AdminUserController;
 
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
@@ -32,8 +34,9 @@ Route::get('/product/{slug}', [CatalogController::class, 'show'])->name('catalog
 // Shopping Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
-Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/add-bundle/{id}', [CartController::class, 'addBundle'])->name('cart.addBundle');
+Route::post('/cart/update/{key}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{key}', [CartController::class, 'remove'])->name('cart.remove');
 
 // Checkout & Payment Gateway Routes
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
@@ -71,6 +74,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Product Management Resource Routes
     Route::resource('products', AdminProductController::class);
+
+    // Product Bundles Management Routes
+    Route::resource('bundles', AdminBundleController::class);
+    Route::post('bundles/{id}/toggle-active', [AdminBundleController::class, 'toggleActive'])->name('bundles.toggleActive');
+
+    // Checkout Settings ("Fill Your Box" & Minimum Order Quantity)
+    Route::get('/settings/checkout', [AdminSettingsController::class, 'checkout'])->name('settings.checkout');
+    Route::post('/settings/checkout', [AdminSettingsController::class, 'updateCheckout'])->name('settings.checkout.update');
 
     // Admin & Staff Logins Management Routes
     Route::resource('users', AdminUserController::class)->except(['create', 'edit', 'show']);

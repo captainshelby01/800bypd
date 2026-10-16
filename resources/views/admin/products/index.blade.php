@@ -34,6 +34,12 @@
         <a href="{{ route('admin.products.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-[#7C3AED] text-[#312E81] font-black flex items-center gap-2 bg-purple-50/50 rounded-t-2xl flex-shrink-0">
             <i class="bi bi-journal-bookmark-fill text-[#7C3AED]"></i> Product Catalog Management
         </a>
+        <a href="{{ route('admin.bundles.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+            <i class="bi bi-box2-heart-fill"></i> Product Bundles
+        </a>
+        <a href="{{ route('admin.settings.checkout') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+            <i class="bi bi-sliders"></i> Checkout Settings
+        </a>
         @if(Auth::user()->isSuperAdmin())
             <a href="{{ route('admin.users.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
                 <i class="bi bi-shield-lock-fill"></i> Admin & Staff Logins
@@ -95,6 +101,15 @@
                                     <div>
                                         <p class="font-bold text-slate-900 text-sm leading-tight">{{ $product->name }}</p>
                                         <span class="text-[10px] text-slate-400">{{ Str::limit($product->description, 35) }}</span>
+                                        @if($product->variants && $product->variants->count() > 0)
+                                            <div class="flex flex-wrap gap-1 mt-1">
+                                                @foreach($product->variants as $v)
+                                                    <span class="bg-purple-100 text-[#7C3AED] text-[9px] font-bold px-1.5 py-0.5 rounded-md">
+                                                        {{ $v->name }}
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </td>

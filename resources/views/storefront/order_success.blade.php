@@ -30,6 +30,36 @@
         </div>
     </div>
 
+    <!-- Items in Box -->
+    <div class="bg-white p-5 rounded-2xl border border-purple-200/80 text-left text-xs mb-6 shadow-sm">
+        <h4 class="font-bold text-[#312E81] text-xs flex items-center gap-1.5 mb-3 border-b border-slate-100 pb-2">
+            <i class="bi bi-box-seam-fill text-[#7C3AED]"></i> Items in Your Box ({{ $order->items->sum('quantity') }})
+        </h4>
+        <div class="divide-y divide-slate-100">
+            @foreach($order->items as $item)
+                <div class="py-2.5 flex items-start justify-between gap-3">
+                    <div>
+                        <div class="font-bold text-slate-800 flex items-center flex-wrap gap-1.5">
+                            <span>{{ $item->product_name }}</span>
+                            @if($item->variation_name)
+                                <span class="text-[10px] bg-purple-100 text-[#7C3AED] px-1.5 py-0.2 rounded font-bold">{{ $item->variation_name }}</span>
+                            @endif
+                            @if($item->bundle_id)
+                                <span class="text-[10px] bg-amber-100 text-amber-900 px-1.5 py-0.2 rounded font-black inline-flex items-center gap-1">
+                                    <i class="bi bi-gift-fill text-[#FACC15]"></i> Bundle
+                                </span>
+                            @endif
+                        </div>
+                        @if($item->bundle_details)
+                            <p class="text-[11px] text-slate-500 italic mt-0.5">Includes: {{ $item->bundle_details }}</p>
+                        @endif
+                    </div>
+                    <span class="font-bold text-slate-700 whitespace-nowrap">x{{ $item->quantity }}</span>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
     @if($order->payment_method === 'bank_transfer')
         <div class="bg-purple-50 border border-purple-200 text-[#312E81] p-4 rounded-2xl text-xs mb-6 text-left flex items-start gap-2">
             <i class="bi bi-info-circle-fill text-base text-[#7C3AED] flex-shrink-0 mt-0.5"></i>

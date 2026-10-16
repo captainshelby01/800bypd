@@ -9,12 +9,13 @@ use Illuminate\Http\Request;
 class OrderVerificationController extends Controller
 {
     public function index() {
-        $pendingTransfers = Order::where('payment_method', 'bank_transfer')
+        $pendingTransfers = Order::with('items')
+            ->where('payment_method', 'bank_transfer')
             ->where('payment_status', 'pending_verification')
             ->latest()
             ->paginate(15);
 
-        $allOrders = Order::latest()->paginate(15);
+        $allOrders = Order::with('items')->latest()->paginate(15);
 
         return view('admin.verifications', compact('pendingTransfers', 'allOrders'));
     }

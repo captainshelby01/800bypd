@@ -2,27 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\CartService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 
 class CheckoutController extends Controller
 {
-    public function show() {
-        $cart = session()->get('cart', []);
+    protected CartService $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
+    public function show()
+    {
+        $cart = $this->cartService->getCart();
         if (empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'Your shopping cart is empty.');
         }
 
-        $subtotal = array_reduce($cart, fn($carry, $item) => $carry + ($item['price'] * $item['quantity']), 0);
+        $box = $this->cartService->getBoxMetrics();
+
+        // Hard Backend Guard: Ensure customer has filled their box before accessing checkout
+        if (!$box['is_box_full']) {
+            $remaining = $box['remaining_items'];
+            $word = $remaining === 1 ? 'item' : 'items';
+            return redirect()->route('cart.index')
+                ->with('error', "Your box contains {$box['total_items']} of {$box['required_minimum']} required items. Please add at least {$remaining} more {$word} to complete your box and checkout!");
+        }
+
+        $subtotal = $this->cartService->getSubtotal();
         $shippingFee = 2500.00; // Default Lagos Flat Rate
 
-        return view('storefront.checkout', compact('cart', 'subtotal', 'shippingFee'));
+        return view('storefront.checkout', compact('cart', 'subtotal', 'box', 'shippingFee'));
     }
 
-    public function process(Request $request) {
+    public function process(Request $request)
+    {
+        $cart = $this->cartService->getCart();
+        if (empty($cart)) {
+            return redirect()->route('cart.index')->with('error', 'Your shopping cart is empty.');
+        }
+
+        $box = $this->cartService->getBoxMetrics();
+
+        // Hard Backend Guard: Reject order if minimum items threshold is not reached
+        if (!$box['is_box_full']) {
+            $remaining = $box['remaining_items'];
+            $word = $remaining === 1 ? 'item' : 'items';
+            return redirect()->route('cart.index')
+                ->with('error', "Cannot complete checkout: Please add {$remaining} more {$word} to reach the minimum order requirement of {$box['required_minimum']} items.");
+        }
+
         $validated = $request->validate([
             'customer_name' => 'required|string|max:255',
             'customer_email' => 'required|email',
@@ -36,12 +71,7 @@ class CheckoutController extends Controller
             'receipt' => 'nullable|required_if:payment_method,bank_transfer|image|mimes:jpeg,png,jpg,pdf|max:4096'
         ]);
 
-        $cart = session()->get('cart', []);
-        if (empty($cart)) {
-            return redirect()->route('cart.index')->with('error', 'Your shopping cart is empty.');
-        }
-
-        $subtotal = array_reduce($cart, fn($carry, $item) => $carry + ($item['price'] * $item['quantity']), 0);
+        $subtotal = $this->cartService->getSubtotal();
         $shippingFee = $validated['shipping_method'] === 'nationwide_courier' ? 4500.00 : 2500.00;
         $total = $subtotal + $shippingFee;
 
@@ -73,17 +103,22 @@ class CheckoutController extends Controller
             'order_status' => 'pending',
         ]);
 
-        foreach ($cart as $productId => $item) {
+        foreach ($cart as $item) {
+            $isBundle = isset($item['type']) && $item['type'] === 'bundle';
+
             OrderItem::create([
                 'order_id' => $order->id,
-                'product_id' => $productId,
+                'product_id' => $isBundle ? null : ($item['product_id'] ?? $item['id']),
+                'bundle_id' => $isBundle ? ($item['bundle_id'] ?? $item['id']) : null,
                 'product_name' => $item['name'],
+                'variation_name' => $item['variation_name'] ?? null,
+                'bundle_details' => !empty($item['items_breakdown']) ? implode(', ', $item['items_breakdown']) : null,
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],
             ]);
         }
 
-        session()->forget('cart');
+        $this->cartService->clear();
 
         // Paystack / Card Payment Initialization
         if (in_array($validated['payment_method'], ['paystack', 'card'])) {
@@ -94,7 +129,8 @@ class CheckoutController extends Controller
             ->with('success', 'Order placed successfully! Your Bank Transfer receipt is under admin verification.');
     }
 
-    private function initializePaystack(Order $order) {
+    private function initializePaystack(Order $order)
+    {
         $secretKey = env('PAYSTACK_SECRET_KEY', 'sk_test_sample_key');
         
         $response = Http::withToken($secretKey)
@@ -124,7 +160,8 @@ class CheckoutController extends Controller
             ->with('success', 'Paystack payment completed (Test Sandbox Mode)!');
     }
 
-    public function paystackCallback(Request $request) {
+    public function paystackCallback(Request $request)
+    {
         $reference = $request->get('reference');
         $secretKey = env('PAYSTACK_SECRET_KEY', 'sk_test_sample_key');
 

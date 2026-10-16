@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductImage;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,7 @@ class AdminProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'primaryImage'])->latest();
+        $query = Product::with(['category', 'primaryImage', 'variants'])->latest();
 
         if ($request->filled('search')) {
             $search = $request->get('search');
@@ -78,13 +79,30 @@ class AdminProductController extends Controller
             ]);
         }
 
+        // Handle Product Variations (e.g. Flashcard sizes, Puzzle difficulty levels)
+        if ($request->has('variants') && is_array($request->variants)) {
+            foreach ($request->variants as $v) {
+                if (!empty($v['name'])) {
+                    $variantSku = !empty($v['sku']) ? $v['sku'] : $product->sku . '-' . strtoupper(Str::random(4));
+                    ProductVariant::create([
+                        'product_id' => $product->id,
+                        'name' => $v['name'],
+                        'sku' => $variantSku,
+                        'price' => !empty($v['price']) ? (float)$v['price'] : $product->price,
+                        'stock' => isset($v['stock']) ? (int)$v['stock'] : $product->stock_quantity,
+                        'attributes' => !empty($v['attributes']) ? (is_array($v['attributes']) ? $v['attributes'] : json_decode($v['attributes'], true)) : ['variant' => $v['name']],
+                    ]);
+                }
+            }
+        }
+
         return redirect()->route('admin.products.index')
             ->with('success', "Product '{$product->name}' added successfully!");
     }
 
     public function edit($id)
     {
-        $product = Product::with('primaryImage')->findOrFail($id);
+        $product = Product::with(['primaryImage', 'variants'])->findOrFail($id);
         $categories = Category::all();
         return view('admin.products.edit', compact('product', 'categories'));
     }
@@ -134,6 +152,42 @@ class AdminProductController extends Controller
                     'sort_order' => 0,
                 ]);
             }
+        }
+
+        // Sync Product Variations (e.g. Flashcard sizes, Puzzle difficulty levels)
+        if ($request->has('variants') && is_array($request->variants)) {
+            $keptVariantIds = [];
+            foreach ($request->variants as $v) {
+                if (!empty($v['name'])) {
+                    $variantSku = !empty($v['sku']) ? $v['sku'] : $product->sku . '-' . strtoupper(Str::random(4));
+                    $variantData = [
+                        'product_id' => $product->id,
+                        'name' => $v['name'],
+                        'sku' => $variantSku,
+                        'price' => !empty($v['price']) ? (float)$v['price'] : $product->price,
+                        'stock' => isset($v['stock']) ? (int)$v['stock'] : 0,
+                        'attributes' => !empty($v['attributes']) ? (is_array($v['attributes']) ? $v['attributes'] : json_decode($v['attributes'], true)) : ['variant' => $v['name']],
+                    ];
+
+                    if (!empty($v['id'])) {
+                        $variant = ProductVariant::where('product_id', $product->id)->find($v['id']);
+                        if ($variant) {
+                            $variant->update($variantData);
+                            $keptVariantIds[] = $variant->id;
+                        }
+                    } else {
+                        $newVariant = ProductVariant::create($variantData);
+                        $keptVariantIds[] = $newVariant->id;
+                    }
+                }
+            }
+
+            // Delete variants that were removed by the admin
+            ProductVariant::where('product_id', $product->id)
+                ->whereNotIn('id', $keptVariantIds)
+                ->delete();
+        } elseif ($request->has('has_no_variants')) {
+            ProductVariant::where('product_id', $product->id)->delete();
         }
 
         return redirect()->route('admin.products.index')
