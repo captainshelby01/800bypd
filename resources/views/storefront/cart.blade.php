@@ -154,10 +154,13 @@
 
                         <!-- Quantity & Remove Controls -->
                         <div class="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 pt-3 sm:pt-0">
-                            <form action="{{ route('cart.update', $key) }}" method="POST" class="flex items-center gap-1.5">
+                            <form action="{{ route('cart.update', $key) }}" method="POST" class="flex items-center">
                                 @csrf
-                                <label class="text-[10px] font-bold text-slate-400 uppercase sm:hidden">Qty:</label>
-                                <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" max="50" onchange="this.form.submit()" class="w-16 border border-slate-200 rounded-xl py-1.5 px-2 text-center text-xs font-extrabold text-[#312E81] focus:ring-2 focus:ring-[#7C3AED] focus:outline-none bg-slate-50">
+                                <div class="flex items-center bg-purple-50 p-0.5 rounded-full border border-purple-200 text-xs font-bold">
+                                    <button type="button" onclick="const input = this.parentNode.querySelector('input'); if(parseInt(input.value) > 1){ input.value = parseInt(input.value) - 1; this.form.submit(); }" class="w-7 h-7 rounded-full bg-white text-slate-700 hover:bg-purple-100 transition flex items-center justify-center text-xs shadow-xs">-</button>
+                                    <input type="text" readonly name="quantity" value="{{ $item['quantity'] }}" class="w-7 text-center bg-transparent text-slate-900 text-xs font-extrabold focus:outline-none">
+                                    <button type="button" onclick="const input = this.parentNode.querySelector('input'); input.value = parseInt(input.value) + 1; this.form.submit();" class="w-7 h-7 rounded-full bg-white text-slate-700 hover:bg-purple-100 transition flex items-center justify-center text-xs shadow-xs">+</button>
+                                </div>
                             </form>
 
                             <form action="{{ route('cart.remove', $key) }}" method="POST">

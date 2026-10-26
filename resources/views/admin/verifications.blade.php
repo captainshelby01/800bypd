@@ -9,7 +9,7 @@
                 <span class="bg-[#FBBF24] text-[#2D1B4E] font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase">Admin Management Panel</span>
                 <span class="text-xs text-slate-500 font-mono">/admin/verifications</span>
             </div>
-            <h1 class="font-whimsical font-bold text-2xl sm:text-3xl text-slate-900">800bypd Store Admin Panel</h1>
+            <h1 class="font-whimsical font-bold text-2xl sm:text-3xl text-slate-900">800 by PD Store Admin Panel</h1>
             <p class="text-xs text-slate-500">Manage customer orders, inspect Bank Transfer payment receipts, and track order fulfillment.</p>
         </div>
 

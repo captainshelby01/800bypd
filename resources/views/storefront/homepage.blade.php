@@ -9,16 +9,16 @@
         <!-- Left Hero Copy -->
         <div class="lg:col-span-7 z-10 text-center sm:text-left">
             <span class="bg-[#FACC15] text-[#312E81] font-extrabold text-xs px-4 py-1.5 rounded-full uppercase tracking-wider mb-5 inline-flex items-center gap-1.5 shadow-sm">
-                <i class="bi bi-stars text-[#7C3AED]"></i> Children's Books, Puzzles & Games
+                <i class="bi bi-heart-fill text-[#7C3AED]"></i> Faith-Filled Books, Scripture Puzzles & Games
             </span>
             <h1 class="font-whimsical text-3xl sm:text-5xl md:text-6xl font-bold text-[#312E81] leading-[1.1] mb-5 tracking-tight">
-                Ignite Young Minds With Every Story, Puzzle & Game.
+                Nurturing Young Hearts & Minds in Faith, Joy & Wisdom.
             </h1>
             <p class="text-slate-600 text-sm sm:text-base md:text-lg mb-8 leading-relaxed font-medium">
-                Explore brain-boosting jigsaw puzzles, educational flashcards, creative coloring books, and heartwarming storybooks crafted for kids.
+                Discover scripture-inspired jigsaw puzzles, biblical affirmation flashcards, wholesome coloring books, and heartwarming Christian storybooks crafted to help children grow in God's love.
             </p>
             <div class="flex flex-col sm:flex-row flex-wrap gap-4 justify-center sm:justify-start">
-                <a href="#bundles-section" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold px-8 py-4 rounded-full shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
+                <a href="{{ route('bundles.index') }}" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold px-8 py-4 rounded-full shadow-lg transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
                     <i class="bi bi-box2-heart-fill text-[#FACC15]"></i> Buy Our Bundles
                 </a>
                 <a href="{{ route('catalog.index') }}" class="bg-[#7C3AED] hover:bg-purple-800 text-white font-extrabold px-7 py-4 rounded-full shadow-lg transition flex items-center justify-center gap-2 text-xs uppercase tracking-wider">
@@ -35,7 +35,7 @@
                         <i class="bi bi-box-seam-fill"></i>
                     </div>
                     <h3 class="font-whimsical font-bold text-[#312E81] text-xl">Fill Your Box</h3>
-                    <p class="text-xs text-slate-500 mt-1">Pick at least 3 items or grab a pre-made bundle to checkout!</p>
+                    <p class="text-xs text-slate-500 mt-1">Curate faith-building resources for home, Sunday school, or gift giving!</p>
                 </div>
                 <div class="flex justify-between items-center bg-purple-50 p-3.5 rounded-xl border border-purple-200 text-xs">
                     <span class="font-extrabold text-[#312E81] flex items-center gap-1.5"><i class="bi bi-truck text-[#FACC15]"></i> Fast Delivery</span>
@@ -54,31 +54,38 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 sm:mb-12 border-b border-indigo-400/30 pb-6">
             <div>
                 <span class="bg-[#FACC15] text-[#312E81] font-black text-xs px-3.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5 mb-3 shadow-sm">
-                    <i class="bi bi-box2-heart-fill text-[#7C3AED]"></i> Best Value Packages
+                    <i class="bi bi-box2-heart-fill text-[#7C3AED]"></i> Curated Combinations
                 </span>
                 <h2 class="font-whimsical font-bold text-3xl sm:text-5xl text-white tracking-tight">
                     Buy Our Bundles
                 </h2>
                 <p class="text-indigo-200 text-xs sm:text-sm mt-2 max-w-xl leading-relaxed">
-                    Save big with our pre-defined bundles! Each bundle contains a curated mix of puzzles, coloring books, flashcards, and storybooks that <strong>instantly fill your box</strong> for seamless 1-click checkout.
+                    Enjoy complete convenience with our pre-defined packages! Each bundle brings together a curated mix of scripture puzzles, faith-affirming flashcards, coloring books, and storybooks that <strong>instantly fill your box</strong> for seamless 1-click checkout.
                 </p>
             </div>
             
-            <div class="bg-indigo-900/60 border border-indigo-400/40 px-4 py-2.5 rounded-2xl text-xs font-bold text-indigo-100 flex items-center gap-2 flex-shrink-0">
-                <i class="bi bi-check-circle-fill text-[#FACC15] text-base"></i>
-                <span>Fulfills Minimum Order Instantly</span>
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="bg-indigo-900/60 border border-indigo-400/40 px-4 py-2.5 rounded-2xl text-xs font-bold text-indigo-100 flex items-center gap-2 flex-shrink-0">
+                    <i class="bi bi-check-circle-fill text-[#FACC15] text-base"></i>
+                    <span>Fulfills Minimum Order Instantly</span>
+                </div>
+                <a href="{{ route('bundles.index') }}" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold text-xs px-4 py-2.5 rounded-2xl shadow transition flex items-center gap-1.5 flex-shrink-0">
+                    <span>View All Bundles</span>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
         </div>
 
-        <!-- Bundles Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Bundles Container: Horizontal/Sideways Swipe on Mobile, 2-Column Grid on Desktop -->
+        <div class="flex lg:grid lg:grid-cols-2 gap-6 sm:gap-8 overflow-x-auto lg:overflow-x-visible snap-x snap-mandatory pb-4 pt-1 px-1 -mx-2 sm:mx-0 scrollbar-none">
             @forelse($bundles as $bundle)
-                <div class="bg-white text-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-lg border-2 border-purple-200/80 hover:border-[#FACC15] transition duration-300 group">
+                <div class="min-w-[85vw] max-w-[340px] sm:min-w-[420px] sm:max-w-[460px] lg:min-w-0 lg:max-w-none w-full shrink-0 lg:shrink snap-center bg-white text-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-lg border-2 border-purple-200/80 hover:border-[#FACC15] transition duration-300 group">
                     <div>
                         <!-- Header with Badges -->
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="bg-[#FACC15] text-[#312E81] text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1">
-                                <i class="bi bi-star-fill text-[#7C3AED]"></i> {{ $bundle->badge ?? $bundle->total_items_count . '-Item Bundle' }}
+                                <i class="bi bi-star-fill text-[#7C3AED]"></i> 
+                                {{ str_replace(['Best Value', 'best value', 'Discount', 'discount'], ['Curated Set', 'Curated Set', 'Curated', 'Curated'], $bundle->badge ?? $bundle->total_items_count . '-Item Bundle') }}
                             </span>
                             
                             <span class="bg-purple-100 text-[#7C3AED] text-xs font-extrabold px-3 py-1 rounded-full flex items-center gap-1">
@@ -113,31 +120,21 @@
                             </div>
                         </div>
 
-                        <!-- Pricing Display -->
-                        <div class="flex items-baseline gap-3 mb-6">
+                        <!-- Pricing Display (Pure price, no discounts or strikethrough savings) -->
+                        <div class="flex items-baseline gap-2 mb-6">
                             <span class="text-3xl sm:text-4xl font-whimsical font-bold text-[#312E81] price-convertible" data-price-ngn="{{ $bundle->price }}">
                                 {{ $bundle->formatted_price }}
                             </span>
-                            @if($bundle->original_price)
-                                <span class="text-sm text-slate-400 line-through price-convertible" data-price-ngn="{{ $bundle->original_price }}">
-                                    {{ $bundle->formatted_original_price }}
-                                </span>
-                                @if($bundle->savings_percentage)
-                                    <span class="bg-rose-100 text-rose-700 font-extrabold text-xs px-2.5 py-0.5 rounded-full">
-                                        Save {{ $bundle->savings_percentage }}%
-                                    </span>
-                                @endif
-                            @endif
                         </div>
                     </div>
 
-                    <!-- Single-Click Purchase Button -->
-                    <form action="{{ route('cart.addBundle', $bundle->id) }}" method="POST">
+                    <!-- Single-Click Purchase Button (No 'Fill Your Box') -->
+                    <form action="{{ route('cart.addBundle', $bundle->id) }}" method="POST" onsubmit="handleHomepageAddBundle(event)">
                         @csrf
                         <input type="hidden" name="quantity" value="1">
                         <button type="submit" class="w-full bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-xs sm:text-sm uppercase tracking-wider">
                             <i class="bi bi-bag-plus-fill text-[#FACC15] text-base"></i>
-                            <span>Add Bundle to Cart (Fills Box)</span>
+                            <span>Add Bundle to Cart</span>
                         </button>
                     </form>
                 </div>
@@ -149,15 +146,21 @@
                 </div>
             @endforelse
         </div>
+
+        <!-- Mobile Swipe Indicator Hint -->
+        <div class="flex lg:hidden items-center justify-center gap-2 mt-4 text-indigo-200 text-xs font-semibold">
+            <i class="bi bi-arrow-left-right text-[#FACC15]"></i>
+            <span>Swipe sideways to explore all bundles</span>
+        </div>
     </div>
 </div>
 
 <!-- 3. THE FOUR MAIN PRODUCT CATEGORIES -->
 <div class="mb-14 sm:mb-16">
     <div class="text-center max-w-2xl mx-auto mb-8">
-        <span class="text-[#7C3AED] font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3.5 py-1 rounded-full border border-purple-200">Shop by Category</span>
+        <span class="text-[#7C3AED] font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3.5 py-1 rounded-full border border-purple-200">Faith & Learning Categories</span>
         <h2 class="font-whimsical font-bold text-2xl sm:text-4xl text-[#312E81] mt-2">Explore Our Product Range</h2>
-        <p class="text-xs text-slate-500 mt-1">Organized under four main categories for hands-on, creative, and bedtime learning</p>
+        <p class="text-xs text-slate-500 mt-1">Four faith-focused collections designed for hands-on discovery, family devotion, and bedtime learning</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -172,7 +175,7 @@
                     <span class="text-[9px] font-extrabold uppercase text-[#7C3AED] bg-purple-50 px-2 py-0.5 rounded">Intermediate (12 pcs)</span>
                 </div>
                 <h3 class="font-whimsical font-bold text-slate-900 text-xl mb-1">Jigsaw Puzzles</h3>
-                <p class="text-xs text-slate-500 leading-relaxed mb-4">Vibrant, brain-boosting puzzles designed for toddlers and growing problem-solvers.</p>
+                <p class="text-xs text-slate-500 leading-relaxed mb-4">Vibrant, scripture-inspired puzzles designed to boost cognitive skills while hiding God's Word in young hearts.</p>
             </div>
             <span class="text-xs font-extrabold text-[#7C3AED] flex items-center gap-1 group-hover:translate-x-1 transition">
                 Browse Puzzles <i class="bi bi-chevron-right text-[10px]"></i>
@@ -185,9 +188,9 @@
                 <div class="w-14 h-14 bg-pink-500 text-white rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition shadow">
                     <i class="bi bi-palette-fill"></i>
                 </div>
-                <span class="text-[10px] font-extrabold uppercase tracking-wider text-pink-700 bg-pink-50 px-2.5 py-0.5 rounded-md mb-2 inline-block">Art & Creativity</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-pink-700 bg-pink-50 px-2.5 py-0.5 rounded-md mb-2 inline-block">Faith & Creativity</span>
                 <h3 class="font-whimsical font-bold text-slate-900 text-xl mb-1">Coloring Books</h3>
-                <p class="text-xs text-slate-500 leading-relaxed mb-4">Interactive doodle pages and bleed-resistant coloring sheets for imaginative fun.</p>
+                <p class="text-xs text-slate-500 leading-relaxed mb-4">Inspiring, bleed-resistant doodle sheets celebrating God’s love and joyful creative worship.</p>
             </div>
             <span class="text-xs font-extrabold text-[#7C3AED] flex items-center gap-1 group-hover:translate-x-1 transition">
                 Browse Coloring <i class="bi bi-chevron-right text-[10px]"></i>
@@ -205,7 +208,7 @@
                     <span class="text-[9px] font-extrabold uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">Big Size</span>
                 </div>
                 <h3 class="font-whimsical font-bold text-slate-900 text-xl mb-1">Flashcards</h3>
-                <p class="text-xs text-slate-500 leading-relaxed mb-4">Educational vocabulary and numeracy cards in Pocket and Big sizes for early mastery.</p>
+                <p class="text-xs text-slate-500 leading-relaxed mb-4">Daily biblical affirmations and vocabulary cards in Pocket and Big sizes to build identity in Christ.</p>
             </div>
             <span class="text-xs font-extrabold text-[#7C3AED] flex items-center gap-1 group-hover:translate-x-1 transition">
                 Browse Flashcards <i class="bi bi-chevron-right text-[10px]"></i>
@@ -218,9 +221,9 @@
                 <div class="w-14 h-14 bg-[#7C3AED] text-white rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition shadow">
                     <i class="bi bi-book-half"></i>
                 </div>
-                <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#7C3AED] bg-purple-50 px-2.5 py-0.5 rounded-md mb-2 inline-block">Inspiring Tales</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#7C3AED] bg-purple-50 px-2.5 py-0.5 rounded-md mb-2 inline-block">Christian Parables</span>
                 <h3 class="font-whimsical font-bold text-slate-900 text-xl mb-1">Storybooks</h3>
-                <p class="text-xs text-slate-500 leading-relaxed mb-4">Hardcover & illustrated bedtime stories written by WrittenbyPD for curious young minds.</p>
+                <p class="text-xs text-slate-500 leading-relaxed mb-4">Illustrated bedtime stories by WrittenbyPD designed to cultivate godly character, empathy, and courage.</p>
             </div>
             <span class="text-xs font-extrabold text-[#7C3AED] flex items-center gap-1 group-hover:translate-x-1 transition">
                 Browse Storybooks <i class="bi bi-chevron-right text-[10px]"></i>
@@ -234,11 +237,11 @@
 <div class="mb-16">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-8 border-b border-purple-100 pb-4">
         <div>
-            <span class="text-[#7C3AED] font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
+            <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="text-[#7C3AED] hover:text-[#312E81] hover:bg-purple-100 transition inline-block font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
                 <i class="bi bi-puzzle-fill text-amber-500 mr-1"></i> Category: Jigsaw Puzzles
-            </span>
-            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">Brain-Boosting Jigsaw Puzzles</h2>
-            <p class="text-xs text-slate-500">Available in Easy (6 pieces) and Intermediate (12 pieces)</p>
+            </a>
+            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">Scripture & Brain-Boosting Jigsaw Puzzles</h2>
+            <p class="text-xs text-slate-500">Featuring beloved Bible verses in Easy (6 pieces) and Intermediate (12 pieces)</p>
         </div>
         <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" class="text-xs font-extrabold text-[#7C3AED] hover:underline flex items-center gap-1">
             View All Puzzles <i class="bi bi-arrow-right text-[10px]"></i>
@@ -298,11 +301,11 @@
 <div class="mb-16">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-8 border-b border-purple-100 pb-4">
         <div>
-            <span class="text-[#7C3AED] font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
+            <a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="text-[#7C3AED] hover:text-[#312E81] hover:bg-purple-100 transition inline-block font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
                 <i class="bi bi-card-text text-indigo-600 mr-1"></i> Category: Flashcards
-            </span>
-            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">Early Learning Flashcards</h2>
-            <p class="text-xs text-slate-500">Available in Pocket Size (travel) & Big Size (hands-on play)</p>
+            </a>
+            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">Biblical Affirmations & Early Learning Flashcards</h2>
+            <p class="text-xs text-slate-500">Daily scripture confessions, identity in Christ & early vocabulary in Pocket & Big sizes</p>
         </div>
         <a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" class="text-xs font-extrabold text-[#7C3AED] hover:underline flex items-center gap-1">
             View All Flashcards <i class="bi bi-arrow-right text-[10px]"></i>
@@ -362,11 +365,11 @@
 <div class="mb-16">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-8 border-b border-purple-100 pb-4">
         <div>
-            <span class="text-[#7C3AED] font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
+            <a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="text-[#7C3AED] hover:text-[#312E81] hover:bg-purple-100 transition inline-block font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
                 <i class="bi bi-book-half text-[#7C3AED] mr-1"></i> Category: Storybooks
-            </span>
-            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">Children's Illustrated Storybooks</h2>
-            <p class="text-xs text-slate-500">Inspiring, beautifully illustrated stories for bedtime and classroom reading</p>
+            </a>
+            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">Faith-Filled Illustrated Storybooks</h2>
+            <p class="text-xs text-slate-500">Inspiring Christian tales and bedtime stories written by WrittenbyPD to nurture godly character</p>
         </div>
         <a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" class="text-xs font-extrabold text-[#7C3AED] hover:underline flex items-center gap-1">
             View All Storybooks <i class="bi bi-arrow-right text-[10px]"></i>
@@ -403,13 +406,20 @@
                         <span class="text-xl sm:text-2xl font-extrabold text-[#312E81] price-convertible" data-price-ngn="{{ $product->sale_price ?? $product->price }}">{{ $product->formatted_price }}</span>
                     </div>
                     
-                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="quantity" value="1">
-                        <button type="submit" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5 whitespace-nowrap">
-                            <i class="bi bi-box-seam-fill text-[#FACC15]"></i> Add to Box
-                        </button>
-                    </form>
+                    <button type="button" 
+                        data-id="{{ $product->id }}"
+                        data-name="{{ $product->name }}"
+                        data-price="{{ $product->price }}"
+                        data-saleprice="{{ $product->sale_price }}"
+                        data-stock="{{ $product->stock_quantity }}"
+                        data-desc="{{ $product->description }}"
+                        data-category="{{ $product->category->name ?? 'Storybook' }}"
+                        data-image="{{ $product->primaryImage ? $product->primaryImage->image_path : '' }}"
+                        onclick="triggerQuickAddFromBtn(this)"
+                        class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5 whitespace-nowrap">
+                        <i class="bi bi-box-seam text-[#FACC15]"></i>
+                        <span>Add to Box</span>
+                    </button>
                 </div>
             </div>
         @endforeach
@@ -422,10 +432,11 @@
 <div class="mb-16">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-8 border-b border-purple-100 pb-4">
         <div>
-            <span class="text-[#7C3AED] font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
+            <a href="{{ route('catalog.index', ['category' => 'coloring-books']) }}" class="text-[#7C3AED] hover:text-[#312E81] hover:bg-purple-100 transition inline-block font-extrabold text-xs uppercase tracking-wider bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
                 <i class="bi bi-palette-fill text-pink-500 mr-1"></i> Category: Coloring Books
-            </span>
-            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">Creative & Interactive Coloring Books</h2>
+            </a>
+            <h2 class="font-whimsical font-bold text-2xl sm:text-3xl text-[#312E81] mt-2">Faith-Inspired & Creative Coloring Books</h2>
+            <p class="text-xs text-slate-500">Inspiring, bleed-free coloring and doodle sheets celebrating God's love and creativity</p>
         </div>
         <a href="{{ route('catalog.index', ['category' => 'coloring-books']) }}" class="text-xs font-extrabold text-[#7C3AED] hover:underline flex items-center gap-1">
             View All Coloring Books <i class="bi bi-arrow-right text-[10px]"></i>
@@ -462,13 +473,20 @@
                         <span class="text-xl sm:text-2xl font-extrabold text-[#312E81] price-convertible" data-price-ngn="{{ $product->price }}">{{ $product->formatted_price }}</span>
                     </div>
                     
-                    <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="quantity" value="1">
-                        <button type="submit" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5 whitespace-nowrap">
-                            <i class="bi bi-box-seam-fill text-[#FACC15]"></i> Add to Box
-                        </button>
-                    </form>
+                    <button type="button" 
+                        data-id="{{ $product->id }}"
+                        data-name="{{ $product->name }}"
+                        data-price="{{ $product->price }}"
+                        data-saleprice="{{ $product->sale_price }}"
+                        data-stock="{{ $product->stock_quantity }}"
+                        data-desc="{{ $product->description }}"
+                        data-category="{{ $product->category->name ?? 'Coloring Book' }}"
+                        data-image="{{ $product->primaryImage ? $product->primaryImage->image_path : '' }}"
+                        onclick="triggerQuickAddFromBtn(this)"
+                        class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 sm:px-5 py-2.5 rounded-full flex items-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5 whitespace-nowrap">
+                        <i class="bi bi-box-seam text-[#FACC15]"></i>
+                        <span>Add to Box</span>
+                    </button>
                 </div>
             </div>
         @endforeach
@@ -481,10 +499,10 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 mb-8 border-b border-purple-700/50 pb-4">
         <div>
             <span class="bg-[#FACC15] text-[#312E81] font-black text-xs px-3.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5">
-                <i class="bi bi-spotify text-[#7C3AED]"></i> Spotify Companion
+                <i class="bi bi-spotify text-[#7C3AED]"></i> Faith & Audio Companion
             </span>
-            <h2 class="font-whimsical font-bold text-2xl sm:text-4xl text-white mt-2">Audiobooks & Story Podcasts</h2>
-            <p class="text-xs text-purple-200 mt-1">Bedtime narrations streaming on Spotify</p>
+            <h2 class="font-whimsical font-bold text-2xl sm:text-4xl text-white mt-2">Audiobooks & Faith Story Podcasts</h2>
+            <p class="text-xs text-purple-200 mt-1">Bedtime scriptures, wholesome narrations & podcasts by WrittenbyPD on Spotify</p>
         </div>
         <a href="{{ route('audios.index') }}" class="text-xs font-extrabold text-[#FACC15] hover:underline flex items-center gap-1">
             Listen to More <i class="bi bi-arrow-right text-[10px]"></i>
@@ -514,4 +532,46 @@
     </div>
 </div>
 
+<script>
+function handleHomepageAddBundle(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    const originalHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-arrow-repeat animate-spin mr-1"></i> Adding Bundle...';
+
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity: 1 })
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check2-circle text-[#FACC15] mr-1"></i> Bundle Added!';
+        setTimeout(() => { btn.innerHTML = originalHtml; }, 2000);
+        if (data.success) {
+            const badge = document.getElementById('cartCountBadge');
+            if (badge) {
+                badge.textContent = (data.box && typeof data.box.total_items !== 'undefined') ? data.box.total_items : data.cart_count;
+            }
+            if (window.updateFloatingCartBar) {
+                window.updateFloatingCartBar(data.box, data.subtotal, data.cart_count);
+            }
+            showToastNotification(data.message || 'Bundle added to your box!');
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+        console.error(err);
+        form.submit();
+    });
+}
+</script>
 @endsection

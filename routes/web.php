@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\BundleController;
 use App\Http\Controllers\AudioController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -28,8 +29,10 @@ if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
 // Public Storefront Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
+Route::get('/bundles', [BundleController::class, 'index'])->name('bundles.index');
 Route::get('/audios', [AudioController::class, 'index'])->name('audios.index');
 Route::get('/product/{slug}', [CatalogController::class, 'show'])->name('catalog.show');
+Route::post('/product/{id}/reviews', [CatalogController::class, 'storeReview'])->name('products.reviews.store');
 
 // Shopping Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

@@ -8,12 +8,12 @@
             <i class="bi bi-box-seam-fill"></i> Fill Your Box Store
         </div>
         <h1 class="font-whimsical text-2xl sm:text-3xl lg:text-4xl font-black text-[#312E81]">Product Catalog</h1>
-        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Explore our 4 joyful collections & curated bundles in <span class="currency-name font-bold text-[#312E81]">Naira (₦)</span></p>
+        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Explore our 4 faith-nurturing collections & curated bundles in <span class="currency-name font-bold text-[#312E81]">Naira (₦)</span></p>
     </div>
 
     <!-- Mobile Filters Collapsible Toggle Button -->
     <div class="flex items-center gap-2 w-full md:w-auto">
-        <a href="{{ route('home') }}#bundles-section" class="flex-1 md:flex-none inline-flex items-center justify-center gap-1.5 bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] text-xs font-black px-4 py-2.5 rounded-2xl shadow-sm transition">
+        <a href="{{ route('bundles.index') }}" class="flex-1 md:flex-none inline-flex items-center justify-center gap-1.5 bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] text-xs font-black px-4 py-2.5 rounded-2xl shadow-sm transition">
             <i class="bi bi-box2-heart-fill"></i> View Bundles
         </a>
         <button onclick="toggleMobileFilters()" class="lg:hidden flex-1 md:flex-none bg-purple-100 hover:bg-purple-200 text-[#312E81] font-bold text-xs px-4 py-2.5 rounded-2xl flex items-center justify-center gap-2 border border-purple-300 transition">
@@ -47,10 +47,10 @@
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 {{ request('category') === 'storybooks' ? 'bg-[#312E81] text-[#FACC15] shadow-md' : 'bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50' }}">
             <i class="bi bi-book-half text-emerald-500"></i> Storybooks
         </a>
-        <a href="{{ route('home') }}#bundles-section" 
+        <a href="{{ route('bundles.index') }}" 
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-300 text-[#7C3AED] hover:from-purple-100 hover:to-pink-100">
             <i class="bi bi-gift-fill text-[#FACC15]"></i> Pre-defined Bundles
-            <span class="text-[10px] bg-[#FACC15] text-[#312E81] px-1.5 py-0.2 rounded-md font-extrabold">Save More</span>
+            <span class="text-[10px] bg-[#312E81] text-[#FACC15] px-1.5 py-0.2 rounded-md font-extrabold">Curated</span>
         </a>
     </div>
 </div>
@@ -177,9 +177,15 @@
                         <!-- Product Content Info -->
                         <div class="p-5">
                             <div class="flex items-center justify-between gap-2 mb-2">
-                                <span class="text-[10px] font-extrabold text-[#7C3AED] uppercase tracking-wide bg-purple-50 px-2.5 py-1 rounded-md inline-block">
-                                    {{ $product->category->name ?? 'Collection' }}
-                                </span>
+                                @if($product->category)
+                                    <a href="{{ route('catalog.index', ['category' => $product->category->slug]) }}" class="text-[10px] font-extrabold text-[#7C3AED] hover:text-[#312E81] hover:bg-purple-100 uppercase tracking-wide bg-purple-50 px-2.5 py-1 rounded-md inline-block transition">
+                                        {{ $product->category->name }}
+                                    </a>
+                                @else
+                                    <span class="text-[10px] font-extrabold text-[#7C3AED] uppercase tracking-wide bg-purple-50 px-2.5 py-1 rounded-md inline-block">
+                                        Collection
+                                    </span>
+                                @endif
 
                                 @if($product->variants->isNotEmpty())
                                     <span class="text-[10px] font-bold text-purple-700 bg-purple-100/60 px-2 py-0.5 rounded border border-purple-200">
@@ -196,19 +202,20 @@
                     </div>
 
                     <!-- Price & Action Footer -->
-                    <div class="p-5 pt-0 flex items-center justify-between mt-auto">
-                        <div>
+                    <div class="p-5 pt-0 flex items-center justify-between gap-2 mt-auto">
+                        <div class="min-h-[46px] flex flex-col justify-center">
                             @if($product->variants->isNotEmpty())
-                                <span class="text-[10px] text-slate-400 font-semibold block uppercase tracking-wider">Starting at</span>
+                                <span class="text-[10px] text-slate-400 font-semibold block uppercase tracking-wider leading-none mb-0.5">Starting at</span>
                             @endif
-                            <span class="text-xl font-extrabold text-[#312E81] price-convertible" data-price-ngn="{{ $product->sale_price ?? $product->price }}">{{ $product->formatted_price }}</span>
+                            <span class="text-xl font-extrabold text-[#312E81] price-convertible leading-tight" data-price-ngn="{{ $product->sale_price ?? $product->price }}">{{ $product->formatted_price }}</span>
                             @if($product->sale_price)
                                 <span class="block text-[11px] line-through text-slate-400 price-convertible" data-price-ngn="{{ $product->price }}">{{ $product->formatted_original_price }}</span>
                             @endif
                         </div>
 
                         @if($product->variants->isNotEmpty())
-                            <a href="{{ route('catalog.show', $product->slug) }}" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-3.5 py-2.5 rounded-xl flex items-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5">
+                            <!-- 3.4 Properly sized & aligned Choose Option button -->
+                            <a href="{{ route('catalog.show', $product->slug) }}" class="h-10 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">
                                 <i class="bi bi-sliders text-[#FACC15]"></i>
                                 <span>Choose Options</span>
                             </a>
@@ -223,7 +230,7 @@
                                 data-category="{{ $product->category->name ?? 'Book' }}"
                                 data-image="{{ $product->primaryImage ? $product->primaryImage->image_path : '' }}"
                                 onclick="triggerQuickAddFromBtn(this)"
-                                class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 py-2.5 rounded-xl flex items-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5">
+                                class="h-10 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">
                                 <i class="bi bi-box-seam text-[#FACC15]"></i>
                                 <span>Add to Box</span>
                             </button>

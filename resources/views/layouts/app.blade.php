@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>800BYPD - Children's Story Books, Puzzles & Activity Books by PD</title>
+    <title>800BYPD - Faith-Based Children's Books, Scripture Puzzles & Learning by PD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +20,7 @@
     <!-- <div class="bg-[#2D1B4E] text-[#FDE68A] text-xs font-semibold py-2.5 px-4 border-b border-amber-500/20">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2 text-center sm:text-left">
-                <span class="bg-[#FBBF24] text-[#2D1B4E] font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">800bypd Store</span>
+                <span class="bg-[#FBBF24] text-[#2D1B4E] font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">800 by PD Store</span>
                 <span>✨ Fast Delivery Across Lagos (1-3 Days) & All States in Nigeria!</span>
             </div>
 
@@ -54,7 +54,7 @@
                 </div>
                 <div class="flex flex-col leading-none">
                     <span class="font-whimsical text-xl sm:text-2xl font-bold text-[#2D1B4E]">800BY<span class="text-amber-500">PD</span></span>
-                    <span class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">Children's Books & Games</span>
+                    <span class="text-[9px] sm:text-[10px] text-slate-400 font-bold uppercase tracking-widest">Faith & Learning for Kids</span>
                 </div>
             </a>
 
@@ -136,11 +136,10 @@
                     </div>
                 </div>
 
-                <!-- 3. Buy Bundles (Prominently Highlighted) -->
-                <a href="{{ route('home') }}#bundles-section" class="bg-purple-100/70 hover:bg-purple-200/80 text-[#312E81] px-3.5 py-1.5 rounded-full font-black flex items-center gap-1.5 transition border border-purple-200 shadow-2xs">
-                    <i class="bi bi-box2-heart-fill text-[#FACC15]"></i>
+                <!-- 3. Buy Bundles -->
+                <a href="{{ route('bundles.index') }}" class="bg-purple-100/70 hover:bg-purple-200/80 text-[#312E81] px-3.5 py-1.5 rounded-full font-black flex items-center gap-1.5 transition border border-purple-200 shadow-2xs">
+                    <i class="bi bi-box2-heart-fill text-[#7C3AED]"></i>
                     <span>Buy Bundles</span>
-                    <span class="bg-[#FACC15] text-[#312E81] text-[9px] font-black px-1.5 py-0.2 rounded-full uppercase">Save</span>
                 </a>
 
                 <!-- 4. Spotify Audios -->
@@ -160,10 +159,12 @@
                 @php
                     $sessionCart = session('cart', []);
                     $boxItemsTotal = 0;
+                    $cartSubtotalVal = 0;
                     foreach ($sessionCart as $cartItm) {
                         $units = isset($cartItm['box_units_per_item']) ? (int)$cartItm['box_units_per_item'] : 1;
                         $q = isset($cartItm['quantity']) ? (int)$cartItm['quantity'] : 1;
                         $boxItemsTotal += ($units * $q);
+                        $cartSubtotalVal += (($cartItm['price'] ?? 0) * $q);
                     }
                     $minBoxReq = \App\Models\Setting::get('checkout_min_order_quantity', 3);
                 @endphp
@@ -216,7 +217,7 @@
                 @endauth
 
                 <!-- Mobile Hamburger Button -->
-                <button onclick="toggleMobileMenu()" class="lg:hidden bg-purple-100 hover:bg-purple-200 text-[#312E81] w-10 h-10 rounded-full flex items-center justify-center text-xl transition border border-purple-300/60 focus:outline-none">
+                <button id="mobileMenuBtn" onclick="toggleMobileMenu(event)" class="lg:hidden bg-purple-100 hover:bg-purple-200 text-[#312E81] w-10 h-10 rounded-full flex items-center justify-center text-xl transition border border-purple-300/60 focus:outline-none">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
@@ -237,12 +238,12 @@
                 </a>
 
                 <!-- 2. Buy Bundles (Highlighted Banner) -->
-                <a href="{{ route('home') }}#bundles-section" class="p-3 rounded-2xl bg-gradient-to-r from-purple-100 via-amber-50 to-amber-100 border border-purple-200/80 text-[#312E81] font-black transition flex items-center justify-between shadow-2xs">
+                <a href="{{ route('bundles.index') }}" class="p-3 rounded-2xl bg-gradient-to-r from-purple-100 via-amber-50 to-amber-100 border border-purple-200/80 text-[#312E81] font-black transition flex items-center justify-between shadow-2xs">
                     <span class="flex items-center gap-2">
-                        <i class="bi bi-box2-heart-fill text-[#FACC15] text-base"></i>
+                        <i class="bi bi-box2-heart-fill text-[#7C3AED] text-base"></i>
                         <span>Buy Our Bundles</span>
                     </span>
-                    <span class="bg-[#FACC15] text-[#312E81] text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Instant Fill</span>
+                    <span class="bg-[#312E81] text-[#FACC15] text-[10px] font-black px-2 py-0.5 rounded-full uppercase">Curated</span>
                 </a>
 
                 <!-- 3. All Products Catalog -->
@@ -323,7 +324,8 @@
         </div>
     </header>
 
-    <!-- Spotify Storytime Banner -->
+    @if(request()->routeIs('home'))
+    <!-- Spotify Storytime Banner (Homepage Only) -->
     <div class="bg-gradient-to-r from-[#7C3AED] via-purple-700 to-[#312E81] text-white text-xs font-semibold py-2.5 px-4 shadow-inner">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2 text-center sm:text-left">
@@ -335,6 +337,7 @@
             </a>
         </div>
     </div>
+    @endif
 
     <!-- Flash Messages -->
     <div class="max-w-7xl mx-auto px-4 mt-4 w-full">
@@ -358,10 +361,42 @@
         @yield('content')
     </main>
 
+    <!-- Floating Cart Bar (Accessible While Browsing) -->
+    <div id="floatingCartBar" class="{{ $boxItemsTotal > 0 ? '' : 'hidden' }} fixed bottom-6 left-4 sm:left-6 z-40 transition-all duration-300">
+        <div class="bg-[#312E81] text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-full shadow-2xl border-2 border-[#FACC15] flex items-center gap-3 sm:gap-4 backdrop-blur-md">
+            <div class="flex items-center gap-2 sm:gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-[#FACC15] text-[#312E81] flex items-center justify-center font-bold text-sm shadow flex-shrink-0">
+                    <i class="bi bi-box-seam-fill"></i>
+                </div>
+                <div>
+                    <div class="text-[9px] text-purple-200 uppercase font-black tracking-wider leading-none">Your Box</div>
+                    <div class="text-xs font-black leading-tight mt-0.5">
+                        <span id="floatingCartItemCount">{{ $boxItemsTotal }}</span>
+                        <span id="floatingCartItemLabel">{{ $boxItemsTotal === 1 ? 'Item' : 'Items' }}</span>
+                        <span class="text-purple-300 font-normal">·</span>
+                        <span id="floatingCartSubtotal" class="text-[#FACC15] price-convertible" data-price-ngn="{{ $cartSubtotalVal }}">₦{{ number_format($cartSubtotalVal, 2) }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{{ route('cart.index') }}" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold text-xs px-3.5 sm:px-4 py-2 rounded-full shadow transition flex items-center gap-1.5 whitespace-nowrap">
+                <span>View Box</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    @if(request()->routeIs('home'))
+        <!-- 6.2 Scroll to Top Button (Homepage Only, positioned above WhatsApp at bottom-24) -->
+        <button id="scrollToTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-24 right-6 z-40 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] w-12 h-12 rounded-full shadow-2xl border-2 border-[#FACC15] hidden items-center justify-center text-xl transition transform hover:scale-110 focus:outline-none" title="Scroll to top">
+            <i class="bi bi-arrow-up font-bold"></i>
+        </button>
+    @endif
+
     <!-- Floating WhatsApp Support Button (+2348164254442) -->
-    <a href="https://wa.me/2348164254442?text=Hello%20800bypd!%20I%20have%20a%20question%20about%20your%20children%27s%20books%20and%20puzzles." target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#7C3AED] hover:bg-purple-800 text-white rounded-full p-3.5 md:p-4 shadow-2xl flex items-center justify-center gap-2 group transition transform hover:scale-105 border-2 border-[#FACC15]">
+    <a href="https://wa.me/2348164254442?text=Hello%20800byPD!%20I%20have%20a%20question%20about%20your%20children%27s%20books%20and%20puzzles." target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#7C3AED] hover:bg-purple-800 text-white rounded-full p-3.5 md:p-4 shadow-2xl flex items-center justify-center gap-2 group transition transform hover:scale-105 border-2 border-[#FACC15]">
         <i class="bi bi-whatsapp text-2xl text-[#FACC15]"></i>
-        <span class="hidden group-hover:inline text-xs font-extrabold pr-2">Chat with 800BYPD</span>
+        <span class="hidden group-hover:inline text-xs font-extrabold pr-2">Chat with 800byPD</span>
     </a>
 
     <!-- Nourishark-Style Quick-Add Product Modal Popup -->
@@ -463,15 +498,16 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    @if(!request()->routeIs('catalog.show'))
+    <!-- Footer (Omitted on product details page per requirement 3.2) -->
     <footer class="bg-[#312E81] text-purple-100 mt-20 py-14 border-t-4 border-[#FACC15]">
         <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-9 text-xs">
             <div>
                 <div class="flex items-center gap-3 mb-4">
                     <div class="w-9 h-9 bg-[#FACC15] text-[#312E81] rounded-xl flex items-center justify-center font-whimsical font-bold text-xl">8</div>
-                    <span class="font-whimsical text-2xl font-bold text-white">800by<span class="text-[#FACC15]">pd</span></span>
+                    <span class="font-whimsical text-2xl font-bold text-white">800by<span class="text-[#FACC15]">PD</span></span>
                 </div>
-                <p class="text-purple-200 leading-relaxed mb-3">A children's bookstore and audio workshop created by <strong>PD</strong>. Inspiring early literacy through storybooks, audio episodes, jigsaw puzzles, and colouring books.</p>
+                <p class="text-purple-200 leading-relaxed mb-3">A faith-based children's bookstore and audio workshop created by <strong>PD</strong>. Nurturing young hearts in God's love, character, and wisdom through scripture puzzles, biblical affirmations, illustrated storybooks, and audio episodes.</p>
                 <p class="text-[#FACC15] font-bold"><i class="bi bi-geo-alt-fill mr-1"></i> Based in Lagos, Nigeria</p>
             </div>
 
@@ -506,6 +542,7 @@
             &copy; {{ date('Y') }} <strong>800BYPD</strong> (WrittenbyPD). All rights reserved. Designed to International E-Commerce Standards.
         </div>
     </footer>
+    @endif
 
     <!-- Currency Conversion & Quick Add Modal Script -->
     <script>
@@ -530,10 +567,36 @@
             });
         }
 
-        function toggleMobileMenu() {
+        function toggleMobileMenu(e) {
+            if (e) e.stopPropagation();
             const drawer = document.getElementById('mobileMenuDrawer');
-            drawer.classList.toggle('hidden');
+            if (drawer) drawer.classList.toggle('hidden');
         }
+
+        // 5.1 Close mobile menu when clicking/tapping outside
+        document.addEventListener('click', function (e) {
+            const drawer = document.getElementById('mobileMenuDrawer');
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            if (drawer && !drawer.classList.contains('hidden')) {
+                if (!drawer.contains(e.target) && (!menuBtn || !menuBtn.contains(e.target))) {
+                    drawer.classList.add('hidden');
+                }
+            }
+        });
+
+        // 6.2 Scroll to Top Button Visibility Listener
+        window.addEventListener('scroll', function () {
+            const btn = document.getElementById('scrollToTopBtn');
+            if (btn) {
+                if (window.scrollY > 300) {
+                    btn.classList.remove('hidden');
+                    btn.classList.add('flex');
+                } else {
+                    btn.classList.add('hidden');
+                    btn.classList.remove('flex');
+                }
+            }
+        });
 
         function openSpotifyModal() {
             document.getElementById('spotifyModal').classList.remove('hidden');
@@ -542,6 +605,26 @@
         function closeSpotifyModal() {
             document.getElementById('spotifyModal').classList.add('hidden');
         }
+
+        /* 4.1 Floating Cart Bar Dynamic Update Helper */
+        window.updateFloatingCartBar = function (box, subtotal, cartCount) {
+            const bar = document.getElementById('floatingCartBar');
+            if (!bar) return;
+            const totalItems = (box && typeof box.total_items !== 'undefined') ? box.total_items : (cartCount || 0);
+            if (totalItems > 0) {
+                bar.classList.remove('hidden');
+                const countEl = document.getElementById('floatingCartItemCount');
+                const labelEl = document.getElementById('floatingCartItemLabel');
+                const subtotalEl = document.getElementById('floatingCartSubtotal');
+                if (countEl) countEl.textContent = totalItems;
+                if (labelEl) labelEl.textContent = totalItems === 1 ? 'Item' : 'Items';
+                if (subtotalEl && typeof subtotal !== 'undefined') {
+                    subtotalEl.setAttribute('data-price-ngn', subtotal);
+                    const curr = sessionStorage.getItem('selected_currency') || 'NGN';
+                    changeCurrency(curr);
+                }
+            }
+        };
 
         /* Nourishark-Style Quick Add Product Modal Logic */
         let currentModalProduct = null;
@@ -567,8 +650,14 @@
 
             document.getElementById('quickAddTitle').textContent = product.name;
             document.getElementById('quickAddCategory').textContent = product.category_name || 'Book';
-            document.getElementById('quickAddDescription').textContent = product.description || '';
-            document.getElementById('quickAddStock').textContent = (product.stock_quantity > 0) ? `In Stock (${product.stock_quantity} available)` : 'Out of Stock';
+            const stockBadge = document.getElementById('quickAddStock');
+            if (product.stock_quantity > 0) {
+                stockBadge.textContent = 'In Stock';
+                stockBadge.className = 'bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase';
+            } else {
+                stockBadge.textContent = 'Out of Stock';
+                stockBadge.className = 'bg-rose-100 text-rose-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase';
+            }
             
             const imageEl = document.getElementById('quickAddImage');
             if (product.image) {
@@ -612,6 +701,7 @@
             if (!currentModalProduct) return;
 
             const submitBtn = document.getElementById('quickAddSubmitBtn');
+            const originalHtml = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="bi bi-arrow-repeat animate-spin mr-1"></i> Adding...';
 
@@ -629,17 +719,20 @@
             .then(res => res.json())
             .then(data => {
                 submitBtn.disabled = false;
+                submitBtn.innerHTML = originalHtml;
                 if (data.success) {
                     const badge = document.getElementById('cartCountBadge');
                     if (badge) {
-                        badge.textContent = (data.box && typeof data.box.box_items_count !== 'undefined') ? data.box.box_items_count : data.cart_count;
+                        badge.textContent = (data.box && typeof data.box.total_items !== 'undefined') ? data.box.total_items : data.cart_count;
                     }
+                    window.updateFloatingCartBar(data.box, data.subtotal, data.cart_count);
                     closeQuickAddModal();
                     showToastNotification(data.message || 'Item added to your box!');
                 }
             })
             .catch(err => {
                 submitBtn.disabled = false;
+                submitBtn.innerHTML = originalHtml;
                 console.error(err);
             });
         }

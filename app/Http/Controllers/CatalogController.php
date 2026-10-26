@@ -67,4 +67,23 @@ class CatalogController extends Controller
 
         return view('storefront.product_detail', compact('product', 'relatedProducts'));
     }
+
+    public function storeReview(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $validated = $request->validate([
+            'customer_name' => 'required|string|max:100',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|min:4|max:1000',
+        ]);
+
+        $validated['product_id'] = $product->id;
+        $validated['user_id'] = auth()->id();
+        $validated['is_approved'] = true;
+
+        \App\Models\Review::create($validated);
+
+        return back()->with('success', 'Thank you! Your rating and review have been published.');
+    }
 }

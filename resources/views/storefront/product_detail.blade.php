@@ -1,7 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="max-w-5xl mx-auto mb-4">
+    <!-- 3.1 Breadcrumbs (Home → Category → Product Name) -->
+    <nav class="text-xs text-slate-500 font-bold flex items-center flex-wrap gap-2 px-1">
+        <a href="{{ route('home') }}" class="hover:text-[#7C3AED] transition flex items-center gap-1 text-slate-600">
+            <i class="bi bi-house-door-fill text-slate-400"></i>
+            <span>Home</span>
+        </a>
+        <i class="bi bi-chevron-right text-[10px] text-slate-300"></i>
+        @if($product->category)
+            <a href="{{ route('catalog.index', ['category' => $product->category->slug]) }}" class="hover:text-[#7C3AED] transition text-slate-600">
+                {{ $product->category->name }}
+            </a>
+            <i class="bi bi-chevron-right text-[10px] text-slate-300"></i>
+        @else
+            <a href="{{ route('catalog.index') }}" class="hover:text-[#7C3AED] transition text-slate-600">
+                Products
+            </a>
+            <i class="bi bi-chevron-right text-[10px] text-slate-300"></i>
+        @endif
+        <span class="text-[#312E81] font-extrabold truncate max-w-[200px] sm:max-w-md">{{ $product->name }}</span>
+    </nav>
+</div>
+
 <div class="bg-white border border-purple-200/80 rounded-3xl p-5 sm:p-8 lg:p-10 shadow-sm max-w-5xl mx-auto">
+    
+    @if(session('success'))
+        <div class="mb-6 bg-emerald-50 border border-emerald-300 text-emerald-900 px-4 py-3 rounded-2xl text-xs font-bold flex items-center gap-2 shadow-xs">
+            <i class="bi bi-check-circle-fill text-emerald-600 text-base"></i>
+            <span>{{ session('success') }}</span>
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         
         <!-- Image Gallery Above Fold -->
@@ -12,18 +43,28 @@
                 @else
                     <div class="text-center p-6">
                         <i class="bi bi-box-seam-fill text-6xl text-amber-400 mb-3"></i>
-                        <span class="block text-xs font-bold text-slate-400">800BYPD Original Publication</span>
+                        <span class="block text-xs font-bold text-slate-400">800BYPD Original Collection</span>
                     </div>
                 @endif
-                <span class="absolute top-4 left-4 bg-[#7C3AED] text-white text-xs font-bold px-3 py-1 rounded-full shadow flex items-center gap-1.5">
-                    <i class="bi bi-check-lg"></i> In Stock (<span id="stockDisplay">{{ $product->stock_quantity }}</span> Available)
-                </span>
+
+                <!-- 2.2 Stock Display: Only In Stock or Out of Stock, No Counts -->
+                @if($product->stock_quantity > 0)
+                    <span id="stockBadge" class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full shadow flex items-center gap-1.5">
+                        <i class="bi bi-check-circle-fill text-[#FACC15]"></i>
+                        <span id="stockDisplay">In Stock</span>
+                    </span>
+                @else
+                    <span id="stockBadge" class="absolute top-4 left-4 bg-rose-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full shadow flex items-center gap-1.5">
+                        <i class="bi bi-x-circle-fill"></i>
+                        <span id="stockDisplay">Out of Stock</span>
+                    </span>
+                @endif
             </div>
 
             @if($product->images->count() > 0)
-                <div class="flex gap-3 overflow-x-auto pb-2">
+                <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
                     @foreach($product->images as $img)
-                        <img src="{{ asset('storage/' . $img->image_path) }}" onclick="document.getElementById('mainProductImage').src = this.src" class="w-16 h-16 object-cover rounded-xl border border-slate-200 cursor-pointer hover:border-[#7C3AED] transition">
+                        <img src="{{ asset('storage/' . $img->image_path) }}" onclick="document.getElementById('mainProductImage').src = this.src" class="w-16 h-16 object-cover rounded-xl border-2 border-slate-200 cursor-pointer hover:border-[#7C3AED] transition">
                     @endforeach
                 </div>
             @endif
@@ -32,27 +73,49 @@
         <!-- Product Details Above Fold -->
         <div class="flex flex-col justify-between">
             <div>
-                <div class="flex items-center gap-2 mb-2">
-                    <span class="text-xs font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-50 px-2.5 py-1 rounded-md inline-block">
-                        {{ $product->category->name ?? 'Children\'s Store' }}
-                    </span>
+                <!-- 2.4 Clickable Category Badge -->
+                <div class="flex items-center gap-2 mb-3">
+                    @if($product->category)
+                        <a href="{{ route('catalog.index', ['category' => $product->category->slug]) }}" class="text-xs font-extrabold uppercase tracking-wider text-[#7C3AED] hover:text-[#312E81] bg-purple-100 hover:bg-purple-200 px-3.5 py-1 rounded-full inline-flex items-center gap-1.5 transition shadow-2xs">
+                            <i class="bi bi-tag-fill text-[#FACC15]"></i>
+                            <span>{{ $product->category->name }}</span>
+                        </a>
+                    @else
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-50 px-2.5 py-1 rounded-md inline-block">
+                            Children's Store
+                        </span>
+                    @endif
+
                     @if($product->variants->count() > 0)
                         <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">
-                            Multiple Variations Available
+                            Multiple Variations
                         </span>
                     @endif
                 </div>
 
-                <h1 class="font-whimsical text-2xl lg:text-3xl font-bold text-[#312E81] mb-2 leading-tight">{{ $product->name }}</h1>
-                <p class="text-xs text-slate-500 mb-4 font-mono">
-                    SKU: <span id="skuDisplay" class="font-bold text-[#7C3AED]">{{ $product->variants->first()?->sku ?? $product->sku }}</span> | Brand: <strong>800BYPD</strong>
-                </p>
+                <h1 class="font-whimsical text-2xl lg:text-3xl font-bold text-[#312E81] mb-3 leading-tight">{{ $product->name }}</h1>
+                <!-- 2.3 Removed Product SKU & Brand entirely from details page -->
+
+                <!-- Rating Preview Badge in Header -->
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="flex text-[#FACC15] text-xs">
+                        @php
+                            $avgRating = round($product->reviews->avg('rating') ?: 5);
+                        @endphp
+                        @for($i = 1; $i <= 5; $i++)
+                            <i class="bi {{ $i <= $avgRating ? 'bi-star-fill' : 'bi-star' }}"></i>
+                        @endfor
+                    </div>
+                    <a href="#reviews-section" class="text-xs text-slate-500 hover:text-[#7C3AED] font-semibold underline">
+                        {{ $product->reviews->count() }} {{ Str::plural('Review', $product->reviews->count()) }}
+                    </a>
+                </div>
 
                 <!-- Value Proposition Banner -->
                 <div class="text-xs text-[#312E81] bg-purple-50/80 border border-purple-100 p-3.5 rounded-2xl mb-6 flex items-start gap-2">
                     <i class="bi bi-stars text-[#FACC15] text-base mt-0.5 flex-shrink-0"></i>
                     <div>
-                        <strong>Why Kids & Parents Love This:</strong> Crafted to stimulate imagination, problem-solving, and vocabulary development in young minds.
+                        <strong>Why Kids & Parents Love This:</strong> Crafted to stimulate imagination, problem-solving, and faith-filled learning in young minds.
                     </div>
                 </div>
 
@@ -68,7 +131,7 @@
                 </div>
 
                 <!-- Add to Cart Form with Variation Selector -->
-                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="space-y-5 mb-6">
+                <form id="productAddToCartForm" action="{{ route('cart.add', $product->id) }}" method="POST" onsubmit="handleProductDetailAddToCart(event)" class="space-y-5 mb-6">
                     @csrf
 
                     <!-- 1. Variation Selector (Flashcards Size / Puzzle Difficulty) -->
@@ -97,7 +160,6 @@
                                             value="{{ $variant->id }}" 
                                             {{ $index === 0 ? 'checked' : '' }} 
                                             data-price="{{ $variant->price }}"
-                                            data-sku="{{ $variant->sku }}"
                                             data-stock="{{ $variant->stock }}"
                                             data-name="{{ $variant->name }}"
                                             onchange="handleVariantSelection(this)" 
@@ -109,7 +171,7 @@
                                             </span>
                                             <div>
                                                 <span class="font-extrabold text-xs text-slate-900 block leading-tight">{{ $variant->name }}</span>
-                                                <span class="text-[10px] text-slate-400 font-mono">{{ $variant->sku }}</span>
+                                                <!-- 2.3 SKU removed from variant pill -->
                                             </div>
                                         </div>
                                         <span class="text-xs font-extrabold text-[#7C3AED]">₦{{ number_format($variant->price, 2) }}</span>
@@ -119,17 +181,21 @@
                         </div>
                     @endif
 
-                    <!-- 2. Quantity & Add to Cart -->
-                    <div class="flex items-center gap-4">
-                        <div class="flex items-center gap-2">
-                            <label class="text-xs font-bold text-slate-700">Quantity:</label>
-                            <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock_quantity }}" class="w-20 border border-slate-300 rounded-xl py-2.5 px-3 text-center text-sm font-bold focus:ring-2 focus:ring-[#7C3AED] focus:outline-none bg-slate-50">
+                    <!-- 3.5 Consistent Quantity Selector (Preferred Popup Design) -->
+                    <div class="flex items-center gap-3">
+                        <label class="text-xs font-bold text-slate-700">Quantity:</label>
+                        <div class="flex items-center bg-purple-50 p-1 rounded-full border border-purple-200 text-xs font-bold">
+                            <button type="button" onclick="changeProductDetailQty(-1)" class="w-8 h-8 rounded-full bg-white text-slate-700 hover:bg-purple-100 transition flex items-center justify-center text-sm shadow-sm">-</button>
+                            <span id="productDetailQtyDisplay" class="w-8 text-center text-slate-900 text-sm font-extrabold">1</span>
+                            <button type="button" onclick="changeProductDetailQty(1)" class="w-8 h-8 rounded-full bg-white text-slate-700 hover:bg-purple-100 transition flex items-center justify-center text-sm shadow-sm">+</button>
+                            <input type="hidden" name="quantity" id="productDetailQtyInput" value="1">
                         </div>
                     </div>
 
-                    <button type="submit" class="w-full bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-4 rounded-2xl shadow-lg hover:shadow-xl transition text-sm flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
+                    <!-- 3.3 Add to Box Button (Stays active & ready for continuous additions) -->
+                    <button type="submit" id="productDetailAddBtn" class="w-full bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-4 rounded-2xl shadow-lg hover:shadow-xl transition text-sm flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
                         <i class="bi bi-box-seam-fill text-[#FACC15]"></i>
-                        <span>Add to My Box</span>
+                        <span id="productDetailBtnText">Add to My Box</span>
                     </button>
                 </form>
             </div>
@@ -161,7 +227,7 @@
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">{{ $product->description }}</p>
 
         @if($product->variants->count() > 0)
-            <div class="bg-purple-50/60 p-5 rounded-2xl border border-purple-100 mb-6 space-y-2">
+            <div class="bg-purple-50/60 p-5 rounded-2xl border border-purple-100 mb-8 space-y-2">
                 <h4 class="font-whimsical font-bold text-sm text-[#312E81] flex items-center gap-1.5">
                     <i class="bi bi-info-circle-fill text-[#7C3AED]"></i> About Available Variations
                 </h4>
@@ -186,27 +252,148 @@
             </div>
         @endif
 
-        <!-- Customer Reviews -->
-        <div class="mt-8 bg-purple-50/50 p-6 rounded-3xl border border-purple-200/60">
-            <h4 class="font-whimsical font-bold text-slate-900 mb-4 text-base flex items-center gap-2">
-                <i class="bi bi-star-fill text-[#FACC15]"></i> Verified Customer Reviews
-            </h4>
+        <!-- 2.5 PRODUCT REVIEWS, RATINGS & COMMENTS SECTION -->
+        <div id="reviews-section" class="mt-10 bg-purple-50/50 p-6 sm:p-8 rounded-3xl border border-purple-200/80">
             
+            <!-- Ratings Summary Header -->
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-purple-200/70 pb-6 mb-6">
+                <div>
+                    <h3 class="font-whimsical font-bold text-[#312E81] text-2xl sm:text-3xl flex items-center gap-2">
+                        <i class="bi bi-star-fill text-[#FACC15]"></i> Customer Ratings & Reviews
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-1">Authentic experiences and comments from verified families and parents.</p>
+                </div>
+
+                <button type="button" onclick="toggleReviewForm()" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold text-xs px-5 py-3 rounded-2xl shadow-md transition flex items-center gap-2 flex-shrink-0">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Write a Review</span>
+                </button>
+            </div>
+
+            <!-- Ratings Breakdown & Score Overview -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center bg-white p-6 rounded-2xl border border-purple-100 shadow-2xs mb-8">
+                <!-- Average Rating Score -->
+                <div class="text-center md:border-r md:border-purple-100 md:pr-6">
+                    @php
+                        $ratingCount = $product->reviews->count();
+                        $avgScore = $ratingCount > 0 ? round($product->reviews->avg('rating'), 1) : 5.0;
+                    @endphp
+                    <div class="font-whimsical text-5xl font-black text-[#312E81] leading-none mb-1">{{ number_format($avgScore, 1) }}</div>
+                    <div class="flex justify-center text-[#FACC15] text-base mb-1">
+                        @for($i = 1; $i <= 5; $i++)
+                            <i class="bi {{ $i <= round($avgScore) ? 'bi-star-fill' : 'bi-star' }}"></i>
+                        @endfor
+                    </div>
+                    <span class="text-xs text-slate-500 font-semibold">Based on {{ $ratingCount }} {{ Str::plural('rating', $ratingCount) }}</span>
+                </div>
+
+                <!-- Star Rating Distribution Bars -->
+                <div class="md:col-span-2 space-y-2 text-xs">
+                    @for($stars = 5; $stars >= 1; $stars--)
+                        @php
+                            $starsCount = $product->reviews->where('rating', $stars)->count();
+                            $percent = $ratingCount > 0 ? round(($starsCount / $ratingCount) * 100) : ($stars === 5 ? 100 : 0);
+                        @endphp
+                        <div class="flex items-center gap-3">
+                            <span class="w-12 font-bold text-slate-700 flex items-center gap-1">
+                                {{ $stars }} <i class="bi bi-star-fill text-[#FACC15] text-[10px]"></i>
+                            </span>
+                            <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-[#FACC15] h-full rounded-full transition-all duration-500" style="width: {{ $percent }}%"></div>
+                            </div>
+                            <span class="w-8 text-right font-medium text-slate-400 text-[11px]">{{ $starsCount }}</span>
+                        </div>
+                    @endfor
+                </div>
+            </div>
+
+            <!-- Expandable Review Form -->
+            <div id="reviewFormContainer" class="hidden mb-8 bg-white p-6 sm:p-7 rounded-2xl border-2 border-purple-300 shadow-md">
+                <div class="flex items-center justify-between mb-4 border-b border-purple-100 pb-3">
+                    <h4 class="font-whimsical font-bold text-[#312E81] text-lg flex items-center gap-2">
+                        <i class="bi bi-chat-left-heart-fill text-[#7C3AED]"></i> Share Your Experience
+                    </h4>
+                    <button type="button" onclick="toggleReviewForm()" class="text-slate-400 hover:text-slate-600 text-sm">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </div>
+
+                <form action="{{ route('products.reviews.store', $product->id) }}" method="POST" class="space-y-4">
+                    @csrf
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Your Rating *</label>
+                        <div class="flex items-center gap-2" id="starRatingSelector">
+                            @for($i = 1; $i <= 5; $i++)
+                                <button type="button" onclick="setFormRating({{ $i }})" class="star-rating-btn text-2xl text-slate-300 hover:text-[#FACC15] transition" data-rating="{{ $i }}">
+                                    <i class="bi bi-star-fill"></i>
+                                </button>
+                            @endfor
+                            <input type="hidden" name="rating" id="ratingInput" value="5" required>
+                            <span id="ratingLabel" class="text-xs font-bold text-[#7C3AED] ml-2">5 Stars (Excellent)</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Your Name *</label>
+                        <input type="text" name="customer_name" required value="{{ auth()->user()?->name ?? old('customer_name') }}" placeholder="e.g. Mrs. Folake (Lekki)" class="w-full border border-slate-300 px-3.5 py-2.5 rounded-xl text-xs font-medium focus:ring-2 focus:ring-[#7C3AED] focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Customer Review & Comments *</label>
+                        <textarea name="comment" rows="4" required placeholder="What did your children think of this product? How was the build quality, learning value, and packaging?" class="w-full border border-slate-300 p-3.5 rounded-xl text-xs font-medium focus:ring-2 focus:ring-[#7C3AED] focus:outline-none leading-relaxed">{{ old('comment') }}</textarea>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-3 pt-2">
+                        <button type="button" onclick="toggleReviewForm()" class="px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-800">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold text-xs px-6 py-2.5 rounded-xl shadow transition">
+                            Submit Review
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Customer Comments Feed -->
             <div class="space-y-4">
                 @forelse($product->reviews as $review)
-                    <div class="bg-white p-4 rounded-2xl border border-purple-100 shadow-sm">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="font-bold text-slate-800 text-xs">{{ $review->customer_name }}</span>
-                            <div class="text-[#FACC15] text-xs">
-                                @for($i = 0; $i < $review->rating; $i++)
-                                    <i class="bi bi-star-fill"></i>
+                    <div class="bg-white p-5 rounded-2xl border border-purple-100 shadow-2xs hover:border-purple-200 transition">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-full bg-purple-100 text-[#7C3AED] font-bold text-xs flex items-center justify-center flex-shrink-0 shadow-inner">
+                                    {{ strtoupper(substr($review->customer_name, 0, 2)) }}
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-extrabold text-slate-900 text-xs">{{ $review->customer_name }}</span>
+                                        <span class="bg-emerald-100 text-emerald-800 text-[9px] font-extrabold px-1.5 py-0.2 rounded-full uppercase flex items-center gap-0.5">
+                                            <i class="bi bi-patch-check-fill text-emerald-600"></i> Verified
+                                        </span>
+                                    </div>
+                                    <span class="text-[10px] text-slate-400 font-medium">{{ $review->created_at ? $review->created_at->diffForHumans() : 'Recent Customer' }}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Rating Stars -->
+                            <div class="flex text-[#FACC15] text-xs">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <i class="bi {{ $i <= $review->rating ? 'bi-star-fill' : 'bi-star' }}"></i>
                                 @endfor
                             </div>
                         </div>
-                        <p class="text-xs text-slate-600">{{ $review->comment }}</p>
+
+                        <!-- Customer Comment Body -->
+                        <p class="text-xs text-slate-600 leading-relaxed pl-1 sm:pl-12">{{ $review->comment }}</p>
                     </div>
                 @empty
-                    <p class="text-xs text-slate-400 italic">No reviews yet for this item. Be the first to order and review!</p>
+                    <div class="text-center py-12 bg-white rounded-2xl border border-purple-100 p-6">
+                        <i class="bi bi-chat-heart text-4xl text-purple-300 mb-2 block"></i>
+                        <h5 class="font-whimsical font-bold text-slate-800 text-base mb-1">No reviews yet for this product</h5>
+                        <p class="text-xs text-slate-500 max-w-sm mx-auto mb-4">Be the first parent to share feedback and let other families know about this item!</p>
+                        <button type="button" onclick="toggleReviewForm()" class="inline-flex items-center gap-1.5 bg-[#312E81] text-[#FACC15] text-xs font-bold px-4 py-2 rounded-xl shadow">
+                            <i class="bi bi-pencil-square"></i> Leave the First Review
+                        </button>
+                    </div>
                 @endforelse
             </div>
         </div>
@@ -230,17 +417,125 @@ function handleVariantSelection(input) {
     const activeDot = activeLabel.querySelector('.variant-indicator span');
     if (activeDot) activeDot.classList.remove('hidden');
 
-    // 2. Update price, SKU, stock display
+    // 2. Update price and stock display (2.2 Only "In Stock" / "Out of Stock", no count)
     const price = parseFloat(input.getAttribute('data-price')) || 0;
-    const sku = input.getAttribute('data-sku') || '';
-    const stock = input.getAttribute('data-stock') || 'In Stock';
+    const stock = parseInt(input.getAttribute('data-stock'), 10);
 
     const priceDisplay = document.getElementById('priceDisplay');
     priceDisplay.textContent = '₦' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     priceDisplay.setAttribute('data-price-ngn', price);
 
-    document.getElementById('skuDisplay').textContent = sku;
-    document.getElementById('stockDisplay').textContent = stock;
+    const stockDisplay = document.getElementById('stockDisplay');
+    const stockBadge = document.getElementById('stockBadge');
+    if (stockDisplay && stockBadge) {
+        if (!isNaN(stock) && stock <= 0) {
+            stockDisplay.textContent = 'Out of Stock';
+            stockBadge.className = 'absolute top-4 left-4 bg-rose-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full shadow flex items-center gap-1.5';
+            const icon = stockBadge.querySelector('i');
+            if (icon) icon.className = 'bi bi-x-circle-fill';
+        } else {
+            stockDisplay.textContent = 'In Stock';
+            stockBadge.className = 'absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full shadow flex items-center gap-1.5';
+            const icon = stockBadge.querySelector('i');
+            if (icon) icon.className = 'bi bi-check-circle-fill text-[#FACC15]';
+        }
+    }
 }
+
+function toggleReviewForm() {
+    const form = document.getElementById('reviewFormContainer');
+    form.classList.toggle('hidden');
+    if (!form.classList.contains('hidden')) {
+        form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+function setFormRating(rating) {
+    document.getElementById('ratingInput').value = rating;
+    const labels = {
+        1: '1 Star (Needs Improvement)',
+        2: '2 Stars (Fair)',
+        3: '3 Stars (Good)',
+        4: '4 Stars (Very Good)',
+        5: '5 Stars (Excellent)'
+    };
+    document.getElementById('ratingLabel').textContent = labels[rating] || (rating + ' Stars');
+    
+    document.querySelectorAll('.star-rating-btn').forEach(btn => {
+        const r = parseInt(btn.getAttribute('data-rating'), 10);
+        if (r <= rating) {
+            btn.classList.remove('text-slate-300');
+            btn.classList.add('text-[#FACC15]');
+        } else {
+            btn.classList.remove('text-[#FACC15]');
+            btn.classList.add('text-slate-300');
+        }
+    });
+}
+
+// 3.5 Consistent Quantity Selector Logic
+let currentDetailQty = 1;
+const maxDetailStock = {{ max(1, $product->stock_quantity) }};
+
+function changeProductDetailQty(delta) {
+    const newQty = currentDetailQty + delta;
+    if (newQty >= 1 && newQty <= maxDetailStock) {
+        currentDetailQty = newQty;
+        document.getElementById('productDetailQtyDisplay').textContent = newQty;
+        document.getElementById('productDetailQtyInput').value = newQty;
+    }
+}
+
+// 3.3 Active Product Add-to-Box Handler (Stays active for continuous additions)
+function handleProductDetailAddToCart(e) {
+    e.preventDefault();
+    const btn = document.getElementById('productDetailAddBtn');
+    const btnText = document.getElementById('productDetailBtnText');
+    const originalText = btnText.textContent;
+    btn.disabled = true;
+    btnText.innerHTML = '<i class="bi bi-arrow-repeat animate-spin mr-1"></i> Adding...';
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.disabled = false;
+        btnText.innerHTML = '<i class="bi bi-check2-circle text-[#FACC15] mr-1"></i> Added to Box!';
+        setTimeout(() => {
+            btnText.textContent = originalText;
+        }, 1500);
+
+        if (data.success) {
+            const badge = document.getElementById('cartCountBadge');
+            if (badge) {
+                badge.textContent = (data.box && typeof data.box.total_items !== 'undefined') ? data.box.total_items : data.cart_count;
+            }
+            if (window.updateFloatingCartBar) {
+                window.updateFloatingCartBar(data.box, data.subtotal, data.cart_count);
+            }
+            showToastNotification(data.message || 'Product added to your box!');
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btnText.textContent = originalText;
+        console.error(err);
+        form.submit();
+    });
+}
+
+// Initialise star selector to 5 stars
+document.addEventListener('DOMContentLoaded', () => {
+    setFormRating(5);
+});
 </script>
 @endsection
