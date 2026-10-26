@@ -37,31 +37,18 @@
         
         <!-- Image Gallery Above Fold -->
         <div>
-            <div class="h-72 sm:h-80 lg:h-96 bg-purple-50/50 rounded-2xl overflow-hidden mb-4 relative flex items-center justify-center border border-purple-100">
+            <div class="h-72 sm:h-80 lg:h-96 bg-gradient-to-b from-purple-50/70 via-indigo-50/20 to-white rounded-3xl overflow-hidden mb-4 relative flex items-center justify-center p-4 sm:p-6 border border-purple-100/80">
                 @if($product->primaryImage)
                     <img id="mainProductImage" 
                          src="{{ asset('storage/' . $product->primaryImage->image_path) }}" 
                          alt="{{ $product->name }}" 
-                         class="w-full h-full object-cover"
+                         class="max-h-full max-w-full object-contain drop-shadow-lg"
                          onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                 @else
                     <img id="mainProductImage" 
                          src="{{ asset('images/products/placeholder.svg') }}" 
                          alt="{{ $product->name }}" 
                          class="w-32 h-32 object-contain">
-                @endif
-
-                <!-- 2.2 Stock Display: Only In Stock or Out of Stock, No Counts -->
-                @if($product->stock_quantity > 0)
-                    <span id="stockBadge" class="absolute top-4 left-4 bg-emerald-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full shadow flex items-center gap-1.5">
-                        <i class="bi bi-check-circle-fill text-[#FACC15]"></i>
-                        <span id="stockDisplay">In Stock</span>
-                    </span>
-                @else
-                    <span id="stockBadge" class="absolute top-4 left-4 bg-rose-600 text-white text-xs font-bold px-3.5 py-1.5 rounded-full shadow flex items-center gap-1.5">
-                        <i class="bi bi-x-circle-fill"></i>
-                        <span id="stockDisplay">Out of Stock</span>
-                    </span>
                 @endif
             </div>
 
@@ -70,7 +57,7 @@
                     @foreach($product->images as $img)
                         <img src="{{ asset('storage/' . $img->image_path) }}" 
                              onclick="document.getElementById('mainProductImage').src = this.src" 
-                             class="w-16 h-16 object-cover rounded-xl border-2 border-slate-200 cursor-pointer hover:border-[#7C3AED] transition"
+                             class="w-16 h-16 object-contain p-1 bg-purple-50/40 rounded-xl border-2 border-slate-200 cursor-pointer hover:border-[#7C3AED] transition"
                              onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                     @endforeach
                 </div>
@@ -80,8 +67,8 @@
         <!-- Product Details Above Fold -->
         <div class="flex flex-col justify-between">
             <div>
-                <!-- 2.4 Clickable Category Badge -->
-                <div class="flex items-center gap-2 mb-3">
+                <!-- 2.4 Clickable Category Badge & 2.2 Stock Display (Never covering image text) -->
+                <div class="flex items-center flex-wrap gap-2 mb-3">
                     @if($product->category)
                         <a href="{{ route('catalog.index', ['category' => $product->category->slug]) }}" class="text-xs font-extrabold uppercase tracking-wider text-[#7C3AED] hover:text-[#312E81] bg-purple-100 hover:bg-purple-200 px-3.5 py-1 rounded-full inline-flex items-center gap-1.5 transition shadow-2xs">
                             <i class="bi bi-tag-fill text-[#FACC15]"></i>
@@ -90,6 +77,19 @@
                     @else
                         <span class="text-xs font-bold uppercase tracking-wider text-[#7C3AED] bg-purple-50 px-2.5 py-1 rounded-md inline-block">
                             Children's Store
+                        </span>
+                    @endif
+
+                    <!-- Stock Status Badge -->
+                    @if($product->stock_quantity > 0)
+                        <span id="stockBadge" class="bg-emerald-100 text-emerald-800 border border-emerald-300 text-xs font-extrabold px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs">
+                            <i class="bi bi-check-circle-fill text-emerald-600"></i>
+                            <span id="stockDisplay">In Stock</span>
+                        </span>
+                    @else
+                        <span id="stockBadge" class="bg-rose-100 text-rose-800 border border-rose-300 text-xs font-extrabold px-3 py-1 rounded-full flex items-center gap-1.5 shadow-2xs">
+                            <i class="bi bi-x-circle-fill text-rose-600"></i>
+                            <span id="stockDisplay">Out of Stock</span>
                         </span>
                     @endif
 

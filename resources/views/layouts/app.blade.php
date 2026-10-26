@@ -361,16 +361,16 @@
         @yield('content')
     </main>
 
-    <!-- Floating Cart Bar (Accessible While Browsing) -->
-    <div id="floatingCartBar" class="{{ $boxItemsTotal > 0 ? '' : 'hidden' }} fixed bottom-6 left-4 sm:left-6 z-40 transition-all duration-300">
-        <div class="bg-[#312E81] text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-full shadow-2xl border-2 border-[#FACC15] flex items-center gap-3 sm:gap-4 backdrop-blur-md">
+    <!-- Floating Cart Bar (Accessible While Browsing across all mobile devices) -->
+    <div id="floatingCartBar" class="{{ $boxItemsTotal > 0 ? '' : 'hidden' }} fixed bottom-4 left-3 sm:bottom-6 sm:left-6 z-40 max-w-[calc(100vw-5.5rem)] sm:max-w-none transition-all duration-300">
+        <div class="bg-[#312E81] text-white px-3.5 sm:px-5 py-2 sm:py-3 rounded-full shadow-2xl border-2 border-[#FACC15] flex items-center gap-2.5 sm:gap-4 backdrop-blur-md">
             <div class="flex items-center gap-2 sm:gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-[#FACC15] text-[#312E81] flex items-center justify-center font-bold text-sm shadow flex-shrink-0">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FACC15] text-[#312E81] flex items-center justify-center font-bold text-xs sm:text-sm shadow flex-shrink-0">
                     <i class="bi bi-box-seam-fill"></i>
                 </div>
                 <div>
-                    <div class="text-[9px] text-purple-200 uppercase font-black tracking-wider leading-none">Your Box</div>
-                    <div class="text-xs font-black leading-tight mt-0.5">
+                    <div class="text-[8px] sm:text-[9px] text-purple-200 uppercase font-black tracking-wider leading-none">Your Box</div>
+                    <div class="text-[11px] sm:text-xs font-black leading-tight mt-0.5 whitespace-nowrap">
                         <span id="floatingCartItemCount">{{ $boxItemsTotal }}</span>
                         <span id="floatingCartItemLabel">{{ $boxItemsTotal === 1 ? 'Item' : 'Items' }}</span>
                         <span class="text-purple-300 font-normal">·</span>
@@ -379,7 +379,7 @@
                 </div>
             </div>
 
-            <a href="{{ route('cart.index') }}" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold text-xs px-3.5 sm:px-4 py-2 rounded-full shadow transition flex items-center gap-1.5 whitespace-nowrap">
+            <a href="{{ route('cart.index') }}" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold text-[11px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow transition flex items-center gap-1 whitespace-nowrap">
                 <span>View Box</span>
                 <i class="bi bi-arrow-right"></i>
             </a>
@@ -387,15 +387,15 @@
     </div>
 
     @if(request()->routeIs('home'))
-        <!-- 6.2 Scroll to Top Button (Homepage Only, positioned above WhatsApp at bottom-24) -->
-        <button id="scrollToTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-24 right-6 z-40 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] w-12 h-12 rounded-full shadow-2xl border-2 border-[#FACC15] hidden items-center justify-center text-xl transition transform hover:scale-110 focus:outline-none" title="Scroll to top">
+        <!-- 6.2 Scroll to Top Button (Homepage Only, positioned safely above WhatsApp across all mobile viewports) -->
+        <button id="scrollToTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-20 right-3.5 sm:bottom-24 sm:right-6 z-40 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] w-10 h-10 sm:w-12 sm:h-12 rounded-full shadow-2xl border-2 border-[#FACC15] hidden items-center justify-center text-lg sm:text-xl transition transform hover:scale-110 focus:outline-none" title="Scroll to top">
             <i class="bi bi-arrow-up font-bold"></i>
         </button>
     @endif
 
     <!-- Floating WhatsApp Support Button (+2348164254442) -->
-    <a href="https://wa.me/2348164254442?text=Hello%20800byPD!%20I%20have%20a%20question%20about%20your%20children%27s%20books%20and%20puzzles." target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#7C3AED] hover:bg-purple-800 text-white rounded-full p-3.5 md:p-4 shadow-2xl flex items-center justify-center gap-2 group transition transform hover:scale-105 border-2 border-[#FACC15]">
-        <i class="bi bi-whatsapp text-2xl text-[#FACC15]"></i>
+    <a href="https://wa.me/2348164254442?text=Hello%20800byPD!%20I%20have%20a%20question%20about%20your%20children%27s%20books%20and%20puzzles." target="_blank" class="fixed bottom-4 right-3.5 sm:bottom-6 sm:right-6 z-50 bg-[#7C3AED] hover:bg-purple-800 text-white rounded-full p-3 sm:p-3.5 md:p-4 shadow-2xl flex items-center justify-center gap-2 group transition transform hover:scale-105 border-2 border-[#FACC15]">
+        <i class="bi bi-whatsapp text-xl sm:text-2xl text-[#FACC15]"></i>
         <span class="hidden group-hover:inline text-xs font-extrabold pr-2">Chat with 800byPD</span>
     </a>
 
@@ -407,9 +407,9 @@
                 <i class="bi bi-x-lg text-sm"></i>
             </button>
 
-            <!-- Product Header Image -->
-            <div class="h-60 sm:h-64 bg-purple-50 relative overflow-hidden flex items-center justify-center border-b border-slate-100">
-                <img id="quickAddImage" src="" alt="Product Cover" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
+            <!-- Product Header Image (Uncropped, text never cut off) -->
+            <div class="h-60 sm:h-64 bg-gradient-to-b from-purple-50/80 via-indigo-50/20 to-white relative overflow-hidden flex items-center justify-center p-3 border-b border-slate-100">
+                <img id="quickAddImage" src="" alt="Product Cover" class="max-h-full max-w-full object-contain drop-shadow-md" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                 <div id="quickAddPlaceholderIcon" class="hidden text-center p-6">
                     <i class="bi bi-book-half text-6xl text-[#FACC15] mb-2"></i>
                     <span class="block text-xs font-bold text-slate-400">800byPD Original</span>

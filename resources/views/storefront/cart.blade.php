@@ -98,11 +98,11 @@
                     <div class="bg-white p-4 sm:p-5 rounded-3xl border border-purple-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm hover:border-[#7C3AED]/60 transition">
                         <div class="flex items-start sm:items-center gap-4">
                             <!-- Thumbnail -->
-                            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-50 rounded-2xl overflow-hidden flex items-center justify-center border border-purple-100 flex-shrink-0">
+                            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-50/60 rounded-2xl overflow-hidden flex items-center justify-center border border-purple-100 flex-shrink-0 p-1">
                                 @if(!empty($item['image']))
                                     <img src="{{ asset('storage/' . $item['image']) }}" 
                                          alt="{{ $item['name'] }}"
-                                         class="w-full h-full object-cover"
+                                         class="max-h-full max-w-full object-contain"
                                          onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                                 @else
                                     <img src="{{ asset('images/products/placeholder.svg') }}" 

@@ -57,29 +57,31 @@
     @forelse($bundles as $bundle)
         <div class="bg-white text-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-lg border-2 border-purple-200/80 hover:border-[#7C3AED] transition duration-300 group">
             <div>
-                <!-- Bundle Image / Visual Banner (Item 8) -->
+                <!-- Bundle Image / Visual Banner (Item 8: Clean uncropped) -->
                 @if(!empty($bundle->image))
-                    <div class="h-44 sm:h-52 bg-gradient-to-br from-purple-50 via-amber-50/50 to-purple-50 rounded-2xl mb-5 flex items-center justify-center overflow-hidden border border-purple-100 relative">
+                    <div class="h-48 sm:h-56 bg-gradient-to-br from-purple-50 via-amber-50/40 to-purple-50 rounded-2xl mb-5 flex items-center justify-center overflow-hidden border border-purple-100 p-3">
                         <img src="{{ asset('storage/' . $bundle->image) }}" 
                              alt="{{ $bundle->name }}" 
-                             class="h-full w-full object-contain p-2 group-hover:scale-105 transition duration-300"
+                             class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300 drop-shadow-md"
                              onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
-                        <span class="absolute top-3 left-3 bg-[#312E81] text-[#FACC15] text-[10px] font-black px-2.5 py-1 rounded-full uppercase shadow-xs">
-                            Ages 3–8 yrs
-                        </span>
                     </div>
                 @endif
 
                 <!-- Header with Badges -->
-                <div class="flex items-center justify-between gap-2 mb-3">
+                <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
                     <span class="bg-[#FACC15] text-[#312E81] text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1">
                         <i class="bi bi-star-fill text-[#7C3AED]"></i> 
                         {{ str_replace(['Best Value', 'best value', 'Discount', 'discount'], ['Curated Set', 'Curated Set', 'Curated', 'Curated'], $bundle->badge ?? $bundle->total_items_count . '-Item Bundle') }}
                     </span>
                     
-                    <span class="bg-purple-100 text-[#7C3AED] text-xs font-extrabold px-3 py-1 rounded-full flex items-center gap-1">
-                        <i class="bi bi-box-seam-fill"></i> {{ $bundle->total_items_count }} Items Combo
-                    </span>
+                    <div class="flex items-center gap-1.5">
+                        <span class="bg-purple-100 text-[#7C3AED] text-xs font-extrabold px-3 py-1 rounded-full flex items-center gap-1">
+                            <i class="bi bi-box-seam-fill"></i> {{ $bundle->total_items_count }} Items Combo
+                        </span>
+                        <span class="bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-1 rounded-full">
+                            Ages 3–8 yrs
+                        </span>
+                    </div>
                 </div>
 
                 <h2 class="font-whimsical font-bold text-[#312E81] text-2xl sm:text-3xl mb-1">{{ $bundle->name }}</h2>

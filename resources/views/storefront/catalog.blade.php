@@ -200,21 +200,15 @@
             @forelse($products as $product)
                 <div class="bg-white border border-purple-200/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 group flex flex-col justify-between">
                     <div>
-                        <!-- Product Image Area -->
-                        <a href="{{ route('catalog.show', $product->slug) }}" class="block h-48 sm:h-52 bg-purple-50/50 relative overflow-hidden flex items-center justify-center border-b border-slate-100">
+                        <!-- Product Image Area (Large & prominent, uncropped, text never cut off) -->
+                        <a href="{{ route('catalog.show', $product->slug) }}" class="block h-56 sm:h-64 bg-gradient-to-b from-purple-50/70 via-indigo-50/20 to-white relative overflow-hidden flex items-center justify-center p-2 sm:p-2.5 border-b border-purple-100/60 group">
                             @if($product->primaryImage)
                                 <img src="{{ asset('storage/' . $product->primaryImage->image_path) }}" 
                                      alt="{{ $product->name }}" 
-                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                     class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300 drop-shadow-md rounded-lg"
                                      onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                             @else
                                 <img src="{{ asset('images/products/placeholder.svg') }}" alt="{{ $product->name }}" class="w-24 h-24 object-contain">
-                            @endif
-
-                            @if($product->variants->isNotEmpty())
-                                <span class="absolute top-3 right-3 bg-[#312E81]/90 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1">
-                                    <i class="bi bi-sliders text-[#FACC15]"></i> {{ $product->variants->count() }} Variations
-                                </span>
                             @endif
                         </a>
 
