@@ -39,12 +39,16 @@
         <div>
             <div class="h-72 sm:h-80 lg:h-96 bg-purple-50/50 rounded-2xl overflow-hidden mb-4 relative flex items-center justify-center border border-purple-100">
                 @if($product->primaryImage)
-                    <img id="mainProductImage" src="{{ asset('storage/' . $product->primaryImage->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                    <img id="mainProductImage" 
+                         src="{{ asset('storage/' . $product->primaryImage->image_path) }}" 
+                         alt="{{ $product->name }}" 
+                         class="w-full h-full object-cover"
+                         onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                 @else
-                    <div class="text-center p-6">
-                        <i class="bi bi-box-seam-fill text-6xl text-amber-400 mb-3"></i>
-                        <span class="block text-xs font-bold text-slate-400">800BYPD Original Collection</span>
-                    </div>
+                    <img id="mainProductImage" 
+                         src="{{ asset('images/products/placeholder.svg') }}" 
+                         alt="{{ $product->name }}" 
+                         class="w-32 h-32 object-contain">
                 @endif
 
                 <!-- 2.2 Stock Display: Only In Stock or Out of Stock, No Counts -->
@@ -64,7 +68,10 @@
             @if($product->images->count() > 0)
                 <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
                     @foreach($product->images as $img)
-                        <img src="{{ asset('storage/' . $img->image_path) }}" onclick="document.getElementById('mainProductImage').src = this.src" class="w-16 h-16 object-cover rounded-xl border-2 border-slate-200 cursor-pointer hover:border-[#7C3AED] transition">
+                        <img src="{{ asset('storage/' . $img->image_path) }}" 
+                             onclick="document.getElementById('mainProductImage').src = this.src" 
+                             class="w-16 h-16 object-cover rounded-xl border-2 border-slate-200 cursor-pointer hover:border-[#7C3AED] transition"
+                             onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                     @endforeach
                 </div>
             @endif
@@ -225,6 +232,44 @@
     <div class="mt-12 border-t border-slate-100 pt-8">
         <h3 class="font-whimsical text-xl font-bold text-slate-900 mb-3">Product Overview & Details</h3>
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">{{ $product->description }}</p>
+
+        <!-- Age Suitability, Skills Supported & Materials (Item 5) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="bg-purple-50/70 border border-purple-100 p-4 rounded-2xl">
+                <div class="flex items-center gap-2 text-xs font-black text-[#312E81] mb-1">
+                    <i class="bi bi-person-heart text-[#7C3AED] text-sm"></i> Recommended Age & Level
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    @if(str_contains(strtolower($product->category->name ?? ''), 'puzzle'))
+                        <strong>Ages 3–8 yrs</strong> (Easy: 3–5 yrs, Intermediate: 5–8 yrs). Promotes hand-eye coordination, spatial awareness, and problem solving.
+                    @elseif(str_contains(strtolower($product->category->name ?? ''), 'flashcard'))
+                        <strong>Ages 2–6 yrs</strong> (Pocket & Big). Daily biblical identity affirmations and early vocabulary recognition.
+                    @elseif(str_contains(strtolower($product->category->name ?? ''), 'coloring'))
+                        <strong>Ages 3–8 yrs</strong>. Bleed-resistant paper perfect for crayons, colored pencils, and light felt-tip markers.
+                    @else
+                        <strong>Ages 3–9 yrs</strong>. Engaging character-building stories designed for read-aloud family devotionals.
+                    @endif
+                </p>
+            </div>
+
+            <div class="bg-indigo-50/70 border border-indigo-100 p-4 rounded-2xl">
+                <div class="flex items-center gap-2 text-xs font-black text-[#312E81] mb-1">
+                    <i class="bi bi-award text-indigo-600 text-sm"></i> Faith & Skills Supported
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Scripture memorization, confidence in God's love, patience, fine motor dexterity, and independent active play.
+                </p>
+            </div>
+
+            <div class="bg-amber-50/70 border border-amber-100 p-4 rounded-2xl">
+                <div class="flex items-center gap-2 text-xs font-black text-[#312E81] mb-1">
+                    <i class="bi bi-shield-check text-amber-600 text-sm"></i> Materials & Safety Guidance
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    100% non-toxic vegetable inks, thick rounded-corner boards, child-safe construction. Adult supervision recommended for small puzzle pieces under 3 yrs.
+                </p>
+            </div>
+        </div>
 
         @if($product->variants->count() > 0)
             <div class="bg-purple-50/60 p-5 rounded-2xl border border-purple-100 mb-8 space-y-2">

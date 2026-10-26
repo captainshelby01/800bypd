@@ -409,10 +409,10 @@
 
             <!-- Product Header Image -->
             <div class="h-60 sm:h-64 bg-purple-50 relative overflow-hidden flex items-center justify-center border-b border-slate-100">
-                <img id="quickAddImage" src="" alt="Product Cover" class="w-full h-full object-cover">
+                <img id="quickAddImage" src="" alt="Product Cover" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                 <div id="quickAddPlaceholderIcon" class="hidden text-center p-6">
                     <i class="bi bi-book-half text-6xl text-[#FACC15] mb-2"></i>
-                    <span class="block text-xs font-bold text-slate-400">800BYPD Original</span>
+                    <span class="block text-xs font-bold text-slate-400">800byPD Original</span>
                 </div>
             </div>
 
@@ -512,34 +512,51 @@
             </div>
 
             <div>
-                <h4 class="text-white font-whimsical text-base font-bold mb-4">Customer Support</h4>
+                <h4 class="text-white font-whimsical text-base font-bold mb-4">Customer Care & Delivery</h4>
                 <ul class="space-y-2.5 text-purple-200">
                     <li><i class="bi bi-whatsapp text-[#FACC15] mr-2 text-sm"></i> WhatsApp: +234 816 425 4442</li>
                     <li><i class="bi bi-envelope-fill text-[#A78BFA] mr-2 text-sm"></i> Email: 800bypd@gmail.com</li>
-                    <li><i class="bi bi-truck text-purple-300 mr-2 text-sm"></i> Delivery: 1-3 Days Lagos & Nationwide</li>
+                    <li><i class="bi bi-truck text-purple-300 mr-2 text-sm"></i> Lagos: 1–2 Days Flat (₦2,500)</li>
+                    <li><i class="bi bi-send-check text-amber-300 mr-2 text-sm"></i> Nationwide: 3–5 Days Tracked (₦4,000)</li>
+                    <li><i class="bi bi-shield-check text-emerald-400 mr-2 text-sm"></i> 7-Day Damaged Piece Replacement</li>
                 </ul>
             </div>
 
             <div>
-                <h4 class="text-white font-whimsical text-base font-bold mb-4">Payment Methods</h4>
+                <h4 class="text-white font-whimsical text-base font-bold mb-4">Secure Checkout</h4>
                 <div class="space-y-2.5 text-purple-200">
+                    <p><i class="bi bi-shield-lock-fill text-emerald-400 mr-2"></i> Paystack 256-Bit SSL Encrypted</p>
                     <p><i class="bi bi-credit-card-fill text-[#FACC15] mr-2"></i> Visa, Mastercard, Verve</p>
                     <p><i class="bi bi-bank text-[#A78BFA] mr-2"></i> Direct Bank Transfer (GTBank)</p>
-                    <p><i class="bi bi-lightning-charge-fill text-amber-300 mr-2"></i> Paystack (USSD & Transfer)</p>
+                    <p><i class="bi bi-phone text-amber-300 mr-2"></i> USSD & Instant Mobile Transfer</p>
                 </div>
             </div>
 
             <div>
-                <h4 class="text-white font-whimsical text-base font-bold mb-4">Spotify Storytime</h4>
-                <p class="text-purple-200 mb-4">Stream audiobooks and bedtime stories directly on Spotify.</p>
+                <h4 class="text-white font-whimsical text-base font-bold mb-4">Quick Links & Audio</h4>
+                <div class="space-y-2 mb-4">
+                    <a href="{{ route('bundles.index') }}" class="block text-purple-200 hover:text-[#FACC15] transition">→ Buy Curated Bundles</a>
+                    <a href="{{ route('catalog.index') }}" class="block text-purple-200 hover:text-[#FACC15] transition">→ Explore All Products</a>
+                </div>
                 <button onclick="openSpotifyModal()" class="bg-[#7C3AED] hover:bg-purple-800 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-md">
                     <i class="bi bi-spotify text-[#FACC15]"></i> Listen on Spotify
                 </button>
             </div>
         </div>
 
-        <div class="text-center text-purple-300 border-t border-purple-900/60 mt-12 pt-6 text-xs">
-            &copy; {{ date('Y') }} <strong>800BYPD</strong> (WrittenbyPD). All rights reserved. Designed to International E-Commerce Standards.
+        <div class="text-center text-purple-300 border-t border-purple-900/60 mt-12 pt-6 text-xs space-y-2">
+            <p class="text-purple-200 font-bold flex flex-wrap items-center justify-center gap-2 sm:gap-4">
+                <span><i class="bi bi-shield-lock-fill text-[#FACC15]"></i> Paystack 256-Bit SSL Encrypted Checkout</span>
+                <span>•</span>
+                <span><i class="bi bi-flower1 text-[#FACC15]"></i> 100% Non-Toxic Child-Safe Materials</span>
+                <span>•</span>
+                <span><i class="bi bi-truck text-[#FACC15]"></i> Tracked Nationwide Delivery</span>
+                <span>•</span>
+                <span><i class="bi bi-arrow-repeat text-[#FACC15]"></i> 7-Day Damaged Piece Replacement</span>
+            </p>
+            <p>
+                &copy; {{ date('Y') }} <strong>800byPD</strong> (WrittenbyPD). All rights reserved.
+            </p>
         </div>
     </footer>
     @endif

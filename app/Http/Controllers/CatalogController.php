@@ -20,6 +20,24 @@ class CatalogController extends Controller
             }
         }
 
+        // Filter by age
+        if ($request->filled('age')) {
+            $age = $request->age;
+            if ($age === '2-4' || $age === 'toddlers') {
+                $query->where(function($q) {
+                    $q->whereHas('variants', fn($vq) => $vq->where('name', 'like', '%Easy%')->orWhere('name', 'like', '%Pocket%'))
+                      ->orWhereHas('category', fn($cq) => $cq->whereIn('slug', ['jigsaw-puzzles', 'flashcards']));
+                });
+            } elseif ($age === '4-7' || $age === 'early-learners') {
+                $query->where(function($q) {
+                    $q->whereHas('variants', fn($vq) => $vq->where('name', 'like', '%Intermediate%')->orWhere('name', 'like', '%Big%'))
+                      ->orWhereHas('category', fn($cq) => $cq->whereIn('slug', ['coloring-books', 'jigsaw-puzzles', 'flashcards']));
+                });
+            } elseif ($age === '7+' || $age === 'growing-readers') {
+                $query->whereHas('category', fn($cq) => $cq->whereIn('slug', ['storybooks', 'coloring-books']));
+            }
+        }
+
         // Filter by price range (NGN)
         if ($request->filled('min_price')) {
             $query->where('price', '>=', $request->min_price);

@@ -100,13 +100,14 @@
                             <!-- Thumbnail -->
                             <div class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-50 rounded-2xl overflow-hidden flex items-center justify-center border border-purple-100 flex-shrink-0">
                                 @if(!empty($item['image']))
-                                    <img src="{{ asset('storage/' . $item['image']) }}" class="w-full h-full object-cover">
+                                    <img src="{{ asset('storage/' . $item['image']) }}" 
+                                         alt="{{ $item['name'] }}"
+                                         class="w-full h-full object-cover"
+                                         onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                                 @else
-                                    @if(isset($item['type']) && $item['type'] === 'bundle')
-                                        <i class="bi bi-box2-heart-fill text-2xl text-[#7C3AED]"></i>
-                                    @else
-                                        <i class="bi bi-journal-bookmark-fill text-2xl text-[#FACC15]"></i>
-                                    @endif
+                                    <img src="{{ asset('images/products/placeholder.svg') }}" 
+                                         alt="{{ $item['name'] }}"
+                                         class="w-10 h-10 object-contain">
                                 @endif
                             </div>
 

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#312E81"/>
+      <stop offset="50%" stop-color="#4C1D95"/>
+      <stop offset="100%" stop-color="#1E1B4B"/>
+    </linearGradient>
+    <linearGradient id="gold1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047"/>
+      <stop offset="100%" stop-color="#EAB308"/>
+    </linearGradient>
+    <filter id="shadow1" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <rect width="600" height="750" rx="30" fill="url(#bg1)"/>
+  <rect x="15" y="15" width="570" height="720" rx="20" fill="none" stroke="#FACC15" stroke-width="4" stroke-dasharray="12 6" opacity="0.6"/>
+  
+  <!-- Stars & Moon -->
+  <circle cx="500" cy="110" r="45" fill="url(#gold1)" filter="url(#shadow1)"/>
+  <circle cx="518" cy="95" r="38" fill="#312E81"/>
+  <g fill="#FDE047" opacity="0.8">
+    <path d="M120 100 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4 z"/>
+    <path d="M420 70 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3 z"/>
+    <path d="M180 180 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5 z"/>
+    <path d="M480 230 l4 9 l9 4 l-9 4 l-4 9 l-4 -9 l-9 -4 l9 -4 z"/>
+  </g>
+  
+  <!-- Badge -->
+  <rect x="180" y="55" width="240" height="36" rx="18" fill="#FACC15"/>
+  <text x="300" y="78" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="13" fill="#312E81" letter-spacing="1.5">CHRISTIAN BEDTIME TALE</text>
+  
+  <!-- Title Area -->
+  <text x="300" y="170" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="34" fill="#FFFFFF">Adventures of the</text>
+  <text x="300" y="225" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="44" fill="#FACC15">LITTLE EXPLORER</text>
+  <text x="300" y="260" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="15" fill="#C4B5FD">A Journey of Courage, Faith &amp; Kindness</text>
+  
+  <!-- Illustration: Compass & Lantern Mountain -->
+  <g transform="translate(150, 290)">
+    <!-- Mountain Back -->
+    <path d="M0 240 L150 70 L300 240 Z" fill="#2E1065" opacity="0.8"/>
+    <path d="M90 240 L180 110 L270 240 Z" fill="#3B0764"/>
+    <!-- Lantern -->
+    <circle cx="150" cy="150" r="55" fill="#FEF08A" opacity="0.25"/>
+    <circle cx="150" cy="150" r="38" fill="#FDE047" opacity="0.5"/>
+    <rect x="135" y="125" width="30" height="50" rx="8" fill="#F59E0B" stroke="#78350F" stroke-width="3"/>
+    <circle cx="150" cy="150" r="10" fill="#FFFFFF"/>
+    <!-- Explorer Boots & Path -->
+    <path d="M80 240 Q150 210 220 240" stroke="#FACC15" stroke-width="4" fill="none"/>
+  </g>
+  
+  <!-- Scripture Tag -->
+  <rect x="100" y="580" width="400" height="48" rx="24" fill="#2D1B4E" stroke="#A78BFA" stroke-width="1.5"/>
+  <text x="300" y="608" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="14" fill="#E9D5FF">"Be strong and courageous... the Lord is with you."</text>
+  <text x="300" y="622" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="10" fill="#FACC15">— JOSHUA 1:9</text>
+  
+  <!-- Author Bottom Bar -->
+  <rect x="0" y="660" width="600" height="90" fill="#1E1B4B"/>
+  <text x="300" y="700" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="20" fill="#FFFFFF">Written by PD</text>
+  <text x="300" y="722" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="12" fill="#9CA3AF">800BYPD CHILDREN'S EDITIONS</text>
+</svg>

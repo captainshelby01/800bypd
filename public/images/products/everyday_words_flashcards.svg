@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="50%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#818CF8"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="750" rx="30" fill="url(#bg4)"/>
+  <rect x="15" y="15" width="570" height="720" rx="20" fill="none" stroke="#FDE047" stroke-width="4" stroke-dasharray="10 5" opacity="0.6"/>
+  
+  <rect x="180" y="55" width="240" height="36" rx="18" fill="#FDE047"/>
+  <text x="300" y="78" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="12" fill="#312E81" letter-spacing="1.5">EARLY MASTERY FLASHCARDS</text>
+  
+  <text x="300" y="170" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="34" fill="#FFFFFF">Everyday Words &amp;</text>
+  <text x="300" y="225" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="44" fill="#FDE047">NUMBERS</text>
+  <text x="300" y="260" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="15" fill="#E0E7FF">Pocket &amp; Big Sizes • 20 Durable Learning Cards</text>
+  
+  <!-- Flashcards Display Deck -->
+  <g transform="translate(160, 300)">
+    <!-- Back card 1 -->
+    <rect x="50" y="10" width="170" height="230" rx="20" fill="#FBCFE8" stroke="#F472B6" stroke-width="3" transform="rotate(15 135 125)"/>
+    <!-- Back card 2 -->
+    <rect x="-10" y="20" width="170" height="230" rx="20" fill="#FEF08A" stroke="#FACC15" stroke-width="3" transform="rotate(-15 75 135)"/>
+    <!-- Front card -->
+    <rect x="25" y="0" width="190" height="250" rx="22" fill="#FFFFFF" stroke="#6366F1" stroke-width="4"/>
+    <text x="120" y="80" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="64" fill="#4F46E5">Aa</text>
+    <text x="120" y="130" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="22" fill="#1E1B4B">APPLE</text>
+    <circle cx="120" cy="180" r="30" fill="#EF4444"/>
+    <path d="M120 150 Q125 140 135 145" stroke="#15803D" stroke-width="4" fill="none"/>
+  </g>
+  
+  <rect x="100" y="585" width="400" height="44" rx="22" fill="#312E81"/>
+  <text x="300" y="612" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="700" font-size="14" fill="#FACC15">Available in Pocket Size (3x5") &amp; Big Size (5x7")</text>
+  
+  <rect x="0" y="660" width="600" height="90" fill="#1E1B4B"/>
+  <text x="300" y="700" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="20" fill="#FFFFFF">Created by PD</text>
+  <text x="300" y="722" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="12" fill="#A5B4FC">800BYPD EARLY LEARNING</text>
+</svg>

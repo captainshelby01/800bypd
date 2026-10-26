@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064E3B"/>
+      <stop offset="50%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <linearGradient id="flowerGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047"/>
+      <stop offset="100%" stop-color="#F59E0B"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="750" rx="30" fill="url(#bg3)"/>
+  <rect x="15" y="15" width="570" height="720" rx="20" fill="none" stroke="#FDE047" stroke-width="4" stroke-dasharray="10 5" opacity="0.6"/>
+  
+  <rect x="170" y="55" width="260" height="36" rx="18" fill="#FDE047"/>
+  <text x="300" y="78" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="12" fill="#064E3B" letter-spacing="1.5">GOD'S GRACE &amp; COURAGE</text>
+  
+  <!-- Title -->
+  <text x="300" y="165" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="34" fill="#FFFFFF">The Magic Garden of</text>
+  <text x="300" y="220" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="46" fill="#FDE047">COURAGE</text>
+  <text x="300" y="255" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="15" fill="#D1FAE5">Blooming with Joy, Hope &amp; Kindness</text>
+  
+  <!-- Garden Illustration -->
+  <g transform="translate(150, 290)">
+    <circle cx="150" cy="140" r="100" fill="#ECFDF5" opacity="0.2"/>
+    <!-- Giant Sunflower -->
+    <line x1="150" y1="120" x2="150" y2="240" stroke="#059669" stroke-width="12" stroke-linecap="round"/>
+    <ellipse cx="110" cy="190" rx="30" ry="15" fill="#10B981" transform="rotate(-20 110 190)"/>
+    <ellipse cx="190" cy="170" rx="30" ry="15" fill="#10B981" transform="rotate(20 190 170)"/>
+    <!-- Petals -->
+    <g fill="url(#flowerGold)">
+      <circle cx="150" cy="100" r="24"/>
+      <circle cx="120" cy="115" r="22"/>
+      <circle cx="180" cy="115" r="22"/>
+      <circle cx="130" cy="145" r="22"/>
+      <circle cx="170" cy="145" r="22"/>
+    </g>
+    <circle cx="150" cy="125" r="28" fill="#78350F"/>
+    <circle cx="150" cy="125" r="22" fill="#B45309"/>
+    <!-- Butterfly -->
+    <path d="M220 90 Q240 70 230 100 Q240 120 220 110 Z" fill="#F43F5E"/>
+    <path d="M210 90 Q190 70 200 100 Q190 120 210 110 Z" fill="#F43F5E"/>
+  </g>
+  
+  <!-- Scripture -->
+  <rect x="90" y="580" width="420" height="48" rx="24" fill="#064E3B" stroke="#A7F3D0" stroke-width="1.5"/>
+  <text x="300" y="608" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="13" fill="#ECFDF5">"God has not given us a spirit of fear, but of power and love."</text>
+  <text x="300" y="622" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="10" fill="#FDE047">— 2 TIMOTHY 1:7</text>
+  
+  <rect x="0" y="660" width="600" height="90" fill="#022C22"/>
+  <text x="300" y="700" text-anchor="middle" font-family="'Fredoka', cursive, sans-serif" font-weight="700" font-size="20" fill="#FFFFFF">Written by PD</text>
+  <text x="300" y="722" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-weight="600" font-size="12" fill="#6EE7B7">800BYPD CHILDREN'S EDITIONS</text>
+</svg>

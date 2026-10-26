@@ -56,8 +56,24 @@ class HomeController extends Controller
 
         $categories = Category::withCount('products')->get();
 
+        // 4. Curated Flagship Bestsellers (one from each primary category)
+        $bestsellers = Product::with(['primaryImage', 'category', 'variants'])
+            ->whereIn('slug', [
+                'give-thanks-psalm-107-jigsaw-puzzle',
+                'psalm-23-colouring-book',
+                'affirmations-flashcards',
+                'adventures-of-the-little-explorer'
+            ])
+            ->where('is_active', true)
+            ->get();
+
+        if ($bestsellers->count() < 4) {
+            $bestsellers = $featuredProducts->take(4);
+        }
+
         return view('storefront.homepage', compact(
             'featuredProducts',
+            'bestsellers',
             'bundles',
             'puzzles',
             'colouring',

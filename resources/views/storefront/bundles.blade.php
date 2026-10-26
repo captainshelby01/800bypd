@@ -57,6 +57,19 @@
     @forelse($bundles as $bundle)
         <div class="bg-white text-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-lg border-2 border-purple-200/80 hover:border-[#7C3AED] transition duration-300 group">
             <div>
+                <!-- Bundle Image / Visual Banner (Item 8) -->
+                @if(!empty($bundle->image))
+                    <div class="h-44 sm:h-52 bg-gradient-to-br from-purple-50 via-amber-50/50 to-purple-50 rounded-2xl mb-5 flex items-center justify-center overflow-hidden border border-purple-100 relative">
+                        <img src="{{ asset('storage/' . $bundle->image) }}" 
+                             alt="{{ $bundle->name }}" 
+                             class="h-full w-full object-contain p-2 group-hover:scale-105 transition duration-300"
+                             onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
+                        <span class="absolute top-3 left-3 bg-[#312E81] text-[#FACC15] text-[10px] font-black px-2.5 py-1 rounded-full uppercase shadow-xs">
+                            Ages 3–8 yrs
+                        </span>
+                    </div>
+                @endif
+
                 <!-- Header with Badges -->
                 <div class="flex items-center justify-between gap-2 mb-3">
                     <span class="bg-[#FACC15] text-[#312E81] text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1">
@@ -69,21 +82,20 @@
                     </span>
                 </div>
 
-                <h2 class="font-whimsical font-bold text-[#312E81] text-2xl sm:text-3xl mb-2">{{ $bundle->name }}</h2>
-                <p class="text-xs sm:text-sm text-slate-500 leading-relaxed mb-5">{{ $bundle->description }}</p>
+                <h2 class="font-whimsical font-bold text-[#312E81] text-2xl sm:text-3xl mb-1">{{ $bundle->name }}</h2>
+                <p class="text-xs font-bold text-[#7C3AED] mb-2">Best for: Family Devotions & Complete Early Learning</p>
+                <p class="text-xs sm:text-sm text-slate-500 leading-relaxed mb-4">{{ $bundle->description }}</p>
 
                 <!-- Products Included Checklist -->
-                <div class="bg-purple-50/60 rounded-2xl p-4 sm:p-5 border border-purple-100 mb-6 space-y-2.5">
-                    <div class="flex items-center justify-between border-b border-purple-200/60 pb-2 mb-2">
-                        <span class="text-xs font-extrabold text-[#312E81] uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="bi bi-check2-circle text-[#7C3AED] text-base"></i> Products Included in This Bundle:
+                <details class="group/details bg-purple-50/60 rounded-2xl p-4 border border-purple-100 mb-5" open>
+                    <summary class="flex items-center justify-between cursor-pointer list-none text-xs font-extrabold text-[#312E81] uppercase tracking-wider">
+                        <span class="flex items-center gap-1.5">
+                            <i class="bi bi-check2-circle text-[#7C3AED] text-base"></i> Products Included ({{ $bundle->total_items_count }} Items)
                         </span>
-                        <span class="text-xs font-black text-[#7C3AED] bg-purple-200/60 px-2 py-0.5 rounded-md">
-                            {{ $bundle->total_items_count }} items total
-                        </span>
-                    </div>
+                        <i class="bi bi-chevron-down text-purple-600 transition group-open/details:rotate-180"></i>
+                    </summary>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs mt-3">
                         @foreach($bundle->items as $item)
                             <div class="flex items-start gap-2 text-slate-700 bg-white p-2.5 rounded-xl border border-purple-100/80 shadow-2xs">
                                 <i class="bi bi-check-lg text-emerald-600 font-bold text-sm mt-0.5 flex-shrink-0"></i>
@@ -94,25 +106,28 @@
                             </div>
                         @endforeach
                     </div>
-                </div>
+                </details>
+            </div>
 
-                <!-- Pricing Display (Pure price, no discounts or strikethrough savings) -->
-                <div class="flex items-baseline gap-2 mb-6">
-                    <span class="text-3xl sm:text-4xl font-whimsical font-bold text-[#312E81] price-convertible" data-price-ngn="{{ $bundle->price }}">
+            <!-- Price & Button in Compact Alignment -->
+            <div class="pt-4 border-t border-purple-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mt-auto">
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">All-in-One Price</span>
+                    <span class="text-3xl font-whimsical font-black text-[#312E81] price-convertible" data-price-ngn="{{ $bundle->price }}">
                         {{ $bundle->formatted_price }}
                     </span>
                 </div>
-            </div>
 
-            <!-- Single-Click Purchase Button (No 'Fill Your Box') -->
-            <form action="{{ route('cart.addBundle', $bundle->id) }}" method="POST">
-                @csrf
-                <input type="hidden" name="quantity" value="1">
-                <button type="submit" class="w-full bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-xs sm:text-sm uppercase tracking-wider">
-                    <i class="bi bi-bag-plus-fill text-[#FACC15] text-base"></i>
-                    <span>Add Bundle to Cart</span>
-                </button>
-            </form>
+                <!-- Single-Click Purchase Button (No 'Fill Your Box') -->
+                <form action="{{ route('cart.addBundle', $bundle->id) }}" method="POST" class="flex-1 sm:flex-initial">
+                    @csrf
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="w-full sm:w-auto bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-3.5 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-xs sm:text-sm uppercase tracking-wider whitespace-nowrap">
+                        <i class="bi bi-bag-plus-fill text-[#FACC15] text-base"></i>
+                        <span>Add Bundle to Cart</span>
+                    </button>
+                </form>
+            </div>
         </div>
     @empty
         <div class="col-span-full py-16 text-center text-slate-500 bg-white border border-purple-200/80 rounded-3xl p-8">

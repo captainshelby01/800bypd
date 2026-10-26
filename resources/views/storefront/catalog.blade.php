@@ -23,27 +23,27 @@
 </div>
 
 <!-- Category Quick Pills Bar -->
-<div class="mb-8 overflow-x-auto pb-2 scrollbar-none">
+<div class="mb-3 overflow-x-auto pb-2 scrollbar-none">
     <div class="flex items-center gap-2 min-w-max">
-        <a href="{{ route('catalog.index') }}" 
+        <a href="{{ route('catalog.index', array_filter(['age' => request('age'), 'search' => request('search'), 'sort' => request('sort')])) }}" 
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 {{ !request('category') ? 'bg-[#312E81] text-[#FACC15] shadow-md' : 'bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50' }}">
-            <i class="bi bi-grid-fill"></i> All Products
+            <i class="bi bi-grid-fill"></i> All Categories
         </a>
-        <a href="{{ route('catalog.index', ['category' => 'jigsaw-puzzles']) }}" 
+        <a href="{{ route('catalog.index', array_filter(['category' => 'jigsaw-puzzles', 'age' => request('age'), 'search' => request('search'), 'sort' => request('sort')])) }}" 
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 {{ request('category') === 'jigsaw-puzzles' ? 'bg-[#312E81] text-[#FACC15] shadow-md' : 'bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50' }}">
             <i class="bi bi-puzzle-fill text-amber-500"></i> Jigsaw Puzzles
             <span class="text-[10px] bg-amber-100 text-amber-900 px-1.5 py-0.2 rounded-md font-extrabold">Easy & 12-pc</span>
         </a>
-        <a href="{{ route('catalog.index', ['category' => 'coloring-books']) }}" 
+        <a href="{{ route('catalog.index', array_filter(['category' => 'coloring-books', 'age' => request('age'), 'search' => request('search'), 'sort' => request('sort')])) }}" 
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 {{ request('category') === 'coloring-books' ? 'bg-[#312E81] text-[#FACC15] shadow-md' : 'bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50' }}">
             <i class="bi bi-palette-fill text-pink-500"></i> Coloring Books
         </a>
-        <a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" 
+        <a href="{{ route('catalog.index', array_filter(['category' => 'flashcards', 'age' => request('age'), 'search' => request('search'), 'sort' => request('sort')])) }}" 
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 {{ request('category') === 'flashcards' ? 'bg-[#312E81] text-[#FACC15] shadow-md' : 'bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50' }}">
             <i class="bi bi-card-text text-indigo-500"></i> Flashcards
             <span class="text-[10px] bg-purple-100 text-purple-900 px-1.5 py-0.2 rounded-md font-extrabold">Pocket & Big</span>
         </a>
-        <a href="{{ route('catalog.index', ['category' => 'storybooks']) }}" 
+        <a href="{{ route('catalog.index', array_filter(['category' => 'storybooks', 'age' => request('age'), 'search' => request('search'), 'sort' => request('sort')])) }}" 
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 {{ request('category') === 'storybooks' ? 'bg-[#312E81] text-[#FACC15] shadow-md' : 'bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50' }}">
             <i class="bi bi-book-half text-emerald-500"></i> Storybooks
         </a>
@@ -53,6 +53,29 @@
             <span class="text-[10px] bg-[#312E81] text-[#FACC15] px-1.5 py-0.2 rounded-md font-extrabold">Curated</span>
         </a>
     </div>
+</div>
+
+<!-- Age Quick Pills Bar (Item 5: Help parents choose by age) -->
+<div class="mb-8 overflow-x-auto pb-2 scrollbar-none flex items-center gap-2">
+    <span class="text-xs font-black text-slate-400 uppercase tracking-wider flex items-center gap-1 mr-1">
+        <i class="bi bi-person-heart text-[#7C3AED]"></i> Shop by Age:
+    </span>
+    <a href="{{ route('catalog.index', array_filter(['category' => request('category'), 'search' => request('search'), 'sort' => request('sort')])) }}"
+       class="px-3.5 py-1.5 rounded-full text-xs font-bold transition {{ !request('age') ? 'bg-[#7C3AED] text-white shadow-xs' : 'bg-white border border-purple-200 text-slate-600 hover:bg-purple-50' }}">
+        All Ages
+    </a>
+    <a href="{{ route('catalog.index', array_filter(['age' => '2-4', 'category' => request('category'), 'search' => request('search'), 'sort' => request('sort')])) }}"
+       class="px-3.5 py-1.5 rounded-full text-xs font-bold transition {{ request('age') === '2-4' ? 'bg-[#7C3AED] text-white shadow-xs' : 'bg-white border border-purple-200 text-slate-600 hover:bg-purple-50' }}">
+        Ages 2–4 yrs (Toddlers)
+    </a>
+    <a href="{{ route('catalog.index', array_filter(['age' => '4-7', 'category' => request('category'), 'search' => request('search'), 'sort' => request('sort')])) }}"
+       class="px-3.5 py-1.5 rounded-full text-xs font-bold transition {{ request('age') === '4-7' ? 'bg-[#7C3AED] text-white shadow-xs' : 'bg-white border border-purple-200 text-slate-600 hover:bg-purple-50' }}">
+        Ages 4–7 yrs (Early Learners)
+    </a>
+    <a href="{{ route('catalog.index', array_filter(['age' => '7+', 'category' => request('category'), 'search' => request('search'), 'sort' => request('sort')])) }}"
+       class="px-3.5 py-1.5 rounded-full text-xs font-bold transition {{ request('age') === '7+' ? 'bg-[#7C3AED] text-white shadow-xs' : 'bg-white border border-purple-200 text-slate-600 hover:bg-purple-50' }}">
+        Ages 7+ yrs (Growing Readers)
+    </a>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8">
@@ -113,6 +136,37 @@
                 </div>
             </div>
 
+            <!-- Age Suitability (Item 5) -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-2">Age Group</label>
+                <div class="space-y-1.5 text-xs">
+                    <label class="flex items-center justify-between p-2 rounded-xl cursor-pointer hover:bg-purple-50 transition {{ !request('age') ? 'bg-purple-50 font-bold text-[#7C3AED]' : 'text-slate-600' }}">
+                        <span class="flex items-center gap-2">
+                            <input type="radio" name="age" value="" {{ !request('age') ? 'checked' : '' }} onchange="this.form.submit()" class="text-[#7C3AED] focus:ring-[#7C3AED]">
+                            <span>All Ages</span>
+                        </span>
+                    </label>
+                    <label class="flex items-center justify-between p-2 rounded-xl cursor-pointer hover:bg-purple-50 transition {{ request('age') === '2-4' ? 'bg-purple-50 font-bold text-[#7C3AED]' : 'text-slate-600' }}">
+                        <span class="flex items-center gap-2">
+                            <input type="radio" name="age" value="2-4" {{ request('age') === '2-4' ? 'checked' : '' }} onchange="this.form.submit()" class="text-[#7C3AED] focus:ring-[#7C3AED]">
+                            <span>Ages 2–4 yrs (Toddlers)</span>
+                        </span>
+                    </label>
+                    <label class="flex items-center justify-between p-2 rounded-xl cursor-pointer hover:bg-purple-50 transition {{ request('age') === '4-7' ? 'bg-purple-50 font-bold text-[#7C3AED]' : 'text-slate-600' }}">
+                        <span class="flex items-center gap-2">
+                            <input type="radio" name="age" value="4-7" {{ request('age') === '4-7' ? 'checked' : '' }} onchange="this.form.submit()" class="text-[#7C3AED] focus:ring-[#7C3AED]">
+                            <span>Ages 4–7 yrs (Early Learners)</span>
+                        </span>
+                    </label>
+                    <label class="flex items-center justify-between p-2 rounded-xl cursor-pointer hover:bg-purple-50 transition {{ request('age') === '7+' ? 'bg-purple-50 font-bold text-[#7C3AED]' : 'text-slate-600' }}">
+                        <span class="flex items-center gap-2">
+                            <input type="radio" name="age" value="7+" {{ request('age') === '7+' ? 'checked' : '' }} onchange="this.form.submit()" class="text-[#7C3AED] focus:ring-[#7C3AED]">
+                            <span>Ages 7+ yrs (Growing Readers)</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
             <!-- Sort By -->
             <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">Sort By</label>
@@ -149,22 +203,12 @@
                         <!-- Product Image Area -->
                         <a href="{{ route('catalog.show', $product->slug) }}" class="block h-48 sm:h-52 bg-purple-50/50 relative overflow-hidden flex items-center justify-center border-b border-slate-100">
                             @if($product->primaryImage)
-                                <img src="{{ asset('storage/' . $product->primaryImage->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                <img src="{{ asset('storage/' . $product->primaryImage->image_path) }}" 
+                                     alt="{{ $product->name }}" 
+                                     class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                                     onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                             @else
-                                <div class="text-center p-4">
-                                    @if($product->category && $product->category->slug === 'jigsaw-puzzles')
-                                        <i class="bi bi-puzzle-fill text-4xl text-amber-400 mb-1"></i>
-                                    @elseif($product->category && $product->category->slug === 'coloring-books')
-                                        <i class="bi bi-palette-fill text-4xl text-pink-400 mb-1"></i>
-                                    @elseif($product->category && $product->category->slug === 'flashcards')
-                                        <i class="bi bi-card-text text-4xl text-indigo-400 mb-1"></i>
-                                    @elseif($product->category && $product->category->slug === 'storybooks')
-                                        <i class="bi bi-book-half text-4xl text-emerald-400 mb-1"></i>
-                                    @else
-                                        <i class="bi bi-book-half text-4xl text-[#FACC15] mb-1"></i>
-                                    @endif
-                                    <span class="block text-[10px] font-bold text-slate-400">800BYPD Collection</span>
-                                </div>
+                                <img src="{{ asset('images/products/placeholder.svg') }}" alt="{{ $product->name }}" class="w-24 h-24 object-contain">
                             @endif
 
                             @if($product->variants->isNotEmpty())
@@ -187,16 +231,36 @@
                                     </span>
                                 @endif
 
-                                @if($product->variants->isNotEmpty())
-                                    <span class="text-[10px] font-bold text-purple-700 bg-purple-100/60 px-2 py-0.5 rounded border border-purple-200">
-                                        {{ $product->variants->pluck('name')->join(' · ') }}
-                                    </span>
-                                @endif
+                                @php
+                                    $ageLabel = 'Ages 3+';
+                                    if ($product->category) {
+                                        if ($product->category->slug === 'jigsaw-puzzles') $ageLabel = 'Ages 3–8 yrs';
+                                        elseif ($product->category->slug === 'flashcards') $ageLabel = 'Ages 2–6 yrs';
+                                        elseif ($product->category->slug === 'coloring-books') $ageLabel = 'Ages 3–8 yrs';
+                                        elseif ($product->category->slug === 'storybooks') $ageLabel = 'Ages 3–9 yrs';
+                                    }
+                                @endphp
+                                <span class="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
+                                    {{ $ageLabel }}
+                                </span>
                             </div>
 
-                            <h3 class="font-whimsical font-bold text-slate-900 text-lg mb-1 line-clamp-1">
-                                <a href="{{ route('catalog.show', $product->slug) }}" class="hover:text-[#7C3AED] transition">{{ $product->name }}</a>
+                            @php
+                                $titleParts = explode('(', $product->name);
+                                $cleanTitle = trim($titleParts[0]);
+                                $subReference = isset($titleParts[1]) ? trim(rtrim($titleParts[1], ')')) : null;
+                            @endphp
+
+                            <h3 class="font-whimsical font-bold text-slate-900 text-base sm:text-lg mb-0.5 leading-snug">
+                                <a href="{{ route('catalog.show', $product->slug) }}" class="hover:text-[#7C3AED] transition">{{ $cleanTitle }}</a>
                             </h3>
+
+                            @if($subReference)
+                                <p class="text-[11px] font-bold text-[#7C3AED] mb-2">{{ $subReference }}</p>
+                            @else
+                                <p class="text-[11px] font-semibold text-slate-400 mb-2">Written by PD • 800byPD Original</p>
+                            @endif
+
                             <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-3">{{ $product->description }}</p>
                         </div>
                     </div>

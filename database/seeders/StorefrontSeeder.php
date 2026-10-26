@@ -141,7 +141,7 @@ class StorefrontSeeder extends Seeder
                 'is_active' => true,
             ]
         );
-        $syncImages($fc2, ['products/affirmations_flashcards_cover.jpg']);
+        $syncImages($fc2, ['products/everyday_words_flashcards.svg']);
 
         $fc2_v1 = ProductVariant::updateOrCreate(
             ['sku' => 'PD-FC-002-PKT'],
@@ -417,6 +417,7 @@ class StorefrontSeeder extends Seeder
                 'is_active' => true,
             ]
         );
+        $syncImages($sb1, ['products/story_little_explorer.svg']);
 
         $sb2 = Product::updateOrCreate(
             ['sku' => 'PD-STORY-002'],
@@ -431,6 +432,7 @@ class StorefrontSeeder extends Seeder
                 'is_active' => true,
             ]
         );
+        $syncImages($sb2, ['products/story_boy_stars.svg']);
 
         $sb3 = Product::updateOrCreate(
             ['sku' => 'PD-STORY-003'],
@@ -445,6 +447,10 @@ class StorefrontSeeder extends Seeder
                 'is_active' => true,
             ]
         );
+        $syncImages($sb3, ['products/story_magic_garden.svg']);
+
+        // Remove any obsolete placeholder products
+        Product::where('slug', 'magical-space-galaxy-60-piece-floor-puzzle')->delete();
 
         // 7. PRODUCT BUNDLES (Positioned around curated combinations and convenience)
         // Bundle 1: 5-Item Starter Bundle
@@ -455,6 +461,7 @@ class StorefrontSeeder extends Seeder
                 'badge' => '5-Item Bundle • Curated Set',
                 'price' => 20500.00,
                 'original_price' => 20500.00,
+                'image' => 'products/bundle_starter_box.svg',
                 'description' => 'The ultimate starter package combining hands-on play and reading! Includes 2 Jigsaw Puzzles, 1 Coloring Book, 1 Flashcard set, and 1 Storybook.',
                 'is_active' => true,
                 'sort_order' => 1,
@@ -499,6 +506,7 @@ class StorefrontSeeder extends Seeder
                 'badge' => '10-Item Bundle • Curated Set',
                 'price' => 41500.00,
                 'original_price' => 41500.00,
+                'image' => 'products/bundle_starter_box.svg',
                 'description' => 'The comprehensive home learning box! Packed with 3 Jigsaw Puzzles, 2 Flashcard sets, 2 Coloring Books, and 3 inspiring Storybooks.',
                 'is_active' => true,
                 'sort_order' => 2,
