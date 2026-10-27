@@ -15,4 +15,32 @@ class ProductImage extends Model
     public function product() {
         return $this->belongsTo(Product::class);
     }
+
+    public function getUrlAttribute(): string
+    {
+        if (empty($this->image_path)) {
+            return asset('images/products/placeholder.svg');
+        }
+
+        // Remote URL (e.g. S3 / CDN / External)
+        if (str_starts_with($this->image_path, 'http://') || str_starts_with($this->image_path, 'https://')) {
+            return $this->image_path;
+        }
+
+        $cleanPath = ltrim($this->image_path, '/');
+
+        // Check if file physically exists in public/storage
+        if (file_exists(public_path('storage/' . $cleanPath))) {
+            return asset('storage/' . $cleanPath);
+        }
+
+        // Check if file exists in public/images/products (for initial seeded assets)
+        $basename = basename($cleanPath);
+        if (file_exists(public_path('images/products/' . $basename))) {
+            return asset('images/products/' . $basename);
+        }
+
+        // Default to public storage URL
+        return asset('storage/' . $cleanPath);
+    }
 }

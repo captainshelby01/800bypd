@@ -49,41 +49,48 @@
                     </span>
                 </div>
 
+                @php
+                    $heroPuzzle = $bestsellers->firstWhere('slug', 'give-thanks-psalm-107-jigsaw-puzzle') ?? $puzzles->first();
+                    $heroColouring = $bestsellers->firstWhere('slug', 'psalm-23-colouring-book') ?? $colouring->first();
+                    $heroFlashcard = $bestsellers->firstWhere('slug', 'affirmations-flashcards') ?? $flashcards->first();
+                    $heroStorybook = $bestsellers->firstWhere('slug', 'adventures-of-the-little-explorer') ?? $storybooks->first();
+                @endphp
+
                 <!-- 2x2 Actual Products Grid Showcase -->
                 <div class="grid grid-cols-2 gap-2">
                     <!-- 1. Jigsaw Puzzle Photo -->
-                    <a href="{{ route('catalog.show', 'give-thanks-psalm-107-jigsaw-puzzle') }}" class="group/p bg-amber-50/60 rounded-xl p-2 border border-amber-200/70 hover:border-amber-400 transition flex flex-col items-center text-center">
+                    <a href="{{ route('catalog.show', $heroPuzzle?->slug ?? 'give-thanks-psalm-107-jigsaw-puzzle') }}" class="group/p bg-amber-50/60 rounded-xl p-2 border border-amber-200/70 hover:border-amber-400 transition flex flex-col items-center text-center">
                         <div class="w-full h-16 sm:h-20 rounded-lg overflow-hidden mb-1.5 bg-white flex items-center justify-center p-1 shadow-2xs">
-                            <img src="{{ asset('storage/products/easy_puzzle_1_cover.jpg') }}" alt="Give Thanks Jigsaw Puzzle" class="max-h-full max-w-full object-contain group-hover/p:scale-105 transition drop-shadow-xs" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
+                            <img src="{{ $heroPuzzle?->image_url ?? asset('images/products/easy_puzzle_1_cover.jpg') }}" alt="{{ $heroPuzzle?->name ?? 'Give Thanks Jigsaw Puzzle' }}" class="max-h-full max-w-full object-contain group-hover/p:scale-105 transition drop-shadow-xs" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                         </div>
-                        <span class="text-[11px] font-bold text-slate-900 group-hover/p:text-[#7C3AED] leading-tight line-clamp-1">Give Thanks Puzzle</span>
+                        <span class="text-[11px] font-bold text-slate-900 group-hover/p:text-[#7C3AED] leading-tight line-clamp-1">{{ $heroPuzzle?->name ?? 'Give Thanks Puzzle' }}</span>
                         <span class="text-[9px] text-amber-800 font-extrabold">6 &amp; 12 Pieces</span>
                     </a>
 
                     <!-- 2. Psalm 23 Colouring Book -->
-                    <a href="{{ route('catalog.show', 'psalm-23-colouring-book') }}" class="group/p bg-pink-50/60 rounded-xl p-2 border border-pink-200/70 hover:border-pink-400 transition flex flex-col items-center text-center">
+                    <a href="{{ route('catalog.show', $heroColouring?->slug ?? 'psalm-23-colouring-book') }}" class="group/p bg-pink-50/60 rounded-xl p-2 border border-pink-200/70 hover:border-pink-400 transition flex flex-col items-center text-center">
                         <div class="w-full h-16 sm:h-20 rounded-lg overflow-hidden mb-1.5 bg-white flex items-center justify-center p-1 shadow-2xs">
-                            <img src="{{ asset('storage/products/psalm_23_colouring_book_cover.jpg') }}" alt="Psalm 23 Colouring Book" class="max-h-full max-w-full object-contain group-hover/p:scale-105 transition drop-shadow-xs" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
+                            <img src="{{ $heroColouring?->image_url ?? asset('images/products/psalm_23_colouring_book_cover.jpg') }}" alt="{{ $heroColouring?->name ?? 'Psalm 23 Colouring Book' }}" class="max-h-full max-w-full object-contain group-hover/p:scale-105 transition drop-shadow-xs" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                         </div>
-                        <span class="text-[11px] font-bold text-slate-900 group-hover/p:text-[#7C3AED] leading-tight line-clamp-1">Psalm 23 Colouring</span>
+                        <span class="text-[11px] font-bold text-slate-900 group-hover/p:text-[#7C3AED] leading-tight line-clamp-1">{{ $heroColouring?->name ?? 'Psalm 23 Colouring' }}</span>
                         <span class="text-[9px] text-pink-700 font-extrabold">Bleed-Free Pages</span>
                     </a>
 
                     <!-- 3. Affirmations Flashcards -->
-                    <a href="{{ route('catalog.show', 'affirmations-flashcards') }}" class="group/p bg-indigo-50/60 rounded-xl p-2 border border-indigo-200/70 hover:border-indigo-400 transition flex flex-col items-center text-center">
+                    <a href="{{ route('catalog.show', $heroFlashcard?->slug ?? 'affirmations-flashcards') }}" class="group/p bg-indigo-50/60 rounded-xl p-2 border border-indigo-200/70 hover:border-indigo-400 transition flex flex-col items-center text-center">
                         <div class="w-full h-16 sm:h-20 rounded-lg overflow-hidden mb-1.5 bg-white flex items-center justify-center p-1 shadow-2xs">
-                            <img src="{{ asset('storage/products/affirmations_flashcards_cover.jpg') }}" alt="Affirmations Flashcards" class="max-h-full max-w-full object-contain group-hover/p:scale-105 transition drop-shadow-xs" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
+                            <img src="{{ $heroFlashcard?->image_url ?? asset('images/products/affirmations_flashcards_cover.jpg') }}" alt="{{ $heroFlashcard?->name ?? 'Affirmations Flashcards' }}" class="max-h-full max-w-full object-contain group-hover/p:scale-105 transition drop-shadow-xs" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                         </div>
-                        <span class="text-[11px] font-bold text-slate-900 group-hover/p:text-[#7C3AED] leading-tight line-clamp-1">Affirmations Cards</span>
+                        <span class="text-[11px] font-bold text-slate-900 group-hover/p:text-[#7C3AED] leading-tight line-clamp-1">{{ $heroFlashcard?->name ?? 'Affirmations Cards' }}</span>
                         <span class="text-[9px] text-indigo-700 font-extrabold">Pocket &amp; Big</span>
                     </a>
 
                     <!-- 4. Storybook -->
-                    <a href="{{ route('catalog.show', 'adventures-of-the-little-explorer') }}" class="group/p bg-purple-50/60 rounded-xl p-2 border border-purple-200/70 hover:border-purple-400 transition flex flex-col items-center text-center">
+                    <a href="{{ route('catalog.show', $heroStorybook?->slug ?? 'adventures-of-the-little-explorer') }}" class="group/p bg-purple-50/60 rounded-xl p-2 border border-purple-200/70 hover:border-purple-400 transition flex flex-col items-center text-center">
                         <div class="w-full h-16 sm:h-20 rounded-lg overflow-hidden mb-1.5 bg-white flex items-center justify-center p-1 shadow-2xs">
-                            <img src="{{ asset('storage/products/story_little_explorer.svg') }}" alt="Little Explorer Storybook" class="max-h-full max-w-full object-contain group-hover/p:scale-105 transition drop-shadow-xs" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
+                            <img src="{{ $heroStorybook?->image_url ?? asset('images/products/story_little_explorer.svg') }}" alt="{{ $heroStorybook?->name ?? 'Little Explorer Storybook' }}" class="max-h-full max-w-full object-contain group-hover/p:scale-105 transition drop-shadow-xs" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                         </div>
-                        <span class="text-[11px] font-bold text-slate-900 group-hover/p:text-[#7C3AED] leading-tight line-clamp-1">Little Explorer Book</span>
+                        <span class="text-[11px] font-bold text-slate-900 group-hover/p:text-[#7C3AED] leading-tight line-clamp-1">{{ $heroStorybook?->name ?? 'Little Explorer Book' }}</span>
                         <span class="text-[9px] text-purple-700 font-extrabold">Written by PD</span>
                     </a>
                 </div>
@@ -248,14 +255,10 @@
                 <div>
                     <!-- Product Image with large, prominent display (No text cut off, no tiny thumbnails) -->
                     <a href="{{ route('catalog.show', $product->slug) }}" class="h-60 sm:h-64 bg-gradient-to-b from-purple-50/70 via-indigo-50/20 to-white relative overflow-hidden flex items-center justify-center p-2 sm:p-2.5 border-b border-purple-100/60 block group">
-                        @if($product->primaryImage)
-                            <img src="{{ asset('storage/' . $product->primaryImage->image_path) }}" 
-                                 alt="{{ $product->name }}" 
-                                 class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300 drop-shadow-md rounded-lg"
-                                 onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
-                        @else
-                            <img src="{{ asset('images/products/placeholder.svg') }}" class="w-24 h-24 object-contain">
-                        @endif
+                        <img src="{{ $product->image_url }}" 
+                             alt="{{ $product->name }}" 
+                             class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300 drop-shadow-md rounded-lg"
+                             onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                     </a>
 
                     <div class="p-5">
@@ -320,7 +323,7 @@
                             data-stock="{{ $product->stock_quantity }}"
                             data-desc="{{ $product->description }}"
                             data-category="{{ $product->category->name ?? 'Storybook' }}"
-                            data-image="{{ $product->primaryImage ? $product->primaryImage->image_path : '' }}"
+                            data-image="{{ $product->image_url }}"
                             onclick="triggerQuickAddFromBtn(this)"
                             class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-3.5 py-2.5 rounded-full flex items-center gap-1.5 shadow-xs transition transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">
                             <i class="bi bi-box-seam"></i> Add to Box
@@ -386,7 +389,7 @@
                         <!-- Bundle Visual Thumbnail & Title -->
                         <div class="flex gap-4 items-center mb-3">
                             <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-purple-100 flex-shrink-0 border border-purple-200 flex items-center justify-center p-1">
-                                <img src="{{ asset('storage/products/bundle_starter_box.svg') }}" alt="{{ $bundle->name }}" class="max-h-full max-w-full object-contain" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
+                                <img src="{{ $bundle->image_url }}" alt="{{ $bundle->name }}" class="max-h-full max-w-full object-contain" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                             </div>
                             <div>
                                 <h3 class="font-whimsical font-bold text-[#312E81] text-xl sm:text-2xl leading-tight">{{ $bundle->name }}</h3>

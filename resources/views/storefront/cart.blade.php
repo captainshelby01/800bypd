@@ -99,16 +99,20 @@
                         <div class="flex items-start sm:items-center gap-4">
                             <!-- Thumbnail -->
                             <div class="w-16 h-16 sm:w-20 sm:h-20 bg-purple-50/60 rounded-2xl overflow-hidden flex items-center justify-center border border-purple-100 flex-shrink-0 p-1">
-                                @if(!empty($item['image']))
-                                    <img src="{{ asset('storage/' . $item['image']) }}" 
-                                         alt="{{ $item['name'] }}"
-                                         class="max-h-full max-w-full object-contain"
-                                         onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
-                                @else
-                                    <img src="{{ asset('images/products/placeholder.svg') }}" 
-                                         alt="{{ $item['name'] }}"
-                                         class="w-10 h-10 object-contain">
-                                @endif
+                                @php
+                                    $itemImg = $item['image'] ?? null;
+                                    if ($itemImg) {
+                                        if (!str_starts_with($itemImg, 'http') && !str_starts_with($itemImg, '/')) {
+                                            $itemImg = asset('storage/' . $itemImg);
+                                        }
+                                    } else {
+                                        $itemImg = asset('images/products/placeholder.svg');
+                                    }
+                                @endphp
+                                <img src="{{ $itemImg }}" 
+                                     alt="{{ $item['name'] }}"
+                                     class="max-h-full max-w-full object-contain"
+                                     onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                             </div>
 
                             <!-- Details -->

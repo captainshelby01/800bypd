@@ -57,10 +57,9 @@
     @forelse($bundles as $bundle)
         <div class="bg-white text-slate-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-lg border-2 border-purple-200/80 hover:border-[#7C3AED] transition duration-300 group">
             <div>
-                <!-- Bundle Image / Visual Banner (Item 8: Clean uncropped) -->
                 @if(!empty($bundle->image))
                     <div class="h-48 sm:h-56 bg-gradient-to-br from-purple-50 via-amber-50/40 to-purple-50 rounded-2xl mb-5 flex items-center justify-center overflow-hidden border border-purple-100 p-3">
-                        <img src="{{ asset('storage/' . $bundle->image) }}" 
+                        <img src="{{ $bundle->image_url }}" 
                              alt="{{ $bundle->name }}" 
                              class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300 drop-shadow-md"
                              onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">

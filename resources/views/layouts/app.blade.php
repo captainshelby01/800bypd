@@ -678,7 +678,11 @@
             
             const imageEl = document.getElementById('quickAddImage');
             if (product.image) {
-                imageEl.src = '/storage/' + product.image;
+                if (product.image.startsWith('http://') || product.image.startsWith('https://') || product.image.startsWith('/')) {
+                    imageEl.src = product.image;
+                } else {
+                    imageEl.src = '/storage/' + product.image;
+                }
                 imageEl.classList.remove('hidden');
                 document.getElementById('quickAddPlaceholderIcon').classList.add('hidden');
             } else {

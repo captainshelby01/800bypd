@@ -60,7 +60,7 @@
                     @if($bundle->image)
                         <div class="mt-2 flex items-center gap-2">
                             <span class="text-[10px] text-slate-400">Current:</span>
-                            <img src="{{ asset('storage/' . $bundle->image) }}" class="w-10 h-10 object-cover rounded-lg border">
+                            <img src="{{ $bundle->image_url }}" class="w-10 h-10 object-cover rounded-lg border" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                         </div>
                     @endif
                 </div>

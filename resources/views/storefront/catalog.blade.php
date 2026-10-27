@@ -200,16 +200,11 @@
             @forelse($products as $product)
                 <div class="bg-white border border-purple-200/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300 group flex flex-col justify-between">
                     <div>
-                        <!-- Product Image Area (Large & prominent, uncropped, text never cut off) -->
                         <a href="{{ route('catalog.show', $product->slug) }}" class="block h-56 sm:h-64 bg-gradient-to-b from-purple-50/70 via-indigo-50/20 to-white relative overflow-hidden flex items-center justify-center p-2 sm:p-2.5 border-b border-purple-100/60 group">
-                            @if($product->primaryImage)
-                                <img src="{{ asset('storage/' . $product->primaryImage->image_path) }}" 
-                                     alt="{{ $product->name }}" 
-                                     class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300 drop-shadow-md rounded-lg"
-                                     onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
-                            @else
-                                <img src="{{ asset('images/products/placeholder.svg') }}" alt="{{ $product->name }}" class="w-24 h-24 object-contain">
-                            @endif
+                            <img src="{{ $product->image_url }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300 drop-shadow-md rounded-lg"
+                                 onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                         </a>
 
                         <!-- Product Content Info -->
@@ -286,7 +281,7 @@
                                 data-stock="{{ $product->stock_quantity }}"
                                 data-desc="{{ $product->description }}"
                                 data-category="{{ $product->category->name ?? 'Book' }}"
-                                data-image="{{ $product->primaryImage ? $product->primaryImage->image_path : '' }}"
+                                data-image="{{ $product->image_url }}"
                                 onclick="triggerQuickAddFromBtn(this)"
                                 class="h-10 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">
                                 <i class="bi bi-box-seam text-[#FACC15]"></i>

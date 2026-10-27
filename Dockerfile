@@ -26,12 +26,15 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-RUN mkdir -p storage/framework/views storage/framework/sessions storage/framework/cache
+RUN mkdir -p storage/framework/views storage/framework/sessions storage/framework/cache storage/app/public/products storage/app/public/bundles storage/app/public/receipts
+RUN cp -r public/images/products/* storage/app/public/products/ 2>/dev/null || true
+RUN php artisan storage:link || true
 RUN chmod -R 777 storage bootstrap/cache
 
 CMD php artisan config:clear && \
     php artisan route:clear && \
     php artisan view:clear && \
+    php artisan storage:link || true && \
     php artisan migrate --force && \
     php artisan db:seed --force && \
     php artisan serve --host=0.0.0.0 --port=${PORT:-10000}

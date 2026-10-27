@@ -38,24 +38,17 @@
         <!-- Image Gallery Above Fold -->
         <div>
             <div class="h-72 sm:h-80 lg:h-96 bg-gradient-to-b from-purple-50/70 via-indigo-50/20 to-white rounded-3xl overflow-hidden mb-4 relative flex items-center justify-center p-4 sm:p-6 border border-purple-100/80">
-                @if($product->primaryImage)
-                    <img id="mainProductImage" 
-                         src="{{ asset('storage/' . $product->primaryImage->image_path) }}" 
-                         alt="{{ $product->name }}" 
-                         class="max-h-full max-w-full object-contain drop-shadow-lg"
-                         onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
-                @else
-                    <img id="mainProductImage" 
-                         src="{{ asset('images/products/placeholder.svg') }}" 
-                         alt="{{ $product->name }}" 
-                         class="w-32 h-32 object-contain">
-                @endif
+                <img id="mainProductImage" 
+                     src="{{ $product->image_url }}" 
+                     alt="{{ $product->name }}" 
+                     class="max-h-full max-w-full object-contain drop-shadow-lg"
+                     onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
             </div>
 
             @if($product->images->count() > 0)
                 <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-none">
                     @foreach($product->images as $img)
-                        <img src="{{ asset('storage/' . $img->image_path) }}" 
+                        <img src="{{ $img->url }}" 
                              onclick="document.getElementById('mainProductImage').src = this.src" 
                              class="w-16 h-16 object-contain p-1 bg-purple-50/40 rounded-xl border-2 border-slate-200 cursor-pointer hover:border-[#7C3AED] transition"
                              onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">

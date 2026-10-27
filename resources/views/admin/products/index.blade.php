@@ -92,11 +92,7 @@
                             <td class="p-3.5 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
                                     <div class="w-12 h-12 bg-purple-50 rounded-xl overflow-hidden flex items-center justify-center border border-purple-100 flex-shrink-0">
-                                        @if($product->primaryImage)
-                                            <img src="{{ asset('storage/' . $product->primaryImage->image_path) }}" class="w-full h-full object-cover">
-                                        @else
-                                            <i class="bi bi-book-half text-xl text-amber-400"></i>
-                                        @endif
+                                        <img src="{{ $product->image_url }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/products/placeholder.svg') }}';">
                                     </div>
                                     <div>
                                         <p class="font-bold text-slate-900 text-sm leading-tight">{{ $product->name }}</p>

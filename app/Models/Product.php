@@ -49,4 +49,8 @@ class Product extends Model
     public function getFormattedOriginalPriceAttribute() {
         return $this->sale_price ? '₦' . number_format($this->price, 2) : null;
     }
+
+    public function getImageUrlAttribute(): string {
+        return $this->primaryImage ? $this->primaryImage->url : asset('images/products/placeholder.svg');
+    }
 }

@@ -89,7 +89,7 @@ class CartService
         $key = $variant ? "product_{$product->id}_{$variant->id}" : "product_{$product->id}";
         $price = $variant && $variant->price ? (float) $variant->price : (float) ($product->sale_price ?? $product->price);
         $displayName = $variant && $variant->name ? "{$product->name} ({$variant->name})" : $product->name;
-        $imagePath = $product->primaryImage ? $product->primaryImage->image_path : null;
+        $imagePath = $product->image_url;
 
         if (isset($cart[$key])) {
             $cart[$key]['quantity'] += $quantity;
@@ -150,7 +150,7 @@ class CartService
                 'price' => (float) $bundle->price,
                 'quantity' => $quantity,
                 'box_units_per_item' => $unitsPerItem,
-                'image' => $bundle->image,
+                'image' => $bundle->image_url,
                 'items_breakdown' => $breakdown,
             ];
         }

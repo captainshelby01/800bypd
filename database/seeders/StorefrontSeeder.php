@@ -75,9 +75,11 @@ class StorefrontSeeder extends Seeder
             ]
         );
 
-        // Helper function to sync product images
+        // Helper function to sync product images (only seeds if product has no images yet to protect user uploads)
         $syncImages = function (Product $product, array $imagePaths) {
-            ProductImage::where('product_id', $product->id)->delete();
+            if ($product->images()->exists()) {
+                return;
+            }
             foreach ($imagePaths as $index => $path) {
                 ProductImage::create([
                     'product_id' => $product->id,

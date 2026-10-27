@@ -64,4 +64,28 @@ class Bundle extends Model
         }
         return null;
     }
+
+    public function getImageUrlAttribute(): string
+    {
+        if (empty($this->image)) {
+            return asset('images/products/placeholder.svg');
+        }
+
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+
+        $cleanPath = ltrim($this->image, '/');
+
+        if (file_exists(public_path('storage/' . $cleanPath))) {
+            return asset('storage/' . $cleanPath);
+        }
+
+        $basename = basename($cleanPath);
+        if (file_exists(public_path('images/products/' . $basename))) {
+            return asset('images/products/' . $basename);
+        }
+
+        return asset('storage/' . $cleanPath);
+    }
 }
