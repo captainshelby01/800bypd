@@ -52,6 +52,10 @@ class AdminBundleController extends Controller
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('bundles', 'public');
+            if (!file_exists(public_path('storage/' . $imagePath))) {
+                @mkdir(dirname(public_path('storage/' . $imagePath)), 0755, true);
+                @copy(storage_path('app/public/' . $imagePath), public_path('storage/' . $imagePath));
+            }
         }
 
         $bundle = Bundle::create([
@@ -111,8 +115,15 @@ class AdminBundleController extends Controller
         if ($request->hasFile('image')) {
             if ($bundle->image) {
                 Storage::disk('public')->delete($bundle->image);
+                if (file_exists(public_path('storage/' . $bundle->image))) {
+                    @unlink(public_path('storage/' . $bundle->image));
+                }
             }
             $bundle->image = $request->file('image')->store('bundles', 'public');
+            if (!file_exists(public_path('storage/' . $bundle->image))) {
+                @mkdir(dirname(public_path('storage/' . $bundle->image)), 0755, true);
+                @copy(storage_path('app/public/' . $bundle->image), public_path('storage/' . $bundle->image));
+            }
         }
 
         $bundle->update([
@@ -155,6 +166,9 @@ class AdminBundleController extends Controller
         $bundle = Bundle::findOrFail($id);
         if ($bundle->image) {
             Storage::disk('public')->delete($bundle->image);
+            if (file_exists(public_path('storage/' . $bundle->image))) {
+                @unlink(public_path('storage/' . $bundle->image));
+            }
         }
         $name = $bundle->name;
         $bundle->delete();

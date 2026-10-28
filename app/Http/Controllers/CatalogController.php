@@ -14,7 +14,11 @@ class CatalogController extends Controller
 
         // Filter by category
         if ($request->filled('category')) {
-            $category = Category::where('slug', $request->category)->first();
+            $catSlug = $request->category;
+            $slugs = in_array($catSlug, ['colouring-books', 'coloring-books'])
+                ? ['colouring-books', 'coloring-books']
+                : [$catSlug];
+            $category = Category::whereIn('slug', $slugs)->first();
             if ($category) {
                 $query->where('category_id', $category->id);
             }
@@ -31,10 +35,10 @@ class CatalogController extends Controller
             } elseif ($age === '4-7' || $age === 'early-learners') {
                 $query->where(function($q) {
                     $q->whereHas('variants', fn($vq) => $vq->where('name', 'like', '%Intermediate%')->orWhere('name', 'like', '%Big%'))
-                      ->orWhereHas('category', fn($cq) => $cq->whereIn('slug', ['coloring-books', 'jigsaw-puzzles', 'flashcards']));
+                      ->orWhereHas('category', fn($cq) => $cq->whereIn('slug', ['colouring-books', 'coloring-books', 'jigsaw-puzzles', 'flashcards']));
                 });
             } elseif ($age === '7+' || $age === 'growing-readers') {
-                $query->whereHas('category', fn($cq) => $cq->whereIn('slug', ['storybooks', 'coloring-books']));
+                $query->whereHas('category', fn($cq) => $cq->whereIn('slug', ['storybooks', 'colouring-books', 'coloring-books']));
             }
         }
 
@@ -75,7 +79,11 @@ class CatalogController extends Controller
 
     public function show($slug)
     {
-        $product = Product::with(['images', 'category', 'reviews', 'variants'])->where('slug', $slug)->firstOrFail();
+        $productQuery = Product::with(['images', 'category', 'reviews', 'variants'])->where('slug', $slug);
+        if (!auth()->check() || !auth()->user()->isAdmin()) {
+            $productQuery->where('is_active', true);
+        }
+        $product = $productQuery->firstOrFail();
         $relatedProducts = Product::with(['primaryImage', 'variants'])
             ->where('category_id', $product->category_id)
             ->where('id', '!=', $product->id)

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\OrderVerificationController;
 use App\Http\Controllers\Admin\AdminProductController;
 use App\Http\Controllers\Admin\AdminBundleController;
+use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminSettingsController;
 use App\Http\Controllers\Admin\AdminUserController;
 
@@ -36,6 +37,7 @@ Route::post('/product/{id}/reviews', [CatalogController::class, 'storeReview'])-
 
 // Shopping Cart Routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/cart/sidebar-data', [CartController::class, 'sidebarData'])->name('cart.sidebarData');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/add-bundle/{id}', [CartController::class, 'addBundle'])->name('cart.addBundle');
 Route::post('/cart/update/{key}', [CartController::class, 'update'])->name('cart.update');
@@ -77,6 +79,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Product Management Resource Routes
     Route::resource('products', AdminProductController::class);
+    Route::post('products/{id}/toggle-active', [AdminProductController::class, 'toggleActive'])->name('products.toggleActive');
+
+    // Category Management Resource Routes
+    Route::resource('categories', AdminCategoryController::class)->except(['show']);
 
     // Product Bundles Management Routes
     Route::resource('bundles', AdminBundleController::class);
@@ -89,3 +95,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Admin & Staff Logins Management Routes
     Route::resource('users', AdminUserController::class)->except(['create', 'edit', 'show']);
 });
+
+// Storage File Fallback Route (ensures uploaded assets serve reliably across all environments)
+Route::get('/storage/{path}', function ($path) {
+    $fullPath = storage_path('app/public/' . $path);
+    if (!file_exists($fullPath)) {
+        abort(404);
+    }
+    return response()->file($fullPath);
+})->where('path', '.*');

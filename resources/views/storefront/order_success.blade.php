@@ -7,7 +7,23 @@
     </div>
 
     <h1 class="font-whimsical text-2xl sm:text-3xl font-bold text-[#312E81] mb-2">Order Confirmed!</h1>
-    <p class="text-xs text-slate-500 mb-6">Thank you for your purchase. Your order has been registered.</p>
+    <p class="text-sm font-semibold text-slate-700 mb-6">Your order has been confirmed! Please check your email for your order receipt.</p>
+
+    <!-- Email Receipt Notice Banner -->
+    <div class="bg-gradient-to-r from-purple-50 via-indigo-50/60 to-purple-50 border-2 border-purple-200 p-4 sm:p-5 rounded-2xl mb-6 text-left flex items-start gap-3.5 shadow-xs">
+        <div class="w-10 h-10 rounded-xl bg-[#7C3AED] text-white flex items-center justify-center flex-shrink-0 text-xl shadow-xs">
+            <i class="bi bi-envelope-check-fill"></i>
+        </div>
+        <div class="space-y-1">
+            <h3 class="font-bold text-[#312E81] text-sm sm:text-base">Order Receipt Sent via Email</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                Your order has been confirmed! Please check your email inbox at <strong class="text-[#7C3AED] font-semibold">{{ $order->customer_email }}</strong> for your full order receipt and order summary.
+            </p>
+            <p class="text-[11px] text-slate-500 flex items-center gap-1.5 pt-0.5">
+                <i class="bi bi-info-circle text-[#7C3AED]"></i> If you do not see it in your inbox shortly, please check your spam or junk folder.
+            </p>
+        </div>
+    </div>
 
     <div class="bg-purple-50/50 p-6 rounded-2xl border border-purple-200/60 text-left text-xs space-y-2.5 mb-6">
         <div class="flex justify-between">

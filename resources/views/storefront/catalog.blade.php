@@ -34,9 +34,9 @@
             <i class="bi bi-puzzle-fill text-amber-500"></i> Jigsaw Puzzles
             <span class="text-[10px] bg-amber-100 text-amber-900 px-1.5 py-0.2 rounded-md font-extrabold">Easy & 12-pc</span>
         </a>
-        <a href="{{ route('catalog.index', array_filter(['category' => 'coloring-books', 'age' => request('age'), 'search' => request('search'), 'sort' => request('sort')])) }}" 
-           class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 {{ request('category') === 'coloring-books' ? 'bg-[#312E81] text-[#FACC15] shadow-md' : 'bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50' }}">
-            <i class="bi bi-palette-fill text-pink-500"></i> Coloring Books
+        <a href="{{ route('catalog.index', array_filter(['category' => 'colouring-books', 'age' => request('age'), 'search' => request('search'), 'sort' => request('sort')])) }}" 
+           class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 {{ in_array(request('category'), ['colouring-books', 'coloring-books']) ? 'bg-[#312E81] text-[#FACC15] shadow-md' : 'bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50' }}">
+            <i class="bi bi-palette-fill text-pink-500"></i> Colouring Books
         </a>
         <a href="{{ route('catalog.index', array_filter(['category' => 'flashcards', 'age' => request('age'), 'search' => request('search'), 'sort' => request('sort')])) }}" 
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 {{ request('category') === 'flashcards' ? 'bg-[#312E81] text-[#FACC15] shadow-md' : 'bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50' }}">
@@ -119,7 +119,7 @@
                                 <span>
                                     @if($cat->slug === 'jigsaw-puzzles')
                                         <i class="bi bi-puzzle-fill text-amber-500 mr-1.5"></i>
-                                    @elseif($cat->slug === 'coloring-books')
+                                    @elseif(in_array($cat->slug, ['colouring-books', 'coloring-books']))
                                         <i class="bi bi-palette-fill text-pink-500 mr-1.5"></i>
                                     @elseif($cat->slug === 'flashcards')
                                         <i class="bi bi-card-text text-indigo-500 mr-1.5"></i>
@@ -225,7 +225,7 @@
                                     if ($product->category) {
                                         if ($product->category->slug === 'jigsaw-puzzles') $ageLabel = 'Ages 3–8 yrs';
                                         elseif ($product->category->slug === 'flashcards') $ageLabel = 'Ages 2–6 yrs';
-                                        elseif ($product->category->slug === 'coloring-books') $ageLabel = 'Ages 3–8 yrs';
+                                        elseif (in_array($product->category->slug, ['colouring-books', 'coloring-books'])) $ageLabel = 'Ages 3–8 yrs';
                                         elseif ($product->category->slug === 'storybooks') $ageLabel = 'Ages 3–9 yrs';
                                     }
                                 @endphp
@@ -240,35 +240,37 @@
                                 $subReference = isset($titleParts[1]) ? trim(rtrim($titleParts[1], ')')) : null;
                             @endphp
 
-                            <h3 class="font-whimsical font-bold text-slate-900 text-base sm:text-lg mb-0.5 leading-snug">
+                            <h3 class="font-whimsical font-bold text-slate-900 text-base sm:text-lg mb-0.5 leading-snug sm:min-h-[3rem] flex items-center">
                                 <a href="{{ route('catalog.show', $product->slug) }}" class="hover:text-[#7C3AED] transition">{{ $cleanTitle }}</a>
                             </h3>
 
-                            @if($subReference)
-                                <p class="text-[11px] font-bold text-[#7C3AED] mb-2">{{ $subReference }}</p>
-                            @else
-                                <p class="text-[11px] font-semibold text-slate-400 mb-2">Written by PD • 800byPD Original</p>
-                            @endif
+                            <div class="min-h-[1.25rem] mb-2 flex items-center">
+                                @if($subReference)
+                                    <p class="text-[11px] font-bold text-[#7C3AED]">{{ $subReference }}</p>
+                                @else
+                                    <p class="text-[11px] font-semibold text-slate-400">Written by PD • 800byPD Original</p>
+                                @endif
+                            </div>
 
                             <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-3">{{ $product->description }}</p>
                         </div>
                     </div>
 
                     <!-- Price & Action Footer -->
-                    <div class="p-5 pt-0 flex items-center justify-between gap-2 mt-auto">
-                        <div class="min-h-[46px] flex flex-col justify-center">
+                    <div class="px-4 pb-4 sm:px-5 sm:pb-5 pt-0 flex items-center justify-between gap-2 mt-auto">
+                        <div class="min-h-[42px] flex flex-col justify-center min-w-0">
                             @if($product->variants->isNotEmpty())
-                                <span class="text-[10px] text-slate-400 font-semibold block uppercase tracking-wider leading-none mb-0.5">Starting at</span>
+                                <span class="text-[9px] text-slate-400 font-bold block uppercase tracking-wider leading-none mb-0.5">Starting at</span>
                             @endif
-                            <span class="text-xl font-extrabold text-[#312E81] price-convertible leading-tight" data-price-ngn="{{ $product->sale_price ?? $product->price }}">{{ $product->formatted_price }}</span>
+                            <span class="text-base sm:text-lg font-black text-[#312E81] price-convertible leading-tight truncate" data-price-ngn="{{ $product->sale_price ?? $product->price }}">{{ $product->formatted_price }}</span>
                             @if($product->sale_price)
-                                <span class="block text-[11px] line-through text-slate-400 price-convertible" data-price-ngn="{{ $product->price }}">{{ $product->formatted_original_price }}</span>
+                                <span class="block text-[10px] line-through text-slate-400 price-convertible" data-price-ngn="{{ $product->price }}">{{ $product->formatted_original_price }}</span>
                             @endif
                         </div>
 
                         @if($product->variants->isNotEmpty())
-                            <!-- 3.4 Properly sized & aligned Choose Option button -->
-                            <a href="{{ route('catalog.show', $product->slug) }}" class="h-10 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">
+                            <!-- Consistently sized & aligned Choose Options button -->
+                            <a href="{{ route('catalog.show', $product->slug) }}" class="h-9 sm:h-10 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-[11px] sm:text-xs font-extrabold px-3 sm:px-3.5 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-sm transition transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0 text-center">
                                 <i class="bi bi-sliders text-[#FACC15]"></i>
                                 <span>Choose Options</span>
                             </a>
@@ -283,7 +285,7 @@
                                 data-category="{{ $product->category->name ?? 'Book' }}"
                                 data-image="{{ $product->image_url }}"
                                 onclick="triggerQuickAddFromBtn(this)"
-                                class="h-10 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-xs font-extrabold px-4 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-md transition transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">
+                                class="h-9 sm:h-10 bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] text-[11px] sm:text-xs font-extrabold px-3 sm:px-3.5 rounded-xl inline-flex items-center justify-center gap-1.5 shadow-sm transition transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0 text-center">
                                 <i class="bi bi-box-seam text-[#FACC15]"></i>
                                 <span>Add to Box</span>
                             </button>

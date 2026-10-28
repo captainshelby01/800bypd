@@ -93,11 +93,18 @@
                     @endif
                 </div>
 
-                <h1 class="font-whimsical text-2xl lg:text-3xl font-bold text-[#312E81] mb-3 leading-tight">{{ $product->name }}</h1>
-                <!-- 2.3 Removed Product SKU & Brand entirely from details page -->
+                <h1 class="font-whimsical text-2xl lg:text-3xl font-bold text-[#312E81] mb-4 leading-tight">{{ $product->name }}</h1>
 
-                <!-- Rating Preview Badge in Header -->
-                <div class="flex items-center gap-2 mb-4">
+                <!-- Value Proposition Banner -->
+                <div class="text-xs text-[#312E81] bg-purple-50/80 border border-purple-100 p-3.5 rounded-2xl mb-3 flex items-start gap-2">
+                    <i class="bi bi-stars text-[#FACC15] text-base mt-0.5 flex-shrink-0"></i>
+                    <div>
+                        <strong>Why Kids & Parents Love This:</strong> Crafted to stimulate imagination, problem-solving, and faith-filled learning in young minds.
+                    </div>
+                </div>
+
+                <!-- Rating Preview Badge (Directly below "Why Kids & Parents Love This") -->
+                <div class="flex items-center gap-2 mb-6">
                     <div class="flex text-[#FACC15] text-xs">
                         @php
                             $avgRating = round($product->reviews->avg('rating') ?: 5);
@@ -109,14 +116,6 @@
                     <a href="#reviews-section" class="text-xs text-slate-500 hover:text-[#7C3AED] font-semibold underline">
                         {{ $product->reviews->count() }} {{ Str::plural('Review', $product->reviews->count()) }}
                     </a>
-                </div>
-
-                <!-- Value Proposition Banner -->
-                <div class="text-xs text-[#312E81] bg-purple-50/80 border border-purple-100 p-3.5 rounded-2xl mb-6 flex items-start gap-2">
-                    <i class="bi bi-stars text-[#FACC15] text-base mt-0.5 flex-shrink-0"></i>
-                    <div>
-                        <strong>Why Kids & Parents Love This:</strong> Crafted to stimulate imagination, problem-solving, and faith-filled learning in young minds.
-                    </div>
                 </div>
 
                 <!-- Pricing Display -->
@@ -153,7 +152,7 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                                 @foreach($product->variants as $index => $variant)
-                                    <label class="variant-pill-label relative flex items-center justify-between p-3 rounded-xl border-2 cursor-pointer transition {{ $index === 0 ? 'border-[#7C3AED] bg-white ring-2 ring-[#7C3AED]/30 shadow-sm' : 'border-purple-200/80 bg-white/60 hover:border-purple-400' }}">
+                                    <label class="variant-pill-label relative flex items-center justify-between p-3 rounded-xl border-2 cursor-pointer transition h-full min-h-[52px] {{ $index === 0 ? 'border-[#7C3AED] bg-white ring-2 ring-[#7C3AED]/30 shadow-sm' : 'border-purple-200/80 bg-white/60 hover:border-purple-400' }}">
                                         <input 
                                             type="radio" 
                                             name="variant_id" 
@@ -237,8 +236,8 @@
                         <strong>Ages 3–8 yrs</strong> (Easy: 3–5 yrs, Intermediate: 5–8 yrs). Promotes hand-eye coordination, spatial awareness, and problem solving.
                     @elseif(str_contains(strtolower($product->category->name ?? ''), 'flashcard'))
                         <strong>Ages 2–6 yrs</strong> (Pocket & Big). Daily biblical identity affirmations and early vocabulary recognition.
-                    @elseif(str_contains(strtolower($product->category->name ?? ''), 'coloring'))
-                        <strong>Ages 3–8 yrs</strong>. Bleed-resistant paper perfect for crayons, colored pencils, and light felt-tip markers.
+                    @elseif(str_contains(strtolower($product->category->name ?? ''), 'colouring') || str_contains(strtolower($product->category->name ?? ''), 'coloring'))
+                        <strong>Ages 3–8 yrs</strong>. Heavyweight, premium paper perfect for crayons, coloured pencils, and light felt-tip markers.
                     @else
                         <strong>Ages 3–9 yrs</strong>. Engaging character-building stories designed for read-aloud family devotionals.
                     @endif
@@ -553,12 +552,11 @@ function handleProductDetailAddToCart(e) {
         }, 1500);
 
         if (data.success) {
-            const badge = document.getElementById('cartCountBadge');
-            if (badge) {
-                badge.textContent = (data.box && typeof data.box.total_items !== 'undefined') ? data.box.total_items : data.cart_count;
-            }
             if (window.updateFloatingCartBar) {
                 window.updateFloatingCartBar(data.box, data.subtotal, data.cart_count);
+            }
+            if (window.renderCartSidebar) {
+                window.renderCartSidebar(data);
             }
             showToastNotification(data.message || 'Product added to your box!');
         }

@@ -45,8 +45,9 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full {{ $box['is_box_full'] ? 'bg-emerald-200 text-emerald-900' : 'bg-amber-200 text-amber-900' }}">
-                                {{ $box['is_box_full'] ? '🎉 Box Complete' : '📦 Fill Your Box Activity' }}
+                            <span class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 {{ $box['is_box_full'] ? 'bg-emerald-200 text-emerald-900' : 'bg-amber-200 text-amber-900' }}">
+                                <i class="bi {{ $box['is_box_full'] ? 'bi-patch-check-fill text-emerald-700' : 'bi-box-seam text-amber-800' }}"></i>
+                                <span>{{ $box['is_box_full'] ? 'Box Complete' : 'Fill Your Box Activity' }}</span>
                             </span>
                             <span class="text-xs font-bold text-slate-500 font-mono">Min: {{ $box['required_minimum'] }} items</span>
                         </div>
@@ -139,8 +140,8 @@
                                     <div class="text-[11px] text-slate-500 mb-2 space-y-0.5">
                                         <span class="font-bold text-slate-700">Contains:</span>
                                         @foreach($item['items_breakdown'] as $component)
-                                            <span class="inline-block bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10px] mr-1">
-                                                ✔ {{ $component }}
+                                            <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[10px] mr-1">
+                                                <i class="bi bi-check2 text-emerald-600"></i> {{ $component }}
                                             </span>
                                         @endforeach
                                     </div>
@@ -238,12 +239,12 @@
             <div>
                 <h3 class="font-whimsical text-xl font-bold text-[#312E81] mb-1">Your Box is Empty</h3>
                 <p class="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
-                    Start filling your box with fun jigsaw puzzles, educational flashcards, coloring books, or grab one of our ready-made bundles!
+                    Start filling your box with fun jigsaw puzzles, educational flashcards, colouring books, or grab one of our ready-made bundles!
                 </p>
             </div>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-                <a href="{{ route('home') }}#bundles-section" class="bg-[#FACC15] hover:bg-amber-300 text-[#312E81] font-extrabold px-6 py-3 rounded-full text-xs shadow-md transition">
-                    🎁 Buy Pre-made Bundles
+                <a href="{{ route('home') }}#bundles-section" class="bg-[#FACC15] hover:bg-amber-300 text-[#312E81] font-extrabold px-6 py-3 rounded-full text-xs shadow-md transition inline-flex items-center gap-1.5">
+                    <i class="bi bi-box2-heart-fill"></i> Buy Pre-made Bundles
                 </a>
                 <a href="{{ route('catalog.index') }}" class="bg-[#312E81] text-white hover:bg-indigo-950 font-extrabold px-6 py-3 rounded-full text-xs shadow-md transition">
                     Browse All Products

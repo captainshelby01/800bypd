@@ -39,7 +39,7 @@ class Bundle extends Model
 
     /**
      * Total number of individual items in this bundle.
-     * E.g. 2 puzzles + 1 book + 1 flashcard + 1 coloring book = 5 items.
+     * E.g. 2 puzzles + 1 book + 1 flashcard + 1 colouring book = 5 items.
      * This directly contributes to the "Fill Your Box" item counter.
      */
     public function getTotalItemsCountAttribute(): int
@@ -76,8 +76,13 @@ class Bundle extends Model
         }
 
         $cleanPath = ltrim($this->image, '/');
+        if (str_starts_with($cleanPath, 'storage/')) {
+            $cleanPath = substr($cleanPath, 8);
+        } elseif (str_starts_with($cleanPath, 'public/')) {
+            $cleanPath = substr($cleanPath, 7);
+        }
 
-        if (file_exists(public_path('storage/' . $cleanPath))) {
+        if (file_exists(public_path('storage/' . $cleanPath)) || file_exists(storage_path('app/public/' . $cleanPath))) {
             return asset('storage/' . $cleanPath);
         }
 

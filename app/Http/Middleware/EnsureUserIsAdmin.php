@@ -15,7 +15,7 @@ class EnsureUserIsAdmin
             return redirect()->route('login')->with('error', 'Please log in with an administrator account to access the admin panel.');
         }
 
-        if (!in_array(Auth::user()->role, ['admin', 'staff'])) {
+        if (!Auth::user()->isAdmin()) {
             return redirect()->route('account.dashboard')->with('error', 'Access Denied: You do not have administrator or staff privileges.');
         }
 

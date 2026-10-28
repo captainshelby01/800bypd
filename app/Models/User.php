@@ -28,7 +28,12 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function isSuperAdmin()
+    public function isAdmin(): bool
+    {
+        return in_array($this->role, ['admin', 'staff', 'super_admin']) || $this->email === 'admin@800bypd.com';
+    }
+
+    public function isSuperAdmin(): bool
     {
         return $this->email === 'admin@800bypd.com' || $this->role === 'super_admin';
     }

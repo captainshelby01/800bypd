@@ -31,6 +31,9 @@
         <a href="{{ route('admin.products.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
             <i class="bi bi-journal-bookmark-fill"></i> Products
         </a>
+        <a href="{{ route('admin.categories.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+            <i class="bi bi-tags-fill"></i> Category Management
+        </a>
         <a href="{{ route('admin.bundles.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
             <i class="bi bi-box2-heart-fill"></i> Product Bundles
         </a>
@@ -146,7 +149,7 @@
                 <div class="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200/80 space-y-2">
                     <div class="flex items-center justify-between text-xs">
                         <span class="font-extrabold text-emerald-900 flex items-center gap-1.5">
-                            <i class="bi bi-check-circle-fill text-emerald-600"></i> Your box is full! 🎉
+                            <i class="bi bi-check-circle-fill text-emerald-600"></i> Your box is full!
                         </span>
                         <span class="font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full text-[10px]">
                             <span class="previewMinVar">{{ $minOrderQty }}</span> / <span class="previewMinVar">{{ $minOrderQty }}</span> items

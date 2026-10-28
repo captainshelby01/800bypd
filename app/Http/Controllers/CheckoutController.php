@@ -126,7 +126,7 @@ class CheckoutController extends Controller
         }
 
         return redirect()->route('checkout.success', $order->order_number)
-            ->with('success', 'Order placed successfully! Your Bank Transfer receipt is under admin verification.');
+            ->with('success', 'Your order has been confirmed! Please check your email for your order receipt.');
     }
 
     private function initializePaystack(Order $order)
@@ -157,7 +157,7 @@ class CheckoutController extends Controller
         ]);
 
         return redirect()->route('checkout.success', $order->order_number)
-            ->with('success', 'Paystack payment completed (Test Sandbox Mode)!');
+            ->with('success', 'Your order has been confirmed! Please check your email for your order receipt.');
     }
 
     public function paystackCallback(Request $request)
@@ -176,7 +176,8 @@ class CheckoutController extends Controller
                 'order_status' => 'processing',
             ]);
 
-            return redirect()->route('checkout.success', $order->order_number);
+            return redirect()->route('checkout.success', $order->order_number)
+                ->with('success', 'Your order has been confirmed! Please check your email for your order receipt.');
         }
 
         return redirect()->route('cart.index')->with('error', 'Payment transaction failed or was cancelled.');

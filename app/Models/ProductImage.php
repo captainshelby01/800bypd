@@ -28,9 +28,14 @@ class ProductImage extends Model
         }
 
         $cleanPath = ltrim($this->image_path, '/');
+        if (str_starts_with($cleanPath, 'storage/')) {
+            $cleanPath = substr($cleanPath, 8);
+        } elseif (str_starts_with($cleanPath, 'public/')) {
+            $cleanPath = substr($cleanPath, 7);
+        }
 
-        // Check if file physically exists in public/storage
-        if (file_exists(public_path('storage/' . $cleanPath))) {
+        // Check if file physically exists in public/storage or storage/app/public
+        if (file_exists(public_path('storage/' . $cleanPath)) || file_exists(storage_path('app/public/' . $cleanPath))) {
             return asset('storage/' . $cleanPath);
         }
 

@@ -43,10 +43,10 @@ class StorefrontSeeder extends Seeder
         );
 
         $colouring = Category::updateOrCreate(
-            ['slug' => 'coloring-books'],
+            ['slug' => 'colouring-books'],
             [
-                'name' => 'Coloring Books',
-                'description' => 'Creative and interactive coloring books designed to unleash imagination, fine motor skills, and artistic expression.'
+                'name' => 'Colouring Books',
+                'description' => 'Creative and interactive colouring books designed to unleash imagination, fine motor skills, and artistic expression.'
             ]
         );
 
@@ -193,7 +193,7 @@ class StorefrontSeeder extends Seeder
                 'slug' => 'psalm-23-colouring-book',
                 'price' => 4000.00,
                 'stock_quantity' => 60,
-                'description' => 'Delightful faith-filled colouring book by Pelumi Dada, illustrated by Jennifer Sado. Walks children through the comforting promises of Psalm 23 with playful, beautifully illustrated scenes to color.',
+                'description' => 'Delightful faith-filled colouring book by Pelumi Dada, illustrated by Jennifer Sado. Walks children through the comforting promises of Psalm 23 with playful, beautifully illustrated scenes to colour.',
                 'is_featured' => true,
                 'is_active' => true,
             ]
@@ -464,7 +464,7 @@ class StorefrontSeeder extends Seeder
                 'price' => 20500.00,
                 'original_price' => 20500.00,
                 'image' => 'products/bundle_starter_box.svg',
-                'description' => 'The ultimate starter package combining hands-on play and reading! Includes 2 Jigsaw Puzzles, 1 Coloring Book, 1 Flashcard set, and 1 Storybook.',
+                'description' => 'The ultimate starter package combining hands-on play and reading! Includes 2 Jigsaw Puzzles, 1 Colouring Book, 1 Flashcard set, and 1 Storybook.',
                 'is_active' => true,
                 'sort_order' => 1,
             ]
@@ -509,7 +509,7 @@ class StorefrontSeeder extends Seeder
                 'price' => 41500.00,
                 'original_price' => 41500.00,
                 'image' => 'products/bundle_starter_box.svg',
-                'description' => 'The comprehensive home learning box! Packed with 3 Jigsaw Puzzles, 2 Flashcard sets, 2 Coloring Books, and 3 inspiring Storybooks.',
+                'description' => 'The comprehensive home learning box! Packed with 3 Jigsaw Puzzles, 2 Flashcard sets, 2 Colouring Books, and 3 inspiring Storybooks.',
                 'is_active' => true,
                 'sort_order' => 2,
             ]
@@ -604,7 +604,7 @@ class StorefrontSeeder extends Seeder
             ['product_id' => $col2->id, 'customer_name' => 'Mrs. Folake K. (Victoria Island)'],
             [
                 'rating' => 5,
-                'comment' => 'The Psalm 23 coloring book has become our family favourite! Thick pages that do not bleed with markers, and lovely illustrations.',
+                'comment' => 'The Psalm 23 colouring book has become our family favourite! Thick, durable pages that hold up wonderfully with markers, and lovely illustrations.',
                 'is_approved' => true,
             ]
         );

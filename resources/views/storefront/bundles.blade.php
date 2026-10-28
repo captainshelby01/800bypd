@@ -10,7 +10,7 @@
         </div>
         <h1 class="font-whimsical text-3xl sm:text-4xl lg:text-5xl font-black text-[#312E81]">Curated Bundles</h1>
         <p class="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Thoughtfully paired collections of scripture storybooks, Bible-verse jigsaw puzzles, biblical affirmation flashcards, and coloring books for comprehensive, faith-filled learning.
+            Thoughtfully paired collections of scripture storybooks, Bible-verse jigsaw puzzles, biblical affirmation flashcards, and colouring books for comprehensive, faith-filled learning.
         </p>
     </div>
 
@@ -37,9 +37,9 @@
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50">
             <i class="bi bi-puzzle-fill text-amber-500"></i> Jigsaw Puzzles
         </a>
-        <a href="{{ route('catalog.index', ['category' => 'coloring-books']) }}" 
+        <a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" 
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50">
-            <i class="bi bi-palette-fill text-pink-500"></i> Coloring Books
+            <i class="bi bi-palette-fill text-pink-500"></i> Colouring Books
         </a>
         <a href="{{ route('catalog.index', ['category' => 'flashcards']) }}" 
            class="px-4 py-2 rounded-2xl text-xs font-black transition flex items-center gap-2 bg-white border border-purple-200/80 text-slate-700 hover:bg-purple-50">
@@ -120,10 +120,10 @@
                 </div>
 
                 <!-- Single-Click Purchase Button (No 'Fill Your Box') -->
-                <form action="{{ route('cart.addBundle', $bundle->id) }}" method="POST" class="flex-1 sm:flex-initial">
+                <form action="{{ route('cart.addBundle', $bundle->id) }}" method="POST" onsubmit="handleBundleAddToCart(event)" class="flex-1 sm:flex-initial">
                     @csrf
                     <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="w-full sm:w-auto bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-3.5 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-xs sm:text-sm uppercase tracking-wider whitespace-nowrap">
+                    <button type="submit" class="w-full sm:w-auto bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-3.5 px-6 rounded-2xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2 text-xs sm:text-sm uppercase tracking-wider whitespace-nowrap cursor-pointer">
                         <i class="bi bi-bag-plus-fill text-[#FACC15] text-base"></i>
                         <span>Add Bundle to Cart</span>
                     </button>
@@ -159,4 +159,45 @@
     </a>
 </div>
 
+<script>
+function handleBundleAddToCart(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button[type="submit"]');
+    const originalHtml = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-arrow-repeat animate-spin mr-1"></i> Adding...';
+
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ quantity: 1 })
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check2-circle text-[#FACC15] mr-1"></i> Added!';
+        setTimeout(() => { btn.innerHTML = originalHtml; }, 2000);
+        if (data.success) {
+            if (window.updateFloatingCartBar) {
+                window.updateFloatingCartBar(data.box, data.subtotal, data.cart_count);
+            }
+            if (window.renderCartSidebar) {
+                window.renderCartSidebar(data);
+            }
+            showToastNotification(data.message || 'Bundle added to your box!');
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+        console.error(err);
+        form.submit();
+    });
+}
+</script>
 @endsection

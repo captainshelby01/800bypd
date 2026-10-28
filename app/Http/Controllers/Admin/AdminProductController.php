@@ -71,6 +71,13 @@ class AdminProductController extends Controller
 
         if ($request->hasFile('primary_image')) {
             $path = $request->file('primary_image')->store('products', 'public');
+
+            // Ensure availability in public/storage even if symlink is detached
+            if (!file_exists(public_path('storage/' . $path))) {
+                @mkdir(dirname(public_path('storage/' . $path)), 0755, true);
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            }
+
             ProductImage::create([
                 'product_id' => $product->id,
                 'image_path' => $path,
@@ -138,11 +145,20 @@ class AdminProductController extends Controller
 
         if ($request->hasFile('primary_image')) {
             $path = $request->file('primary_image')->store('products', 'public');
+
+            // Ensure availability in public/storage even if symlink is detached
+            if (!file_exists(public_path('storage/' . $path))) {
+                @mkdir(dirname(public_path('storage/' . $path)), 0755, true);
+                @copy(storage_path('app/public/' . $path), public_path('storage/' . $path));
+            }
             
             // Delete old primary image if exists
             $oldImage = ProductImage::where('product_id', $product->id)->where('is_primary', true)->first();
             if ($oldImage) {
                 Storage::disk('public')->delete($oldImage->image_path);
+                if (file_exists(public_path('storage/' . $oldImage->image_path))) {
+                    @unlink(public_path('storage/' . $oldImage->image_path));
+                }
                 $oldImage->update(['image_path' => $path]);
             } else {
                 ProductImage::create([
@@ -200,6 +216,9 @@ class AdminProductController extends Controller
         
         foreach ($product->images as $img) {
             Storage::disk('public')->delete($img->image_path);
+            if (file_exists(public_path('storage/' . $img->image_path))) {
+                @unlink(public_path('storage/' . $img->image_path));
+            }
             $img->delete();
         }
 
@@ -208,5 +227,24 @@ class AdminProductController extends Controller
 
         return redirect()->route('admin.products.index')
             ->with('success', "Product '{$name}' deleted successfully!");
+    }
+
+    public function toggleActive($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->is_active = !$product->is_active;
+        $product->save();
+
+        $statusText = $product->is_active ? 'enabled and is now active on the store' : 'disabled and hidden from the storefront';
+
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_active' => $product->is_active,
+                'message' => "Product '{$product->name}' has been {$statusText}.",
+            ]);
+        }
+
+        return back()->with('success', "Product '{$product->name}' has been {$statusText}.");
     }
 }

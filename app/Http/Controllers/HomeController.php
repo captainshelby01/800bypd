@@ -31,7 +31,7 @@ class HomeController extends Controller
             ->get();
 
         $colouring = Product::with(['primaryImage', 'category', 'variants'])
-            ->whereHas('category', fn($q) => $q->where('slug', 'coloring-books'))
+            ->whereHas('category', fn($q) => $q->whereIn('slug', ['colouring-books', 'coloring-books']))
             ->where('is_active', true)
             ->take(6)
             ->get();

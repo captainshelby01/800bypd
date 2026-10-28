@@ -10,8 +10,8 @@
                     {{ strtoupper(substr($user->name, 0, 1)) }}
                 </div>
                 <div>
-                    <h1 class="font-whimsical text-xl sm:text-3xl font-bold text-white">Hello, {{ $user->name }}! 👋</h1>
-                    <p class="text-xs text-purple-200">Welcome to your 800byPD customer portal</p>
+                    <h1 class="font-whimsical text-xl sm:text-3xl font-bold text-white">Hello, {{ $user->name }}!</h1>
+                    <p class="text-xs text-purple-200">Welcome to your 800BYPD customer portal</p>
                 </div>
             </div>
         </div>

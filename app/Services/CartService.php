@@ -44,10 +44,10 @@ class CartService
             $promptMessage = "Add {$remainingItems} more {$unitWord} to complete your box.";
             $badgeMessage = "{$totalItemsInBox} / {$requiredMinimum} items added";
         } elseif ($totalItemsInBox === $requiredMinimum) {
-            $promptMessage = "Your box is full! You can checkout now or add more items. 🎉";
+            $promptMessage = "Your box is full! You can checkout now or add more items.";
             $badgeMessage = "{$totalItemsInBox} / {$requiredMinimum} items added (Box Full)";
         } else {
-            $promptMessage = "{$totalItemsInBox} items added! You can checkout now or add more items. 🎉";
+            $promptMessage = "{$totalItemsInBox} items added! You can checkout now or add more items.";
             $badgeMessage = "{$totalItemsInBox} items added";
         }
 
@@ -78,7 +78,7 @@ class CartService
      */
     public function addProduct(int $productId, int $quantity = 1, ?int $variantId = null): array
     {
-        $product = Product::with(['primaryImage', 'variants'])->findOrFail($productId);
+        $product = Product::with(['primaryImage', 'variants'])->where('is_active', true)->findOrFail($productId);
         $cart = $this->getCart();
 
         $variant = null;
@@ -169,10 +169,14 @@ class CartService
      */
     public function updateQuantity(string $key, int $quantity): array
     {
+        if ($quantity <= 0) {
+            return $this->removeItem($key);
+        }
+
         $cart = $this->getCart();
 
         if (isset($cart[$key])) {
-            $cart[$key]['quantity'] = max(1, $quantity);
+            $cart[$key]['quantity'] = $quantity;
             session()->put('cart', $cart);
         }
 

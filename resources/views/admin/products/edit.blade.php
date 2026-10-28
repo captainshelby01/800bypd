@@ -95,14 +95,14 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-2">
-                    <button type="button" onclick="applyFlashcardPresets()" class="bg-white hover:bg-purple-100 text-[#7C3AED] border border-purple-200 px-3 py-1.5 rounded-xl text-[11px] font-extrabold transition">
-                        ⚡ Flashcard Sizes
+                    <button type="button" onclick="applyFlashcardPresets()" class="bg-white hover:bg-purple-100 text-[#7C3AED] border border-purple-200 px-3 py-1.5 rounded-xl text-[11px] font-extrabold transition inline-flex items-center">
+                        <i class="bi bi-lightning-charge-fill text-amber-500 mr-1"></i> Flashcard Sizes
                     </button>
-                    <button type="button" onclick="applyPuzzlePresets()" class="bg-white hover:bg-purple-100 text-[#7C3AED] border border-purple-200 px-3 py-1.5 rounded-xl text-[11px] font-extrabold transition">
-                        ⚡ Puzzle Difficulties
+                    <button type="button" onclick="applyPuzzlePresets()" class="bg-white hover:bg-purple-100 text-[#7C3AED] border border-purple-200 px-3 py-1.5 rounded-xl text-[11px] font-extrabold transition inline-flex items-center">
+                        <i class="bi bi-lightning-charge-fill text-amber-500 mr-1"></i> Puzzle Difficulties
                     </button>
-                    <button type="button" onclick="addCustomVariant()" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] px-3 py-1.5 rounded-xl text-[11px] font-extrabold transition">
-                        ➕ Add Variation
+                    <button type="button" onclick="addCustomVariant()" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] px-3 py-1.5 rounded-xl text-[11px] font-extrabold transition inline-flex items-center">
+                        <i class="bi bi-plus-circle-fill text-[#FACC15] mr-1"></i> Add Variation
                     </button>
                 </div>
             </div>

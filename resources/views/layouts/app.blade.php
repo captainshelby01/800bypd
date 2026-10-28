@@ -20,8 +20,8 @@
     <!-- <div class="bg-[#2D1B4E] text-[#FDE68A] text-xs font-semibold py-2.5 px-4 border-b border-amber-500/20">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2 text-center sm:text-left">
-                <span class="bg-[#FBBF24] text-[#2D1B4E] font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">800 by PD Store</span>
-                <span>✨ Fast Delivery Across Lagos (1-3 Days) & All States in Nigeria!</span>
+                <span class="bg-[#FBBF24] text-[#2D1B4E] font-black px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wide">800BYPD Store</span>
+                <span><i class="bi bi-truck text-amber-300 mr-1"></i> Fast Delivery Across Lagos (1-3 Days) &amp; All States in Nigeria!</span>
             </div>
 
             <div class="flex items-center gap-4 text-xs font-bold"> -->
@@ -34,10 +34,10 @@
                 <!-- <div class="flex items-center gap-1 bg-[#1F1235] px-3 py-1 rounded-full border border-purple-800/50">
                     <i class="bi bi-coin text-amber-400 text-[11px]"></i>
                     <select id="currencySelector" onchange="changeCurrency(this.value)" class="bg-transparent text-amber-200 font-bold focus:outline-none cursor-pointer text-xs">
-                        <option value="NGN" class="bg-[#2D1B4E] text-amber-200">🇳🇬 NGN (₦)</option>
-                        <option value="USD" class="bg-[#2D1B4E] text-amber-200">🇺🇸 USD ($)</option>
-                        <option value="GBP" class="bg-[#2D1B4E] text-amber-200">🇬🇧 GBP (£)</option>
-                        <option value="EUR" class="bg-[#2D1B4E] text-amber-200">🇪🇺 EUR (€)</option>
+                        <option value="NGN" class="bg-[#2D1B4E] text-amber-200">NGN (₦)</option>
+                        <option value="USD" class="bg-[#2D1B4E] text-amber-200">USD ($)</option>
+                        <option value="GBP" class="bg-[#2D1B4E] text-amber-200">GBP (£)</option>
+                        <option value="EUR" class="bg-[#2D1B4E] text-amber-200">EUR (€)</option>
                     </select>
                 </div>
             </div>
@@ -91,14 +91,14 @@
                                 </div>
                             </a>
 
-                            <!-- Coloring Books -->
-                            <a href="{{ route('catalog.index', ['category' => 'coloring-books']) }}" class="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-purple-50 transition group/item">
+                            <!-- Colouring Books -->
+                            <a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-purple-50 transition group/item">
                                 <div class="w-9 h-9 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center text-lg flex-shrink-0 group-hover/item:scale-105 transition">
                                     <i class="bi bi-palette-fill"></i>
                                 </div>
                                 <div>
-                                    <span class="font-bold text-slate-900 block group-hover/item:text-[#7C3AED]">Coloring Books</span>
-                                    <span class="text-[10px] text-slate-400 block font-normal">Creative doodle & bleed-free pages</span>
+                                    <span class="font-bold text-slate-900 block group-hover/item:text-[#7C3AED]">Colouring Books</span>
+                                    <span class="text-[10px] text-slate-400 block font-normal">Creative doodle & premium thick pages</span>
                                 </div>
                             </a>
 
@@ -157,31 +157,29 @@
                 </form>
 
                 @php
-                    $sessionCart = session('cart', []);
-                    $boxItemsTotal = 0;
-                    $cartSubtotalVal = 0;
-                    foreach ($sessionCart as $cartItm) {
-                        $units = isset($cartItm['box_units_per_item']) ? (int)$cartItm['box_units_per_item'] : 1;
-                        $q = isset($cartItm['quantity']) ? (int)$cartItm['quantity'] : 1;
-                        $boxItemsTotal += ($units * $q);
-                        $cartSubtotalVal += (($cartItm['price'] ?? 0) * $q);
-                    }
-                    $minBoxReq = \App\Models\Setting::get('checkout_min_order_quantity', 3);
+                    $cartService = app(\App\Services\CartService::class);
+                    $sessionCart = $cartService->getCart();
+                    $boxMetrics = $cartService->getBoxMetrics();
+                    $boxItemsTotal = $boxMetrics['total_items'];
+                    $cartSubtotalVal = $cartService->getSubtotal();
+                    $minBoxReq = $boxMetrics['required_minimum'];
                 @endphp
-                <a href="{{ route('cart.index') }}" class="relative bg-[#312E81] hover:bg-indigo-950 text-white px-3 sm:px-3.5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 shadow-md transition flex-shrink-0" title="Fill Your Box ({{ $boxItemsTotal }}/{{ $minBoxReq }} items)">
+                <button type="button" onclick="openCartSidebar()" class="relative bg-[#312E81] hover:bg-indigo-950 text-white px-3 sm:px-3.5 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 shadow-md transition flex-shrink-0 cursor-pointer" title="Fill Your Box ({{ $boxItemsTotal }}/{{ $minBoxReq }} items)">
                     <i class="bi bi-box-seam-fill text-sm text-[#FACC15]"></i>
                     <span class="hidden sm:inline">My Box</span>
                     <span id="cartCountBadge" class="bg-[#FACC15] text-[#312E81] font-black px-2 py-0.5 rounded-full text-[10px]">{{ $boxItemsTotal }}</span>
-                    @if($boxItemsTotal > 0 && $boxItemsTotal < $minBoxReq)
-                        <span class="hidden md:inline text-[9px] bg-amber-400/20 text-amber-200 border border-amber-300/30 px-1.5 py-0.5 rounded-md font-extrabold">
-                            {{ $minBoxReq - $boxItemsTotal }} more
-                        </span>
-                    @elseif($boxItemsTotal >= $minBoxReq)
-                        <span class="hidden md:inline text-[9px] bg-emerald-400/20 text-emerald-300 border border-emerald-300/30 px-1.5 py-0.5 rounded-md font-extrabold">
-                            Full 🎉
-                        </span>
-                    @endif
-                </a>
+                    <span id="headerBoxActivityTag">
+                        @if($boxItemsTotal > 0 && $boxItemsTotal < $minBoxReq)
+                            <span class="hidden md:inline text-[9px] bg-amber-400/20 text-amber-200 border border-amber-300/30 px-1.5 py-0.5 rounded-md font-extrabold">
+                                {{ $minBoxReq - $boxItemsTotal }} more
+                            </span>
+                        @elseif($boxItemsTotal >= $minBoxReq)
+                            <span class="hidden md:inline text-[9px] bg-emerald-400/20 text-emerald-300 border border-emerald-300/30 px-1.5 py-0.5 rounded-md font-extrabold">
+                                Box Full
+                            </span>
+                        @endif
+                    </span>
+                </button>
 
                 @auth
                     <div class="relative group hidden sm:block flex-shrink-0">
@@ -268,10 +266,10 @@
                                 <span class="text-[9px] text-slate-400">6 & 12 pcs</span>
                             </div>
                         </a>
-                        <a href="{{ route('catalog.index', ['category' => 'coloring-books']) }}" class="p-2.5 rounded-xl bg-white border border-purple-100 hover:border-purple-300 transition flex items-center gap-2">
+                        <a href="{{ route('catalog.index', ['category' => 'colouring-books']) }}" class="p-2.5 rounded-xl bg-white border border-purple-100 hover:border-purple-300 transition flex items-center gap-2">
                             <i class="bi bi-palette-fill text-pink-500 text-base"></i>
                             <div class="leading-tight">
-                                <span class="block text-slate-800 font-bold text-[11px]">Coloring</span>
+                                <span class="block text-slate-800 font-bold text-[11px]">Colouring</span>
                                 <span class="text-[9px] text-slate-400">Doodle Books</span>
                             </div>
                         </a>
@@ -330,7 +328,7 @@
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
             <div class="flex items-center gap-2 text-center sm:text-left">
                 <i class="bi bi-spotify text-[#FACC15] text-base flex-shrink-0"></i>
-                <span>🎧 <strong>Spotify Storytime Companion:</strong> Listen to 800BYPD children's audiobooks & podcasts narrated by PD!</span>
+                <span><i class="bi bi-headphones text-amber-300 mr-1 text-sm"></i> <strong>Spotify Storytime Companion:</strong> Listen to 800BYPD children's audiobooks &amp; podcasts narrated by PD!</span>
             </div>
             <a href="{{ route('audios.index') }}" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold px-3.5 py-1 rounded-full text-[11px] transition shadow flex-shrink-0">
                 Explore Audios <i class="bi bi-play-fill ml-0.5"></i>
@@ -361,28 +359,151 @@
         @yield('content')
     </main>
 
-    <!-- Floating Cart Bar (Accessible While Browsing across all mobile devices) -->
+    @if(!request()->routeIs('cart.index') && !request()->routeIs('checkout.show'))
+    <!-- Floating Cart Bar (Accessible While Browsing across all devices) -->
     <div id="floatingCartBar" class="{{ $boxItemsTotal > 0 ? '' : 'hidden' }} fixed bottom-4 left-3 sm:bottom-6 sm:left-6 z-40 max-w-[calc(100vw-5.5rem)] sm:max-w-none transition-all duration-300">
-        <div class="bg-[#312E81] text-white px-3.5 sm:px-5 py-2 sm:py-3 rounded-full shadow-2xl border-2 border-[#FACC15] flex items-center gap-2.5 sm:gap-4 backdrop-blur-md">
-            <div class="flex items-center gap-2 sm:gap-2.5">
-                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FACC15] text-[#312E81] flex items-center justify-center font-bold text-xs sm:text-sm shadow flex-shrink-0">
+        <div class="bg-[#312E81] text-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-2xl border-2 border-[#FACC15] flex items-center gap-2 sm:gap-3.5 backdrop-blur-md">
+            <!-- Icon & Details (Clicking opens sidebar) -->
+            <button type="button" onclick="openCartSidebar()" class="flex items-center gap-2 sm:gap-2.5 text-left focus:outline-none group cursor-pointer">
+                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FACC15] text-[#312E81] flex items-center justify-center font-bold text-xs sm:text-sm shadow flex-shrink-0 group-hover:scale-105 transition">
                     <i class="bi bi-box-seam-fill"></i>
                 </div>
                 <div>
-                    <div class="text-[8px] sm:text-[9px] text-purple-200 uppercase font-black tracking-wider leading-none">Your Box</div>
-                    <div class="text-[11px] sm:text-xs font-black leading-tight mt-0.5 whitespace-nowrap">
+                    <div class="flex items-center gap-1.5 leading-none">
+                        <span class="text-[8px] sm:text-[9px] text-purple-200 uppercase font-black tracking-wider">Your Box</span>
+                        <!-- Activity Pill / Tag -->
+                        <span id="floatingCartActivityBadge" class="text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded-md leading-none {{ $boxMetrics['is_box_full'] ? 'bg-emerald-400/25 text-emerald-300 border border-emerald-400/40' : 'bg-amber-400/20 text-amber-300 border border-amber-300/30' }}">
+                            {{ $boxMetrics['is_box_full'] ? 'Box Full' : ($boxMetrics['remaining_items'] . ' more to fill') }}
+                        </span>
+                    </div>
+                    <div class="text-[11px] sm:text-xs font-black leading-tight mt-1 whitespace-nowrap">
                         <span id="floatingCartItemCount">{{ $boxItemsTotal }}</span>
                         <span id="floatingCartItemLabel">{{ $boxItemsTotal === 1 ? 'Item' : 'Items' }}</span>
                         <span class="text-purple-300 font-normal">·</span>
                         <span id="floatingCartSubtotal" class="text-[#FACC15] price-convertible" data-price-ngn="{{ $cartSubtotalVal }}">₦{{ number_format($cartSubtotalVal, 2) }}</span>
                     </div>
                 </div>
-            </div>
+            </button>
 
-            <a href="{{ route('cart.index') }}" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold text-[11px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow transition flex items-center gap-1 whitespace-nowrap">
+            <!-- View Box Action Button -->
+            <button type="button" onclick="openCartSidebar()" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold text-[11px] sm:text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow transition flex items-center gap-1 whitespace-nowrap cursor-pointer">
                 <span>View Box</span>
                 <i class="bi bi-arrow-right"></i>
-            </a>
+            </button>
+        </div>
+    </div>
+    @endif
+
+    <!-- Cart Sidebar Drawer ("View Box") -->
+    <div id="cartSidebarDrawer" class="fixed inset-0 z-50 hidden transition-opacity duration-300" aria-labelledby="cartSidebarTitle" role="dialog" aria-modal="true">
+        <!-- Backdrop overlay -->
+        <div id="cartSidebarBackdrop" onclick="closeCartSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs transition-opacity duration-300 opacity-0 cursor-pointer"></div>
+
+        <!-- Slide-over panel container -->
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-6 sm:pl-10">
+            <div id="cartSidebarPanel" class="w-screen max-w-md sm:max-w-lg bg-[#FFFDF9] shadow-2xl flex flex-col border-l border-purple-200/80 transform translate-x-full transition-transform duration-300 ease-in-out">
+                <!-- Header -->
+                <div class="px-5 py-4 sm:px-6 bg-[#312E81] text-white flex items-center justify-between shadow-md flex-shrink-0">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-[#FACC15] text-[#312E81] flex items-center justify-center font-bold text-sm shadow">
+                            <i class="bi bi-box-seam-fill"></i>
+                        </div>
+                        <div>
+                            <h2 id="cartSidebarTitle" class="font-whimsical text-lg sm:text-xl font-bold leading-tight flex items-center gap-2">
+                                <span>Your Box</span>
+                                <span id="sidebarItemCountBadge" class="bg-[#FACC15] text-[#312E81] text-[11px] font-black px-2 py-0.5 rounded-full leading-none">{{ $boxItemsTotal }} {{ $boxItemsTotal === 1 ? 'item' : 'items' }}</span>
+                            </h2>
+                            <p class="text-[10px] text-purple-200">Curated children's books, puzzles & learning</p>
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="closeCartSidebar()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition focus:outline-none cursor-pointer" aria-label="Close sidebar">
+                        <i class="bi bi-x-lg text-sm"></i>
+                    </button>
+                </div>
+
+                <!-- "Fill Your Box" Activity Tracker in Sidebar -->
+                <div id="sidebarBoxActivityCard" class="px-5 py-3.5 bg-gradient-to-r from-purple-50 via-amber-50/60 to-purple-50 border-b border-purple-100 flex flex-col gap-2 flex-shrink-0">
+                    <div class="flex items-center justify-between text-xs font-bold">
+                        <div class="flex items-center gap-1.5 text-[#312E81]">
+                            <span id="sidebarActivityIcon" class="text-amber-500">
+                                @if($boxMetrics['is_box_full'])
+                                    <i class="bi bi-box2-heart-fill text-emerald-500"></i>
+                                @else
+                                    <i class="bi bi-box-seam text-amber-500"></i>
+                                @endif
+                            </span>
+                            <span id="sidebarActivityHeading" class="text-xs font-black uppercase tracking-wide">
+                                {{ $boxMetrics['is_box_full'] ? 'Box Complete' : 'Fill Your Box Activity' }}
+                            </span>
+                        </div>
+                        <span id="sidebarActivityRatio" class="text-[#7C3AED] font-black font-mono">{{ $boxMetrics['total_items'] }} / {{ $boxMetrics['required_minimum'] }} items</span>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-slate-200/90 rounded-full h-2.5 overflow-hidden p-0.5">
+                        <div id="sidebarProgressBar" class="h-full rounded-full transition-all duration-500 ease-out {{ $boxMetrics['is_box_full'] ? 'bg-emerald-500' : 'bg-gradient-to-r from-[#7C3AED] to-[#FACC15]' }}" style="width: {{ $boxMetrics['progress_percent'] }}%"></div>
+                    </div>
+
+                    <!-- Prompt Message -->
+                    <p id="sidebarActivityMessage" class="text-[11px] font-bold text-slate-600 flex items-center gap-1">
+                        @if($boxMetrics['is_box_full'])
+                            <i class="bi bi-stars text-amber-500"></i> <span>{{ $boxMetrics['prompt_message'] }}</span>
+                        @else
+                            <i class="bi bi-info-circle-fill text-[#7C3AED]"></i> <span>{{ $boxMetrics['prompt_message'] }}</span>
+                        @endif
+                    </p>
+                </div>
+
+                <!-- Scrollable Items List Container -->
+                <div id="sidebarItemsContainer" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3 {{ $boxItemsTotal > 0 ? '' : 'hidden' }}">
+                    <!-- Populated via renderCartSidebar -->
+                </div>
+
+                <!-- Empty State Template (used when 0 items) -->
+                <div id="sidebarEmptyState" class="{{ $boxItemsTotal === 0 ? '' : 'hidden' }} flex-1 flex flex-col items-center justify-center p-8 text-center">
+                    <div class="w-16 h-16 rounded-3xl bg-purple-100 text-[#7C3AED] flex items-center justify-center text-3xl mb-3 shadow-inner">
+                        <i class="bi bi-box2-heart"></i>
+                    </div>
+                    <h3 class="font-whimsical font-bold text-slate-800 text-lg mb-1">Your Box is Empty</h3>
+                    <p class="text-xs text-slate-500 max-w-xs mb-5">Start adding inspiring storybooks, scripture puzzles, flashcards, or colouring books to fill your box.</p>
+                    <a href="{{ route('catalog.index') }}" onclick="closeCartSidebar()" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold text-xs px-5 py-2.5 rounded-full shadow-md transition inline-flex items-center gap-2">
+                        <i class="bi bi-grid-fill"></i> Browse Collections
+                    </a>
+                </div>
+
+                <!-- Sidebar Footer -->
+                <div id="sidebarFooter" class="p-4 sm:p-5 bg-white border-t border-purple-100/80 shadow-lg space-y-3 flex-shrink-0">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-slate-400 uppercase font-black tracking-wider block">Estimated Subtotal</span>
+                            <span class="text-[10px] text-slate-500">Excludes delivery (added at checkout)</span>
+                        </div>
+                        <span id="sidebarSubtotal" class="font-whimsical font-black text-xl sm:text-2xl text-[#312E81] price-convertible" data-price-ngn="{{ $cartSubtotalVal }}">₦{{ number_format($cartSubtotalVal, 2) }}</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <!-- View Full Cart Page Button -->
+                        <a href="{{ route('cart.index') }}" class="bg-purple-100 hover:bg-purple-200 text-[#312E81] font-extrabold py-3 px-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition border border-purple-200 text-center">
+                            <i class="bi bi-cart3 text-sm"></i>
+                            <span>View Full Cart</span>
+                        </a>
+
+                        <!-- Proceed to Checkout Button -->
+                        @if($boxMetrics['is_box_full'])
+                            <a id="sidebarCheckoutBtn" href="{{ route('checkout.show') }}" class="bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-3 px-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 shadow-md transition text-center">
+                                <span>Checkout</span>
+                                <i class="bi bi-arrow-right text-sm"></i>
+                            </a>
+                        @else
+                            <a id="sidebarCheckoutBtn" href="javascript:void(0)" onclick="showToastNotification('Add {{ $boxMetrics['remaining_items'] }} more {{ $boxMetrics['remaining_items'] === 1 ? 'item' : 'items' }} to fill your box before checkout!')" class="bg-slate-200 text-slate-500 font-extrabold py-3 px-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition text-center cursor-pointer">
+                                <span>Checkout</span>
+                                <i class="bi bi-lock-fill text-xs"></i>
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -500,62 +621,66 @@
 
     @if(!request()->routeIs('catalog.show'))
     <!-- Footer (Omitted on product details page per requirement 3.2) -->
-    <footer class="bg-[#312E81] text-purple-100 mt-20 py-14 border-t-4 border-[#FACC15]">
-        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-9 text-xs">
+    <footer class="bg-[#312E81] text-purple-100 mt-20 py-12 border-t-4 border-[#FACC15]">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-xs">
+            <!-- Col 1: Brand & Mission -->
             <div>
                 <div class="flex items-center gap-3 mb-4">
-                    <div class="w-9 h-9 bg-[#FACC15] text-[#312E81] rounded-xl flex items-center justify-center font-whimsical font-bold text-xl">8</div>
-                    <span class="font-whimsical text-2xl font-bold text-white">800by<span class="text-[#FACC15]">PD</span></span>
+                    <div class="w-9 h-9 bg-[#FACC15] text-[#312E81] rounded-xl flex items-center justify-center font-whimsical font-bold text-xl shadow">8</div>
+                    <span class="font-whimsical text-2xl font-bold text-white">800BY<span class="text-[#FACC15]">PD</span></span>
                 </div>
-                <p class="text-purple-200 leading-relaxed mb-3">A faith-based children's bookstore and audio workshop created by <strong>PD</strong>. Nurturing young hearts in God's love, character, and wisdom through scripture puzzles, biblical affirmations, illustrated storybooks, and audio episodes.</p>
+                <p class="text-purple-200 leading-relaxed mb-3">Faith-filled children's bookstore and audio workshop created by <strong>PD</strong>. Nurturing young hearts in God's love, character, and wisdom through scripture puzzles, biblical affirmations, illustrated storybooks, and audio episodes.</p>
                 <p class="text-[#FACC15] font-bold"><i class="bi bi-geo-alt-fill mr-1"></i> Based in Lagos, Nigeria</p>
             </div>
 
+            <!-- Col 2: Quick Links -->
             <div>
-                <h4 class="text-white font-whimsical text-base font-bold mb-4">Customer Care & Delivery</h4>
+                <h4 class="text-white font-whimsical text-base font-bold mb-4">Quick Links</h4>
                 <ul class="space-y-2.5 text-purple-200">
-                    <li><i class="bi bi-whatsapp text-[#FACC15] mr-2 text-sm"></i> WhatsApp: +234 816 425 4442</li>
-                    <li><i class="bi bi-envelope-fill text-[#A78BFA] mr-2 text-sm"></i> Email: 800bypd@gmail.com</li>
-                    <li><i class="bi bi-truck text-purple-300 mr-2 text-sm"></i> Lagos: 1–2 Days Flat (₦2,500)</li>
-                    <li><i class="bi bi-send-check text-amber-300 mr-2 text-sm"></i> Nationwide: 3–5 Days Tracked (₦4,000)</li>
-                    <li><i class="bi bi-shield-check text-emerald-400 mr-2 text-sm"></i> 7-Day Damaged Piece Replacement</li>
+                    <li><a href="{{ route('catalog.index') }}" class="hover:text-[#FACC15] transition flex items-center gap-1.5"><i class="bi bi-grid-fill text-[#FACC15] text-[11px]"></i> Explore All Products</a></li>
+                    <li><a href="{{ route('bundles.index') }}" class="hover:text-[#FACC15] transition flex items-center gap-1.5"><i class="bi bi-box2-heart-fill text-[#FACC15] text-[11px]"></i> Curated Value Bundles</a></li>
+                    <li><a href="{{ route('audios.index') }}" class="hover:text-[#FACC15] transition flex items-center gap-1.5"><i class="bi bi-spotify text-emerald-400 text-[11px]"></i> Spotify Audiobooks</a></li>
+                    <li><a href="{{ auth()->check() ? (in_array(auth()->user()->role, ['admin', 'staff']) ? route('admin.dashboard') : route('account.dashboard')) : route('login') }}" class="hover:text-[#FACC15] transition flex items-center gap-1.5"><i class="bi bi-person-fill text-amber-300 text-[11px]"></i> Customer Account</a></li>
                 </ul>
             </div>
 
+            <!-- Col 3: Customer Care & Delivery -->
             <div>
-                <h4 class="text-white font-whimsical text-base font-bold mb-4">Secure Checkout</h4>
-                <div class="space-y-2.5 text-purple-200">
-                    <p><i class="bi bi-shield-lock-fill text-emerald-400 mr-2"></i> Paystack 256-Bit SSL Encrypted</p>
-                    <p><i class="bi bi-credit-card-fill text-[#FACC15] mr-2"></i> Visa, Mastercard, Verve</p>
-                    <p><i class="bi bi-bank text-[#A78BFA] mr-2"></i> Direct Bank Transfer (GTBank)</p>
-                    <p><i class="bi bi-phone text-amber-300 mr-2"></i> USSD & Instant Mobile Transfer</p>
-                </div>
+                <h4 class="text-white font-whimsical text-base font-bold mb-4">Customer Care &amp; Delivery</h4>
+                <ul class="space-y-2.5 text-purple-200">
+                    <li><a href="https://wa.me/2348164254442" target="_blank" class="hover:text-[#FACC15] transition flex items-center gap-2"><i class="bi bi-whatsapp text-emerald-400"></i> +234 816 425 4442</a></li>
+                    <li><a href="mailto:800bypd@gmail.com" class="hover:text-[#FACC15] transition flex items-center gap-2"><i class="bi bi-envelope-fill text-[#A78BFA]"></i> 800bypd@gmail.com</a></li>
+                    <li class="flex items-center gap-2"><i class="bi bi-truck text-amber-300"></i> Lagos: 1–2 Days Flat (₦2,500)</li>
+                    <li class="flex items-center gap-2"><i class="bi bi-send-check text-purple-300"></i> Nationwide: 3–5 Days Tracked (₦4,000)</li>
+                </ul>
             </div>
 
+            <!-- Col 4: Secure Checkout & Child Safety -->
             <div>
-                <h4 class="text-white font-whimsical text-base font-bold mb-4">Quick Links & Audio</h4>
-                <div class="space-y-2 mb-4">
-                    <a href="{{ route('bundles.index') }}" class="block text-purple-200 hover:text-[#FACC15] transition">→ Buy Curated Bundles</a>
-                    <a href="{{ route('catalog.index') }}" class="block text-purple-200 hover:text-[#FACC15] transition">→ Explore All Products</a>
+                <h4 class="text-white font-whimsical text-base font-bold mb-4">Secure Shopping</h4>
+                <div class="space-y-2.5 text-purple-200">
+                    <p class="flex items-center gap-2"><i class="bi bi-shield-lock-fill text-emerald-400"></i> Paystack 256-Bit SSL Encryption</p>
+                    <p class="flex items-center gap-2"><i class="bi bi-credit-card-fill text-[#FACC15]"></i> Cards, Direct Transfer &amp; USSD</p>
+                    <p class="flex items-center gap-2"><i class="bi bi-flower1 text-pink-300"></i> 100% Non-Toxic Child-Safe Board</p>
+                    <div class="pt-2">
+                        <button onclick="openSpotifyModal()" class="bg-[#7C3AED] hover:bg-purple-800 text-white font-extrabold px-3.5 py-2 rounded-xl text-xs inline-flex items-center gap-2 shadow-md transition cursor-pointer">
+                            <i class="bi bi-spotify text-[#FACC15]"></i> Listen on Spotify
+                        </button>
+                    </div>
                 </div>
-                <button onclick="openSpotifyModal()" class="bg-[#7C3AED] hover:bg-purple-800 text-white font-extrabold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-md">
-                    <i class="bi bi-spotify text-[#FACC15]"></i> Listen on Spotify
-                </button>
             </div>
         </div>
 
-        <div class="text-center text-purple-300 border-t border-purple-900/60 mt-12 pt-6 text-xs space-y-2">
+        <div class="text-center text-purple-300 border-t border-purple-900/60 mt-10 pt-5 text-xs space-y-2">
             <p class="text-purple-200 font-bold flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-                <span><i class="bi bi-shield-lock-fill text-[#FACC15]"></i> Paystack 256-Bit SSL Encrypted Checkout</span>
+                <span><i class="bi bi-shield-check text-[#FACC15]"></i> Paystack SSL Secured</span>
                 <span>•</span>
-                <span><i class="bi bi-flower1 text-[#FACC15]"></i> 100% Non-Toxic Child-Safe Materials</span>
+                <span><i class="bi bi-flower1 text-[#FACC15]"></i> Non-Toxic Child-Safe Materials</span>
                 <span>•</span>
-                <span><i class="bi bi-truck text-[#FACC15]"></i> Tracked Nationwide Delivery</span>
-                <span>•</span>
-                <span><i class="bi bi-arrow-repeat text-[#FACC15]"></i> 7-Day Damaged Piece Replacement</span>
+                <span><i class="bi bi-truck text-[#FACC15]"></i> Fast Nationwide Delivery</span>
             </p>
             <p>
-                &copy; {{ date('Y') }} <strong>800byPD</strong> (WrittenbyPD). All rights reserved.
+                &copy; {{ date('Y') }} <strong>800BYPD</strong>. All rights reserved.
             </p>
         </div>
     </footer>
@@ -623,22 +748,309 @@
             document.getElementById('spotifyModal').classList.add('hidden');
         }
 
-        /* 4.1 Floating Cart Bar Dynamic Update Helper */
+        /* Currency & Number Format Helpers */
+        function formatMoney(amount) {
+            return parseFloat(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        /* 3.1 Cart Sidebar ("View Box") Drawer Controls */
+        window.openCartSidebar = function () {
+            const drawer = document.getElementById('cartSidebarDrawer');
+            const backdrop = document.getElementById('cartSidebarBackdrop');
+            const panel = document.getElementById('cartSidebarPanel');
+            if (!drawer || !panel) return;
+
+            drawer.classList.remove('hidden');
+            setTimeout(() => {
+                if (backdrop) backdrop.classList.remove('opacity-0');
+                panel.classList.remove('translate-x-full');
+            }, 10);
+
+            // Fetch live session box data
+            fetch('/cart/sidebar-data', {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.renderCartSidebar(data);
+                    window.updateFloatingCartBar(data.box, data.subtotal, data.cart_count);
+                }
+            })
+            .catch(err => console.error('Error fetching sidebar data:', err));
+        };
+
+        window.closeCartSidebar = function () {
+            const drawer = document.getElementById('cartSidebarDrawer');
+            const backdrop = document.getElementById('cartSidebarBackdrop');
+            const panel = document.getElementById('cartSidebarPanel');
+            if (!drawer || !panel) return;
+
+            if (backdrop) backdrop.classList.add('opacity-0');
+            panel.classList.add('translate-x-full');
+
+            setTimeout(() => {
+                drawer.classList.add('hidden');
+            }, 300);
+        };
+
+        // Close drawer on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                window.closeCartSidebar();
+            }
+        });
+
+        /* 3.2 Dynamic Cart Sidebar Renderer */
+        window.renderCartSidebar = function (data) {
+            if (!data) return;
+            const items = data.items || [];
+            const box = data.box || { total_items: 0, required_minimum: 3, is_box_full: false, remaining_items: 3, progress_percent: 0, prompt_message: '' };
+            const subtotal = data.subtotal || 0;
+
+            // 1. Update Header Title Counter
+            const sidebarCountBadge = document.getElementById('sidebarItemCountBadge');
+            if (sidebarCountBadge) {
+                sidebarCountBadge.textContent = `${box.total_items} ${box.total_items === 1 ? 'item' : 'items'}`;
+            }
+
+            // 2. Update "Fill Your Box" Activity Tracker
+            const ratioEl = document.getElementById('sidebarActivityRatio');
+            if (ratioEl) ratioEl.textContent = `${box.total_items} / ${box.required_minimum} items`;
+
+            const progBar = document.getElementById('sidebarProgressBar');
+            if (progBar) {
+                progBar.style.width = `${box.progress_percent}%`;
+                if (box.is_box_full) {
+                    progBar.className = 'h-full rounded-full transition-all duration-500 ease-out bg-emerald-500';
+                } else {
+                    progBar.className = 'h-full rounded-full transition-all duration-500 ease-out bg-gradient-to-r from-[#7C3AED] to-[#FACC15]';
+                }
+            }
+
+            const iconEl = document.getElementById('sidebarActivityIcon');
+            if (iconEl) {
+                iconEl.innerHTML = box.is_box_full 
+                    ? '<i class="bi bi-box2-heart-fill text-emerald-500"></i>' 
+                    : '<i class="bi bi-box-seam text-amber-500"></i>';
+            }
+
+            const headingEl = document.getElementById('sidebarActivityHeading');
+            if (headingEl) {
+                headingEl.textContent = box.is_box_full ? 'Box Complete' : 'Fill Your Box Activity';
+            }
+
+            const msgEl = document.getElementById('sidebarActivityMessage');
+            if (msgEl) {
+                msgEl.innerHTML = box.is_box_full 
+                    ? `<i class="bi bi-stars text-amber-500"></i> <span>${box.prompt_message}</span>`
+                    : `<i class="bi bi-info-circle-fill text-[#7C3AED]"></i> <span>${box.prompt_message}</span>`;
+            }
+
+            // 3. Update Items List or Empty State
+            const itemsContainer = document.getElementById('sidebarItemsContainer');
+            const emptyState = document.getElementById('sidebarEmptyState');
+
+            if (items.length === 0) {
+                if (itemsContainer) itemsContainer.classList.add('hidden');
+                if (emptyState) emptyState.classList.remove('hidden');
+            } else {
+                if (emptyState) emptyState.classList.add('hidden');
+                if (itemsContainer) {
+                    itemsContainer.classList.remove('hidden');
+                    let html = '';
+                    items.forEach(item => {
+                        const breakdownHtml = (item.items_breakdown && item.items_breakdown.length > 0)
+                            ? `<div class="text-[9px] text-slate-500 mt-1 space-y-0.5">${item.items_breakdown.map(b => `<span class="inline-flex items-center gap-1 bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded mr-1"><i class="bi bi-check2 text-emerald-600"></i> ${escapeHtml(b)}</span>`).join('')}</div>`
+                            : '';
+
+                        const badgeHtml = item.type === 'bundle'
+                            ? `<span class="bg-[#FACC15] text-[#312E81] text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase">${escapeHtml(item.badge || 'Bundle')}</span>`
+                            : (item.variation_name ? `<span class="bg-purple-100 text-[#7C3AED] text-[9px] font-bold px-1.5 py-0.5 rounded-md">${escapeHtml(item.variation_name)}</span>` : '');
+
+                        const unitAddNotice = (item.type === 'bundle' && item.box_units_per_item > 1)
+                            ? `<span class="text-[9px] text-[#7C3AED] font-semibold block">Adds ${item.box_units_per_item} items to box</span>`
+                            : '';
+
+                        html += `
+                        <div class="bg-white p-3 sm:p-3.5 rounded-2xl border border-purple-100 shadow-2xs hover:border-[#7C3AED]/40 transition flex items-center justify-between gap-3" data-item-key="${escapeHtml(item.key)}">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-14 h-14 bg-purple-50 rounded-xl overflow-hidden flex items-center justify-center border border-purple-100 flex-shrink-0 p-1">
+                                    <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}" class="max-h-full max-w-full object-contain" onerror="this.onerror=null; this.src='/images/products/placeholder.svg';">
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    ${badgeHtml ? `<div class="mb-0.5">${badgeHtml}</div>` : ''}
+                                    <h4 class="font-whimsical font-bold text-[#312E81] text-xs sm:text-sm truncate leading-snug" title="${escapeHtml(item.name)}">${escapeHtml(item.name)}</h4>
+                                    ${unitAddNotice}
+                                    ${breakdownHtml}
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <span class="text-xs font-extrabold text-[#7C3AED] price-convertible" data-price-ngn="${item.price}">₦${formatMoney(item.price)}</span>
+                                        <span class="text-[10px] text-slate-400">× ${item.quantity}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col items-end justify-between gap-2 flex-shrink-0">
+                                <button type="button" onclick="removeCartSidebarItem('${escapeHtml(item.key)}')" class="text-slate-400 hover:text-rose-600 p-1 rounded-lg hover:bg-rose-50 transition text-xs cursor-pointer" title="Remove item">
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+
+                                <div class="flex items-center bg-purple-50 p-0.5 rounded-full border border-purple-200 text-xs font-bold">
+                                    <button type="button" onclick="updateCartSidebarItemQty('${escapeHtml(item.key)}', -1)" class="w-6 h-6 rounded-full bg-white text-slate-700 hover:bg-purple-100 transition flex items-center justify-center text-xs shadow-xs focus:outline-none cursor-pointer">-</button>
+                                    <span class="w-6 text-center text-slate-900 text-xs font-black sidebar-item-qty">${item.quantity}</span>
+                                    <button type="button" onclick="updateCartSidebarItemQty('${escapeHtml(item.key)}', 1)" class="w-6 h-6 rounded-full bg-white text-slate-700 hover:bg-purple-100 transition flex items-center justify-center text-xs shadow-xs focus:outline-none cursor-pointer">+</button>
+                                </div>
+                            </div>
+                        </div>`;
+                    });
+                    itemsContainer.innerHTML = html;
+                }
+            }
+
+            // 4. Update Subtotal
+            const subtotalEl = document.getElementById('sidebarSubtotal');
+            if (subtotalEl) {
+                subtotalEl.setAttribute('data-price-ngn', subtotal);
+                subtotalEl.textContent = '₦' + formatMoney(subtotal);
+            }
+
+            // 5. Update Checkout Button State
+            const checkoutBtn = document.getElementById('sidebarCheckoutBtn');
+            if (checkoutBtn) {
+                if (box.is_box_full) {
+                    checkoutBtn.className = 'bg-[#312E81] hover:bg-indigo-950 text-[#FACC15] font-extrabold py-3 px-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 shadow-md transition text-center cursor-pointer';
+                    checkoutBtn.setAttribute('href', '{{ route('checkout.show') }}');
+                    checkoutBtn.innerHTML = '<span>Checkout</span><i class="bi bi-arrow-right text-sm"></i>';
+                    checkoutBtn.onclick = null;
+                } else {
+                    checkoutBtn.className = 'bg-slate-200 text-slate-500 font-extrabold py-3 px-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition text-center cursor-pointer';
+                    checkoutBtn.setAttribute('href', 'javascript:void(0)');
+                    checkoutBtn.innerHTML = '<span>Checkout</span><i class="bi bi-lock-fill text-xs"></i>';
+                    checkoutBtn.onclick = function () {
+                        showToastNotification(`Add ${box.remaining_items} more ${box.remaining_items === 1 ? 'item' : 'items'} to fill your box before checkout!`);
+                    };
+                }
+            }
+
+            // 6. Update Currency
+            const curr = sessionStorage.getItem('selected_currency') || 'NGN';
+            changeCurrency(curr);
+        };
+
+        /* 3.3 Sidebar Item Quantity & Remove Handlers */
+        window.updateCartSidebarItemQty = function (key, delta) {
+            const itemEl = document.querySelector(`[data-item-key="${key}"]`);
+            let currentQty = 1;
+            if (itemEl) {
+                const qtySpan = itemEl.querySelector('.sidebar-item-qty');
+                if (qtySpan) currentQty = parseInt(qtySpan.textContent) || 1;
+            }
+            const newQty = currentQty + delta;
+
+            fetch(`/cart/update/${encodeURIComponent(key)}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ quantity: newQty })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.renderCartSidebar(data);
+                    window.updateFloatingCartBar(data.box, data.subtotal, data.cart_count);
+                    showToastNotification(data.message || 'Box updated');
+                }
+            })
+            .catch(err => console.error(err));
+        };
+
+        window.removeCartSidebarItem = function (key) {
+            fetch(`/cart/remove/${encodeURIComponent(key)}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.renderCartSidebar(data);
+                    window.updateFloatingCartBar(data.box, data.subtotal, data.cart_count);
+                    showToastNotification(data.message || 'Item removed from your box');
+                }
+            })
+            .catch(err => console.error(err));
+        };
+
+        /* 3.4 Floating Cart Bar Dynamic Update Helper */
         window.updateFloatingCartBar = function (box, subtotal, cartCount) {
-            const bar = document.getElementById('floatingCartBar');
-            if (!bar) return;
             const totalItems = (box && typeof box.total_items !== 'undefined') ? box.total_items : (cartCount || 0);
-            if (totalItems > 0) {
-                bar.classList.remove('hidden');
-                const countEl = document.getElementById('floatingCartItemCount');
-                const labelEl = document.getElementById('floatingCartItemLabel');
-                const subtotalEl = document.getElementById('floatingCartSubtotal');
-                if (countEl) countEl.textContent = totalItems;
-                if (labelEl) labelEl.textContent = totalItems === 1 ? 'Item' : 'Items';
-                if (subtotalEl && typeof subtotal !== 'undefined') {
-                    subtotalEl.setAttribute('data-price-ngn', subtotal);
+
+            // Update Top Header Counter Badge
+            const headerBadge = document.getElementById('cartCountBadge');
+            if (headerBadge) headerBadge.textContent = totalItems;
+
+            // Update Top Header Activity Tag
+            const headerTag = document.getElementById('headerBoxActivityTag');
+            if (headerTag && box) {
+                if (totalItems > 0 && !box.is_box_full) {
+                    headerTag.innerHTML = `<span class="hidden md:inline text-[9px] bg-amber-400/20 text-amber-200 border border-amber-300/30 px-1.5 py-0.5 rounded-md font-extrabold">${box.remaining_items} more</span>`;
+                } else if (box.is_box_full) {
+                    headerTag.innerHTML = `<span class="hidden md:inline text-[9px] bg-emerald-400/20 text-emerald-300 border border-emerald-300/30 px-1.5 py-0.5 rounded-md font-extrabold">Box Full</span>`;
+                } else {
+                    headerTag.innerHTML = '';
+                }
+            }
+
+            // Update Floating Cart Bar
+            const bar = document.getElementById('floatingCartBar');
+            if (bar) {
+                if (totalItems > 0) {
+                    bar.classList.remove('hidden');
+                    const countEl = document.getElementById('floatingCartItemCount');
+                    const labelEl = document.getElementById('floatingCartItemLabel');
+                    const subtotalEl = document.getElementById('floatingCartSubtotal');
+                    const actBadge = document.getElementById('floatingCartActivityBadge');
+
+                    if (countEl) countEl.textContent = totalItems;
+                    if (labelEl) labelEl.textContent = totalItems === 1 ? 'Item' : 'Items';
+                    if (subtotalEl && typeof subtotal !== 'undefined') {
+                        subtotalEl.setAttribute('data-price-ngn', subtotal);
+                        subtotalEl.textContent = '₦' + formatMoney(subtotal);
+                    }
+
+                    if (actBadge && box) {
+                        if (box.is_box_full) {
+                            actBadge.className = 'text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded-md leading-none bg-emerald-400/25 text-emerald-300 border border-emerald-400/40';
+                            actBadge.textContent = 'Box Full';
+                        } else {
+                            actBadge.className = 'text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded-md leading-none bg-amber-400/20 text-amber-300 border border-amber-300/30';
+                            actBadge.textContent = `${box.remaining_items} more to fill`;
+                        }
+                    }
+
                     const curr = sessionStorage.getItem('selected_currency') || 'NGN';
                     changeCurrency(curr);
+                } else {
+                    bar.classList.add('hidden');
                 }
             }
         };
@@ -742,11 +1154,8 @@
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalHtml;
                 if (data.success) {
-                    const badge = document.getElementById('cartCountBadge');
-                    if (badge) {
-                        badge.textContent = (data.box && typeof data.box.total_items !== 'undefined') ? data.box.total_items : data.cart_count;
-                    }
                     window.updateFloatingCartBar(data.box, data.subtotal, data.cart_count);
+                    window.renderCartSidebar(data);
                     closeQuickAddModal();
                     showToastNotification(data.message || 'Item added to your box!');
                 }

@@ -34,6 +34,9 @@
         <a href="{{ route('admin.products.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-[#7C3AED] text-[#312E81] font-black flex items-center gap-2 bg-purple-50/50 rounded-t-2xl flex-shrink-0">
             <i class="bi bi-journal-bookmark-fill text-[#7C3AED]"></i> Product Catalog Management
         </a>
+        <a href="{{ route('admin.categories.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
+            <i class="bi bi-tags-fill"></i> Category Management
+        </a>
         <a href="{{ route('admin.bundles.index') }}" class="px-4 sm:px-5 py-3 border-b-2 border-transparent text-slate-500 hover:text-slate-900 flex items-center gap-2 flex-shrink-0">
             <i class="bi bi-box2-heart-fill"></i> Product Bundles
         </a>
@@ -46,6 +49,13 @@
             </a>
         @endif
     </div>
+
+    @if(session('success'))
+        <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-2xl text-xs flex items-center gap-2">
+            <i class="bi bi-check-circle-fill text-emerald-600 text-base"></i>
+            <span>{{ session('success') }}</span>
+        </div>
+    @endif
 
     <!-- Filters & Search Bar -->
     <div class="bg-white p-4 sm:p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4">
@@ -82,6 +92,7 @@
                         <th class="p-3.5 whitespace-nowrap">Category</th>
                         <th class="p-3.5 whitespace-nowrap">Price</th>
                         <th class="p-3.5 whitespace-nowrap">Stock Status</th>
+                        <th class="p-3.5 whitespace-nowrap">Status</th>
                         <th class="p-3.5 whitespace-nowrap">Featured</th>
                         <th class="p-3.5 text-right whitespace-nowrap">Actions</th>
                     </tr>
@@ -137,6 +148,23 @@
                                 @endif
                             </td>
                             <td class="p-3.5 whitespace-nowrap">
+                                <form action="{{ route('admin.products.toggleActive', $product->id) }}" method="POST" class="inline-flex items-center gap-2 m-0 product-toggle-form" data-product-id="{{ $product->id }}">
+                                    @csrf
+                                    <button type="submit" 
+                                            class="toggle-switch-btn group relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#7C3AED] focus:ring-offset-2 {{ $product->is_active ? 'bg-emerald-500' : 'bg-slate-300' }}"
+                                            role="switch" 
+                                            aria-checked="{{ $product->is_active ? 'true' : 'false' }}"
+                                            title="Click to {{ $product->is_active ? 'disable' : 'enable' }} product">
+                                        <span class="sr-only">Toggle product status</span>
+                                        <span aria-hidden="true" 
+                                              class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {{ $product->is_active ? 'translate-x-5' : 'translate-x-0' }}"></span>
+                                    </button>
+                                    <span class="text-[11px] font-extrabold status-label {{ $product->is_active ? 'text-emerald-700' : 'text-slate-400' }}">
+                                        {{ $product->is_active ? 'Active' : 'Disabled' }}
+                                    </span>
+                                </form>
+                            </td>
+                            <td class="p-3.5 whitespace-nowrap">
                                 @if($product->is_featured)
                                     <span class="bg-amber-400 text-[#2D1B4E] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
                                         <i class="bi bi-star-fill mr-1"></i> Featured
@@ -162,7 +190,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="p-12 text-center text-slate-500 font-medium">
+                            <td colspan="8" class="p-12 text-center text-slate-500 font-medium">
                                 <i class="bi bi-journal-bookmark text-4xl text-amber-400 mb-2 block"></i>
                                 No products found. Click "Add New Product" to add story books or puzzles to your store!
                             </td>
@@ -177,4 +205,60 @@
         </div>
     </div>
 </div>
+
+<script>
+document.querySelectorAll('.product-toggle-form').forEach(form => {
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const button = this.querySelector('.toggle-switch-btn');
+        const knob = button.querySelector('span:not(.sr-only)');
+        const label = this.querySelector('.status-label');
+        
+        button.disabled = true;
+        button.classList.add('opacity-50');
+
+        try {
+            const response = await fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': this.querySelector('input[name="_token"]').value,
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            const data = await response.json();
+            if (data.success) {
+                if (data.is_active) {
+                    button.classList.remove('bg-slate-300');
+                    button.classList.add('bg-emerald-500');
+                    button.setAttribute('aria-checked', 'true');
+                    button.setAttribute('title', 'Click to disable product');
+                    knob.classList.remove('translate-x-0');
+                    knob.classList.add('translate-x-5');
+                    label.classList.remove('text-slate-400');
+                    label.classList.add('text-emerald-700');
+                    label.textContent = 'Active';
+                } else {
+                    button.classList.remove('bg-emerald-500');
+                    button.classList.add('bg-slate-300');
+                    button.setAttribute('aria-checked', 'false');
+                    button.setAttribute('title', 'Click to enable product');
+                    knob.classList.remove('translate-x-5');
+                    knob.classList.add('translate-x-0');
+                    label.classList.remove('text-emerald-700');
+                    label.classList.add('text-slate-400');
+                    label.textContent = 'Disabled';
+                }
+            } else {
+                this.submit();
+            }
+        } catch (err) {
+            this.submit();
+        } finally {
+            button.disabled = false;
+            button.classList.remove('opacity-50');
+        }
+    });
+});
+</script>
 @endsection
