@@ -47,6 +47,8 @@ Route::delete('/cart/remove/{key}', [CartController::class, 'remove'])->name('ca
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
 Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
 Route::get('/paystack/callback', [CheckoutController::class, 'paystackCallback'])->name('paystack.callback');
+Route::post('/paystack/webhook', [CheckoutController::class, 'paystackWebhook'])->name('paystack.webhook');
+Route::get('/orders/{orderNumber}/pay', [CheckoutController::class, 'retryPayment'])->name('checkout.retry');
 
 Route::get('/orders/{orderNumber}/success', function($orderNumber) {
     $order = \App\Models\Order::where('order_number', $orderNumber)->firstOrFail();
