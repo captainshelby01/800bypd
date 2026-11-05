@@ -279,13 +279,23 @@ class CheckoutController extends Controller
             }
 
             // 2. Strict Security Measure: Verify Amount Paid in Kobo against Order Total
+            // Handles both configurations: Merchant bears fees OR Customer bears fees (grossed up)
             $paidAmountKobo = (int) ($data['amount'] ?? 0);
+            $requestedAmountKobo = (int) ($data['requested_amount'] ?? 0);
+            $feesKobo = (int) ($data['fees'] ?? 0);
+            $netAmountKobo = $paidAmountKobo - $feesKobo;
             $expectedAmountKobo = (int) round($order->total_amount * 100);
 
-            if ($paidAmountKobo !== $expectedAmountKobo) {
+            $isAmountValid = ($paidAmountKobo === $expectedAmountKobo)
+                || ($requestedAmountKobo === $expectedAmountKobo)
+                || ($netAmountKobo === $expectedAmountKobo);
+
+            if (!$isAmountValid) {
                 Log::critical("Security Alert: Paystack Amount Mismatch for Order #{$order->order_number}!", [
                     'expected_kobo' => $expectedAmountKobo,
                     'paid_kobo' => $paidAmountKobo,
+                    'requested_kobo' => $requestedAmountKobo,
+                    'fees_kobo' => $feesKobo,
                     'paystack_reference' => $data['reference'] ?? $reference,
                 ]);
                 $order->update([
@@ -371,10 +381,17 @@ class CheckoutController extends Controller
 
                 if ($order && $order->payment_status !== 'paid') {
                     $paidAmountKobo = (int) ($data['amount'] ?? 0);
+                    $requestedAmountKobo = (int) ($data['requested_amount'] ?? 0);
+                    $feesKobo = (int) ($data['fees'] ?? 0);
+                    $netAmountKobo = $paidAmountKobo - $feesKobo;
                     $expectedAmountKobo = (int) round($order->total_amount * 100);
                     $currency = strtoupper($data['currency'] ?? '');
 
-                    if ($paidAmountKobo === $expectedAmountKobo && $currency === 'NGN') {
+                    $isAmountValid = ($paidAmountKobo === $expectedAmountKobo)
+                        || ($requestedAmountKobo === $expectedAmountKobo)
+                        || ($netAmountKobo === $expectedAmountKobo);
+
+                    if ($isAmountValid && $currency === 'NGN') {
                         $order->update([
                             'payment_status' => 'paid',
                             'payment_reference' => $reference,
@@ -389,6 +406,8 @@ class CheckoutController extends Controller
                         Log::critical("Paystack Webhook: Amount or currency mismatch for Order #{$order->order_number}!", [
                             'expected_kobo' => $expectedAmountKobo,
                             'paid_kobo' => $paidAmountKobo,
+                            'requested_kobo' => $requestedAmountKobo,
+                            'fees_kobo' => $feesKobo,
                             'currency' => $currency,
                         ]);
                     }
