@@ -7,7 +7,7 @@ services:
     dockerfilePath: ./Dockerfile
     envVars:
       - key: APP_NAME
-        value: StoreFront Pro
+        value: 800byPD
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
@@ -19,15 +19,15 @@ services:
       - key: DB_CONNECTION
         value: sqlite
       - key: PAYSTACK_PUBLIC_KEY
-        value: pk_test_sample_key
+        sync: false
       - key: PAYSTACK_SECRET_KEY
-        value: sk_test_sample_key
+        sync: false
       - key: BANK_NAME
         value: "Guaranty Trust Bank (GTBank)"
       - key: BANK_ACCOUNT_NUMBER
         value: "0123456789"
       - key: BANK_ACCOUNT_NAME
-        value: "StoreFront Pro Nigeria Ltd"
+        value: "800BYPD Ltd"
       - key: SESSION_SECURE_COOKIE
         value: "true"
       - key: SESSION_SAMESITE
