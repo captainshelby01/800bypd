@@ -9,10 +9,10 @@
             <i class="bi bi-spotify text-[#7C3AED]"></i> Spotify Audio Channel
         </span>
         <h1 class="font-whimsical text-3xl sm:text-5xl font-bold text-white mb-3 leading-tight">
-            Bedtime Stories & Audiobooks
+            Affirmations, Bedtime Stories & Audiobooks
         </h1>
         <p class="text-purple-100 text-sm sm:text-base leading-relaxed font-medium mb-6">
-            Immerse children in magical storytelling and soothing bedtime tales narrated by <strong>WrittenbyPD</strong>. Stream directly on Spotify or listen below!
+            Immerse children in soothing storytelling and truths narrated by <strong>PD</strong>. Stream directly on Spotify or listen below!
         </p>
         <div class="flex flex-wrap gap-4">
             <button onclick="openSpotifyModal()" class="bg-[#FACC15] hover:bg-yellow-300 text-[#312E81] font-extrabold px-6 py-3 rounded-full text-xs uppercase tracking-wider shadow-md transition flex items-center gap-2">

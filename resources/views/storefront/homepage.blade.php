@@ -226,7 +226,7 @@
                     <span class="text-[9px] font-extrabold text-[#7C3AED] bg-purple-50 px-2 py-0.5 rounded">Illustrated</span>
                 </div>
                 <h3 class="font-whimsical font-bold text-slate-900 text-xl mb-1">Storybooks</h3>
-                <p class="text-xs text-slate-500 leading-relaxed mb-4">Illustrated bedtime stories by WrittenbyPD designed to cultivate godly character, empathy, and courage.</p>
+                <p class="text-xs text-slate-500 leading-relaxed mb-4">Illustrated bedtime stories by PD designed to cultivate godly character, empathy, and courage.</p>
             </div>
             <span class="text-xs font-extrabold text-[#7C3AED] flex items-center gap-1 group-hover:translate-x-1 transition">
                 Browse Storybooks &rarr;
@@ -636,8 +636,8 @@
             </div>
             <div>
                 <span class="text-[10px] font-bold text-[#FACC15] uppercase tracking-wider">Audio Companion Stream</span>
-                <h3 class="font-whimsical font-bold text-xl sm:text-2xl text-white">Bedtime Faith Stories &amp; Scripture Audio</h3>
-                <p class="text-xs text-indigo-200 mt-0.5">Listen to "The Steadfast Love of God" &amp; "Starry Night Journey" narrated by WrittenbyPD.</p>
+                <h3 class="font-whimsical font-bold text-xl sm:text-2xl text-white">Affirmations, Bedtime Faith Stories &amp; Scripture Audio</h3>
+                <p class="text-xs text-indigo-200 mt-0.5">Listen to "The Steadfast Love of God" &amp; "Starry Night Journey" narrated by PD.</p>
             </div>
         </div>
 
